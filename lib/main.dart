@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
-import 'dart:developer';
 
 void main() {
   runApp(const MyApp());
@@ -82,7 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("DropDown List"),
+        title: const Text("Order Request Form"),
       ),
       body: Center(
         child: Column(
