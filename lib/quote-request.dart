@@ -35,6 +35,14 @@ class QuoteRequestPage extends StatefulWidget {
 
 class _QuoteRequestPageState extends State<QuoteRequestPage> {
   String? selectedOccasion;
+  String? selectedBudget;
+  String? selectedCakeFlavour;
+  String? selectedCakeSize;
+  String? selectedDeliveryOption;
+  String? selectedGenderIndicator;
+  String? selectedIcingFlavour;
+  String? selectedIcingType;
+  String? selectedItemType;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -236,6 +244,294 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
               onChanged: (String? newValue) {
                 setState(() {
                   selectedOccasion = newValue!;
+                });
+              },
+            );
+          } else {
+            return const CircularProgressIndicator();
+          }
+        },
+      ),
+    );
+
+    formWidget.add(
+      FutureBuilder<List<String>>(
+        future: getBudgetValues(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            var data = snapshot.data!;
+            return DropdownButton(
+              style: const TextStyle(fontSize: 20, color: Colors.black),
+              // Initial Value
+              value: selectedBudget ?? data[0],
+
+              // Down Arrow Icon
+              icon: const Icon(Icons.keyboard_arrow_down),
+
+              // Array list of items
+              items: data.map((String items) {
+                return DropdownMenuItem(
+                  value: items,
+                  child: Text(items),
+                );
+              }).toList(),
+              // After selecting the desired option,it will
+              // change button value to selected value
+              onChanged: (String? newValue) {
+                setState(() {
+                  selectedBudget = newValue!;
+                });
+              },
+            );
+          } else {
+            return const CircularProgressIndicator();
+          }
+        },
+      ),
+    );
+
+    formWidget.add(
+      FutureBuilder<List<String>>(
+        future: getCakeFlavourValues(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            var data = snapshot.data!;
+            return DropdownButton(
+              style: const TextStyle(fontSize: 20, color: Colors.black),
+              // Initial Value
+              value: selectedCakeFlavour ?? data[0],
+
+              // Down Arrow Icon
+              icon: const Icon(Icons.keyboard_arrow_down),
+
+              // Array list of items
+              items: data.map((String items) {
+                return DropdownMenuItem(
+                  value: items,
+                  child: Text(items),
+                );
+              }).toList(),
+              // After selecting the desired option,it will
+              // change button value to selected value
+              onChanged: (String? newValue) {
+                setState(() {
+                  selectedCakeFlavour = newValue!;
+                });
+              },
+            );
+          } else {
+            return const CircularProgressIndicator();
+          }
+        },
+      ),
+    );
+
+    formWidget.add(
+      FutureBuilder<List<String>>(
+        future: getCakeSizeValues(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            var data = snapshot.data!;
+            return DropdownButton(
+              style: const TextStyle(fontSize: 20, color: Colors.black),
+              // Initial Value
+              value: selectedCakeSize ?? data[0],
+
+              // Down Arrow Icon
+              icon: const Icon(Icons.keyboard_arrow_down),
+
+              // Array list of items
+              items: data.map((String items) {
+                return DropdownMenuItem(
+                  value: items,
+                  child: Text(items),
+                );
+              }).toList(),
+              // After selecting the desired option,it will
+              // change button value to selected value
+              onChanged: (String? newValue) {
+                setState(() {
+                  selectedCakeSize = newValue!;
+                });
+              },
+            );
+          } else {
+            return const CircularProgressIndicator();
+          }
+        },
+      ),
+    );
+
+    formWidget.add(
+      FutureBuilder<List<String>>(
+        future: getDeliveryOptionValues(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            var data = snapshot.data!;
+            return DropdownButton(
+              style: const TextStyle(fontSize: 20, color: Colors.black),
+              // Initial Value
+              value: selectedDeliveryOption ?? data[0],
+
+              // Down Arrow Icon
+              icon: const Icon(Icons.keyboard_arrow_down),
+
+              // Array list of items
+              items: data.map((String items) {
+                return DropdownMenuItem(
+                  value: items,
+                  child: Text(items),
+                );
+              }).toList(),
+              // After selecting the desired option,it will
+              // change button value to selected value
+              onChanged: (String? newValue) {
+                setState(() {
+                  selectedDeliveryOption = newValue!;
+                });
+              },
+            );
+          } else {
+            return const CircularProgressIndicator();
+          }
+        },
+      ),
+    );
+
+    formWidget.add(
+      FutureBuilder<List<String>>(
+        future: getGenderIndicatorValues(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            var data = snapshot.data!;
+            return DropdownButton(
+              style: const TextStyle(fontSize: 20, color: Colors.black),
+              // Initial Value
+              value: selectedGenderIndicator ?? data[0],
+
+              // Down Arrow Icon
+              icon: const Icon(Icons.keyboard_arrow_down),
+
+              // Array list of items
+              items: data.map((String items) {
+                return DropdownMenuItem(
+                  value: items,
+                  child: Text(items),
+                );
+              }).toList(),
+              // After selecting the desired option,it will
+              // change button value to selected value
+              onChanged: (String? newValue) {
+                setState(() {
+                  selectedGenderIndicator = newValue!;
+                });
+              },
+            );
+          } else {
+            return const CircularProgressIndicator();
+          }
+        },
+      ),
+    );
+
+    formWidget.add(
+      FutureBuilder<List<String>>(
+        future: getIcingFlavourValues(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            var data = snapshot.data!;
+            return DropdownButton(
+              style: const TextStyle(fontSize: 20, color: Colors.black),
+              // Initial Value
+              value: selectedIcingFlavour ?? data[0],
+
+              // Down Arrow Icon
+              icon: const Icon(Icons.keyboard_arrow_down),
+
+              // Array list of items
+              items: data.map((String items) {
+                return DropdownMenuItem(
+                  value: items,
+                  child: Text(items),
+                );
+              }).toList(),
+              // After selecting the desired option,it will
+              // change button value to selected value
+              onChanged: (String? newValue) {
+                setState(() {
+                  selectedIcingFlavour = newValue!;
+                });
+              },
+            );
+          } else {
+            return const CircularProgressIndicator();
+          }
+        },
+      ),
+    );
+
+    formWidget.add(
+      FutureBuilder<List<String>>(
+        future: getIcingTypeValues(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            var data = snapshot.data!;
+            return DropdownButton(
+              style: const TextStyle(fontSize: 20, color: Colors.black),
+              // Initial Value
+              value: selectedIcingType ?? data[0],
+
+              // Down Arrow Icon
+              icon: const Icon(Icons.keyboard_arrow_down),
+
+              // Array list of items
+              items: data.map((String items) {
+                return DropdownMenuItem(
+                  value: items,
+                  child: Text(items),
+                );
+              }).toList(),
+              // After selecting the desired option,it will
+              // change button value to selected value
+              onChanged: (String? newValue) {
+                setState(() {
+                  selectedIcingType = newValue!;
+                });
+              },
+            );
+          } else {
+            return const CircularProgressIndicator();
+          }
+        },
+      ),
+    );
+
+    formWidget.add(
+      FutureBuilder<List<String>>(
+        future: getItemTypeValues(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            var data = snapshot.data!;
+            return DropdownButton(
+              style: const TextStyle(fontSize: 20, color: Colors.black),
+              // Initial Value
+              value: selectedItemType ?? data[0],
+
+              // Down Arrow Icon
+              icon: const Icon(Icons.keyboard_arrow_down),
+
+              // Array list of items
+              items: data.map((String items) {
+                return DropdownMenuItem(
+                  value: items,
+                  child: Text(items),
+                );
+              }).toList(),
+              // After selecting the desired option,it will
+              // change button value to selected value
+              onChanged: (String? newValue) {
+                setState(() {
+                  selectedItemType = newValue!;
                 });
               },
             );
