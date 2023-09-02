@@ -45,6 +45,8 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
   String? selectedItemType;
 
   final _formKey = GlobalKey<FormState>();
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+
 
   Future<List<String>> getBudgetValues() async {
     var baseUrl = "https://bespokebakes.azurewebsites.net/lookup/budget";
@@ -205,15 +207,132 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey we created above
     return Scaffold(
+      key:scaffoldKey,
+        backgroundColor: Colors.white,
         appBar: AppBar(
-          title: const Text("Order Request Form"),
-        ),
+          title: Image.asset('assets/images/Picture5.png', fit: BoxFit.cover),
+             ),
         body:
-        Form(
-            key: _formKey,
-            child: ListView(
-              children: getFormWidget(),
-            )));
+            SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Container(
+                    width: double.infinity,
+                    height: 200,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          blurRadius: 3,
+                          color: Color(0x39000000),
+                          offset: Offset(0, 2),
+                        )
+                      ],
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(24, 40, 0, 0),
+                          child: Image.asset(
+                            'assets/images/Picture5.png',
+                            width: 160,
+                            height: 50,
+                            fit: BoxFit.fitWidth,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(24, 12, 24, 8),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Welcome!',
+                                style: TextStyle(
+                                  fontFamily: 'Urbanist',
+                                  color: Color(0xFFFC4C69),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Let\'s bring your cake creations to life!',
+                                style: TextStyle(
+                                  fontFamily: 'Urbanist',
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w300,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    width: 396,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Expanded(
+                          child: Container(
+                            width: 100,
+                            height: 100,
+                            decoration: BoxDecoration(
+                              color: Color(0xFFFC4C69),
+                            ),
+                            child: Align(
+                              alignment: AlignmentDirectional(0, 0),
+                              child: Text(
+                                'What\'s the occasion?',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
+                    child: Container(
+                      height: 500,
+                      decoration: BoxDecoration(),
+                      child:  Form(
+                          key: _formKey,
+                          child: ListView(
+                            physics: NeverScrollableScrollPhysics(),
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            children: getFormWidget(),
+                          )
+                      )
+                    ),
+                  ),
+                ],
+              ),
+            )
+
+            );
+
   }
 
   List<Widget> getFormWidget() {
