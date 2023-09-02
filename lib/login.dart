@@ -26,34 +26,32 @@ class _LoginPageState extends State<LoginPage> {
           Container(
             alignment: Alignment.center,
             padding: const EdgeInsets.all(10),
-            child: const Text('bespoke.bakes',
-                style: TextStyle(
-                  color: Colors.pink,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 30,
-                )),
+            child: Image.asset('assets/images/Picture5.png'),
           ),
           Container(
-              alignment: Alignment.center,
+              alignment: Alignment.centerLeft,
               padding: const EdgeInsets.all(10),
-              child: const Text('Sign in', style: TextStyle(fontSize: 20))),
+              child: const Text('Welcome', style: TextStyle(fontSize: 20))),
           Container(
               padding: const EdgeInsets.all(10),
-              child: TextField(
+              child: TextFormField(
                 controller: nameController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Username',
+                  helperText: 'Enter your email address here'
                 ),
               )),
           Container(
             padding: const EdgeInsets.all(10),
-            child: TextField(
+            child: TextFormField(
               obscureText: true,
               controller: passwordController,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Password',
+                helperText: 'Enter your password here'
+
               ),
             ),
           ),

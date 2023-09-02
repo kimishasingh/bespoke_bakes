@@ -7,7 +7,6 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
   static const String appTitle = 'bespoke.bakes';
 
   // This widget is the root of your application.
@@ -16,10 +15,15 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: appTitle,
       theme: ThemeData(
-        primarySwatch: Colors.pink,
+        colorScheme: ColorScheme.fromSwatch().copyWith(
+          primary: const Color(0xFF76C6C5),
+          secondary: const Color(0xFFFC4C69),
+
+        ),
       ),
+
       home: Scaffold(
-        appBar: AppBar(title: const Text(appTitle)),
+        //appBar: AppBar(title: const Text(appTitle)),
         body: const LoginPage(),
       ),
     );
