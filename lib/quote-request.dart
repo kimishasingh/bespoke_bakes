@@ -208,7 +208,8 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
         appBar: AppBar(
           title: const Text("Order Request Form"),
         ),
-        body: Form(
+        body:
+        Form(
             key: _formKey,
             child: ListView(
               children: getFormWidget(),
@@ -219,16 +220,55 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
     List<Widget> formWidget = [];
 
     formWidget.add(
+      const SizedBox(
+          height: 20
+      ),
+    );
+
+    formWidget.add(
       FutureBuilder<List<String>>(
         future: getOccasionValues(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             var data = snapshot.data!;
-            return DropdownButton(
-              style: const TextStyle(fontSize: 20, color: Colors.black),
+            return DropdownButtonFormField(
+              decoration: InputDecoration(
+                labelText: 'Occasion',
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.grey,
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Color(0x00000000),
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                errorBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Color(0x00000000),
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                focusedErrorBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Color(0x00000000),
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                filled: true,
+                fillColor: Colors.white,
+                contentPadding: EdgeInsetsDirectional.fromSTEB(8 , 8, 0, 8),
+              ),
+              style: const TextStyle(fontSize: 20, color: Color(0xFF8B97A2)),
               // Initial Value
               value: selectedOccasion ?? data[0],
-
               // Down Arrow Icon
               icon: const Icon(Icons.keyboard_arrow_down),
 
@@ -255,13 +295,53 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
     );
 
     formWidget.add(
+      const SizedBox(
+          height: 20
+      ),
+    );
+
+    formWidget.add(
       FutureBuilder<List<String>>(
         future: getBudgetValues(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             var data = snapshot.data!;
-            return DropdownButton(
-              style: const TextStyle(fontSize: 20, color: Colors.black),
+            return DropdownButtonFormField(
+              decoration: InputDecoration(
+                labelText: 'Budget',
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.grey,
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Color(0x00000000),
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                errorBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Color(0x00000000),
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                focusedErrorBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Color(0x00000000),
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                filled: true,
+                fillColor: Colors.white,
+                contentPadding: EdgeInsetsDirectional.fromSTEB(8 , 8, 0, 8),
+              ),
+              style: const TextStyle(fontSize: 20, color: Color(0xFF8B97A2)),
               // Initial Value
               value: selectedBudget ?? data[0],
 
@@ -291,13 +371,52 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
     );
 
     formWidget.add(
+      const SizedBox(
+          height: 10
+      ),
+    );
+    formWidget.add(
       FutureBuilder<List<String>>(
         future: getCakeFlavourValues(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             var data = snapshot.data!;
-            return DropdownButton(
-              style: const TextStyle(fontSize: 20, color: Colors.black),
+            return DropdownButtonFormField(
+              decoration: InputDecoration(
+                labelText: 'Cake Flavour',
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.grey,
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Color(0x00000000),
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                errorBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Color(0x00000000),
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                focusedErrorBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Color(0x00000000),
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                filled: true,
+                fillColor: Colors.white,
+                contentPadding: EdgeInsetsDirectional.fromSTEB(8 , 8, 0, 8),
+              ),
+              style: const TextStyle(fontSize: 20, color: Color(0xFF8B97A2)),
               // Initial Value
               value: selectedCakeFlavour ?? data[0],
 
@@ -325,15 +444,53 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
         },
       ),
     );
-
+    formWidget.add(
+      const SizedBox(
+          height: 10
+      ),
+    );
     formWidget.add(
       FutureBuilder<List<String>>(
         future: getCakeSizeValues(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             var data = snapshot.data!;
-            return DropdownButton(
-              style: const TextStyle(fontSize: 20, color: Colors.black),
+            return DropdownButtonFormField(
+              decoration: InputDecoration(
+                labelText: 'Cake Size',
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.grey,
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Color(0x00000000),
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                errorBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Color(0x00000000),
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                focusedErrorBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Color(0x00000000),
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                filled: true,
+                fillColor: Colors.white,
+                contentPadding: EdgeInsetsDirectional.fromSTEB(8 , 8, 0, 8),
+              ),
+              style: const TextStyle(fontSize: 20, color: Color(0xFF8B97A2)),
               // Initial Value
               value: selectedCakeSize ?? data[0],
 
@@ -361,6 +518,11 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
         },
       ),
     );
+    formWidget.add(
+      const SizedBox(
+          height: 10
+      ),
+    );
 
     formWidget.add(
       FutureBuilder<List<String>>(
@@ -368,8 +530,42 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             var data = snapshot.data!;
-            return DropdownButton(
-              style: const TextStyle(fontSize: 20, color: Colors.black),
+            return DropdownButtonFormField(
+              decoration: InputDecoration(
+                labelText: 'Delivery Option',
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.grey,
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Color(0x00000000),
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                errorBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Color(0x00000000),
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                focusedErrorBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Color(0x00000000),
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                filled: true,
+                fillColor: Colors.white,
+                contentPadding: EdgeInsetsDirectional.fromSTEB(8 , 8, 0, 8),
+              ),
+              style: const TextStyle(fontSize: 20, color: Color(0xFF8B97A2)),
               // Initial Value
               value: selectedDeliveryOption ?? data[0],
 
@@ -397,15 +593,53 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
         },
       ),
     );
-
+    formWidget.add(
+      const SizedBox(
+          height: 10
+      ),
+    );
     formWidget.add(
       FutureBuilder<List<String>>(
         future: getGenderIndicatorValues(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             var data = snapshot.data!;
-            return DropdownButton(
-              style: const TextStyle(fontSize: 20, color: Colors.black),
+            return DropdownButtonFormField(
+              decoration: InputDecoration(
+                labelText: 'Who is it for?',
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.grey,
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Color(0x00000000),
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                errorBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Color(0x00000000),
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                focusedErrorBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Color(0x00000000),
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                filled: true,
+                fillColor: Colors.white,
+                contentPadding: EdgeInsetsDirectional.fromSTEB(8 , 8, 0, 8),
+              ),
+              style: const TextStyle(fontSize: 20, color: Color(0xFF8B97A2)),
               // Initial Value
               value: selectedGenderIndicator ?? data[0],
 
@@ -433,15 +667,53 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
         },
       ),
     );
-
+    formWidget.add(
+      const SizedBox(
+          height: 10
+      ),
+    );
     formWidget.add(
       FutureBuilder<List<String>>(
         future: getIcingFlavourValues(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             var data = snapshot.data!;
-            return DropdownButton(
-              style: const TextStyle(fontSize: 20, color: Colors.black),
+            return DropdownButtonFormField(
+              decoration: InputDecoration(
+                labelText: 'IcingFlavourValues',
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.grey,
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Color(0x00000000),
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                errorBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Color(0x00000000),
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                focusedErrorBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Color(0x00000000),
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                filled: true,
+                fillColor: Colors.white,
+                contentPadding: EdgeInsetsDirectional.fromSTEB(8 , 8, 0, 8),
+              ),
+              style: const TextStyle(fontSize: 20, color: Color(0xFF8B97A2)),
               // Initial Value
               value: selectedIcingFlavour ?? data[0],
 
@@ -469,15 +741,53 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
         },
       ),
     );
-
+    formWidget.add(
+      const SizedBox(
+          height: 10
+      ),
+    );
     formWidget.add(
       FutureBuilder<List<String>>(
         future: getIcingTypeValues(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             var data = snapshot.data!;
-            return DropdownButton(
-              style: const TextStyle(fontSize: 20, color: Colors.black),
+            return DropdownButtonFormField(
+              decoration: InputDecoration(
+                labelText: 'Icing Type',
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.grey,
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Color(0x00000000),
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                errorBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Color(0x00000000),
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                focusedErrorBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Color(0x00000000),
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                filled: true,
+                fillColor: Colors.white,
+                contentPadding: EdgeInsetsDirectional.fromSTEB(8 , 8, 0, 8),
+              ),
+              style: const TextStyle(fontSize: 20, color: Color(0xFF8B97A2)),
               // Initial Value
               value: selectedIcingType ?? data[0],
 
@@ -505,15 +815,53 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
         },
       ),
     );
-
+    formWidget.add(
+      const SizedBox(
+          height: 10
+      ),
+    );
     formWidget.add(
       FutureBuilder<List<String>>(
         future: getItemTypeValues(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             var data = snapshot.data!;
-            return DropdownButton(
-              style: const TextStyle(fontSize: 20, color: Colors.black),
+            return DropdownButtonFormField(
+              decoration: InputDecoration(
+                labelText: 'Item Type',
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.grey,
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Color(0x00000000),
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                errorBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Color(0x00000000),
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                focusedErrorBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Color(0x00000000),
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                filled: true,
+                fillColor: Colors.white,
+                contentPadding: EdgeInsetsDirectional.fromSTEB(8 , 8, 0, 8),
+              ),
+              style: const TextStyle(fontSize: 20, color: Color(0xFF8B97A2)),
               // Initial Value
               value: selectedItemType ?? data[0],
 
