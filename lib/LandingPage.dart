@@ -1,5 +1,10 @@
 
+import 'dart:convert';
+
+import 'package:bespoke_bakes/quote-request.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
 
 class OccasionData {
   String occasion;
@@ -31,425 +36,172 @@ class LandingPage extends StatefulWidget {
 }
 
 class _LandingPageState extends State<LandingPage> {
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+  Future<List<String>> getOccasionValues() async {
+    var baseUrl = "https://bespokebakes.azurewebsites.net/lookup/occasion";
+
+    http.Response response = await http.get(Uri.parse(baseUrl));
+
+    if (response.statusCode == 200) {
+      List<String> items = [];
+      var jsonData = json.decode(response.body) as List;
+      for (var element in jsonData) {
+        items.add(element);
+      }
+      return items;
+    } else {
+      throw response.statusCode;
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffffffff),
-      appBar: AppBar(
-        elevation: 4,
-        centerTitle: false,
-        automaticallyImplyLeading: false,
-        backgroundColor: Color(0xff76c6c5),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.zero,
-        ),
-        title: Text(
-          "bespoke.bakes",
-          style: TextStyle(
-            fontWeight: FontWeight.w500,
-            fontStyle: FontStyle.normal,
-            fontSize: 14,
-            color: Color(0xffffffff),
+        key:scaffoldKey,
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          iconTheme: IconThemeData(
+            color: Colors.black, //change your color here
           ),
+          leading: BackButton(),
+          title: Text('Tell us more', style: TextStyle( fontFamily: 'Urbanist', color: Colors.black, fontWeight: FontWeight.w400 )),
+          backgroundColor: Colors.white,
         ),
-        leading: Icon(
-          Icons.menu,
-          color: Color(0xffffffff),
-          size: 24,
-        ),
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Container(
-            margin: EdgeInsets.all(0),
-            padding: EdgeInsets.all(0),
-            width: 200,
-            height: 80,
-            decoration: BoxDecoration(
-              color: Color(0x1fffffff),
-              shape: BoxShape.rectangle,
-              borderRadius: BorderRadius.zero,
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Padding(
-                  padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                  child: Text(
-                    "Let's find a baker to bring your cake creations to life!",
-                    textAlign: TextAlign.center,
-                    overflow: TextOverflow.clip,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontStyle: FontStyle.normal,
-                      fontSize: 14,
-                      color: Color(0xfffc4c69),
-                    ),
-                  ),
+        body:
+        SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Container(
+                width: double.infinity,
+                height: 160,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      blurRadius: 3,
+                      color: Color(0x39000000),
+                      offset: Offset(0, 2),
+                    )
+                  ],
                 ),
-                Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Text(
-                    "What's the occasion?",
-                    textAlign: TextAlign.center,
-                    overflow: TextOverflow.clip,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w300,
-                      fontStyle: FontStyle.italic,
-                      fontSize: 24,
-                      color: Color(0xfffc4c69),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(24, 40, 0, 0),
+                      child: Image.asset(
+                        'assets/images/Picture5.png',
+                        width: 160,
+                        height: 50,
+                        fit: BoxFit.fitWidth,
+                      ),
                     ),
-                  ),
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(24, 12, 24, 8),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Welcome!',
+                            style: TextStyle(
+                              fontFamily: 'Urbanist',
+                              color: Color(0xFFFC4C69),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Let\'s bring your cake creations to life!',
+                            style: TextStyle(
+                              fontFamily: 'Urbanist',
+                              color: Colors.grey,
+                              fontWeight: FontWeight.w300,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ),
-          Expanded(
-            flex: 1,
-            child: GridView(
-              padding: EdgeInsets.all(10),
-              shrinkWrap: false,
-              scrollDirection: Axis.vertical,
-              physics: ScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-                childAspectRatio: 1.2,
               ),
-              children: [
-                Container(
-                  margin: EdgeInsets.all(0),
-                  padding: EdgeInsets.all(0),
-                  width: 200,
-                  height: 100,
-                  decoration: BoxDecoration(
-                    color: Color(0x1fffffff),
-                    shape: BoxShape.rectangle,
-                    borderRadius: BorderRadius.zero,
-                    border: Border.all(color: Color(0x4d9e9e9e), width: 1),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child:
-
-                        ///***If you have exported images you must have to copy those images in assets/images directory.
-                        Image(
-                          image: AssetImage("assets/images/birthday-cake.png"),
-                          height: 10,
-                          width: 40,
-                          fit: BoxFit.scaleDown,
-                        ),
-                      ),
-                      Text(
-                        "Birthday",
-                        textAlign: TextAlign.start,
-                        overflow: TextOverflow.clip,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontStyle: FontStyle.normal,
-                          fontSize: 14,
-                          color: Color(0xfffc4c69),
-                        ),
-                      ),
-                    ],
-                  ),
+              Container(
+                width: 396,
+                height: 50,
+                decoration: BoxDecoration(
+                  color: Colors.white,
                 ),
-                Container(
-                  margin: EdgeInsets.all(0),
-                  padding: EdgeInsets.all(0),
-                  width: 200,
-                  height: 100,
-                  decoration: BoxDecoration(
-                    color: Color(0x1fffffff),
-                    shape: BoxShape.rectangle,
-                    borderRadius: BorderRadius.zero,
-                    border: Border.all(color: Color(0x4d9e9e9e), width: 1),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child:
-
-                        ///***If you have exported images you must have to copy those images in assets/images directory.
-                        Image(
-                          image: AssetImage("assets/images/wedding-ring.png"),
-                          height: 10,
-                          width: 40,
-                          fit: BoxFit.scaleDown,
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Expanded(
+                      child: Container(
+                        width: 100,
+                        height: 100,
+                        decoration: BoxDecoration(
+                          color: Color(0xFFFC4C69),
+                        ),
+                        child: Align(
+                          alignment: AlignmentDirectional(0, 0),
+                          child: Text(
+                            'What\'s the occasion?',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              color: Colors.white,
+                            ),
+                          ),
                         ),
                       ),
-                      Text(
-                        "Wedding",
-                        textAlign: TextAlign.start,
-                        overflow: TextOverflow.clip,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontStyle: FontStyle.normal,
-                          fontSize: 14,
-                          color: Color(0xfffc4c69),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.all(0),
-                  padding: EdgeInsets.all(0),
-                  width: 200,
-                  height: 100,
-                  decoration: BoxDecoration(
-                    color: Color(0x1fffffff),
-                    shape: BoxShape.rectangle,
-                    borderRadius: BorderRadius.zero,
-                    border: Border.all(color: Color(0x4d9e9e9e), width: 1),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child:
-
-                        ///***If you have exported images you must have to copy those images in assets/images directory.
-                        Image(
-                          image: AssetImage("assets/images/gender.png"),
-                          height: 10,
-                          width: 40,
-                          fit: BoxFit.scaleDown,
-                        ),
-                      ),
-                      Text(
-                        "Gender Reveal",
-                        textAlign: TextAlign.start,
-                        overflow: TextOverflow.clip,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontStyle: FontStyle.normal,
-                          fontSize: 14,
-                          color: Color(0xfffc4c69),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.all(0),
-                  padding: EdgeInsets.all(0),
-                  width: 200,
-                  height: 100,
-                  decoration: BoxDecoration(
-                    color: Color(0x1fffffff),
-                    shape: BoxShape.rectangle,
-                    borderRadius: BorderRadius.zero,
-                    border: Border.all(color: Color(0x4d9e9e9e), width: 1),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child:
-
-                        ///***If you have exported images you must have to copy those images in assets/images directory.
-                        Image(
-                          image: AssetImage("assets/images/baby-shower.png"),
-                          height: 10,
-                          width: 40,
-                          fit: BoxFit.scaleDown,
-                        ),
-                      ),
-                      Text(
-                        "Baby Shower",
-                        textAlign: TextAlign.start,
-                        overflow: TextOverflow.clip,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontStyle: FontStyle.normal,
-                          fontSize: 14,
-                          color: Color(0xfffc4c69),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.all(0),
-                  padding: EdgeInsets.all(0),
-                  width: 200,
-                  height: 100,
-                  decoration: BoxDecoration(
-                    color: Color(0x1fffffff),
-                    shape: BoxShape.rectangle,
-                    borderRadius: BorderRadius.zero,
-                    border: Border.all(color: Color(0x4d9e9e9e), width: 1),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child:
-
-                        ///***If you have exported images you must have to copy those images in assets/images directory.
-                        Image(
-                          image: AssetImage("assets/images/wedding-date.png"),
-                          height: 10,
-                          width: 40,
-                          fit: BoxFit.scaleDown,
-                        ),
-                      ),
-                      Text(
-                        "Anniversary",
-                        textAlign: TextAlign.start,
-                        overflow: TextOverflow.clip,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontStyle: FontStyle.normal,
-                          fontSize: 14,
-                          color: Color(0xfffc4c69),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.all(0),
-                  padding: EdgeInsets.all(0),
-                  width: 200,
-                  height: 100,
-                  decoration: BoxDecoration(
-                    color: Color(0x1fffffff),
-                    shape: BoxShape.rectangle,
-                    borderRadius: BorderRadius.zero,
-                    border: Border.all(color: Color(0x4d9e9e9e), width: 1),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child:
-
-                        ///***If you have exported images you must have to copy those images in assets/images directory.
-                        Image(
-                          image: AssetImage("assets/images/application.png"),
-                          height: 10,
-                          width: 40,
-                          fit: BoxFit.scaleDown,
-                        ),
-                      ),
-                      Text(
-                        "See More",
-                        textAlign: TextAlign.start,
-                        overflow: TextOverflow.clip,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontStyle: FontStyle.normal,
-                          fontSize: 14,
-                          color: Color(0xfffc4c69),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.all(0),
-            padding: EdgeInsets.all(0),
-            width: 200,
-            height: 50,
-            decoration: BoxDecoration(
-              color: Color(0xff76c6c5),
-              shape: BoxShape.rectangle,
-              borderRadius: BorderRadius.zero,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Expanded(
-                  flex: 1,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-                    child: MaterialButton(
-                      onPressed: () {},
-                      color: Color(0xffffffff),
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      padding: EdgeInsets.all(16),
-                      child: Text(
-                        "Login",
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          fontStyle: FontStyle.normal,
-                        ),
-                      ),
-                      textColor: Color(0xff76c6c5),
-                      height: 40,
-                      minWidth: 140,
                     ),
-                  ),
+                  ],
                 ),
-                Expanded(
-                  flex: 1,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-                    child: MaterialButton(
-                      onPressed: () {},
-                      color: Color(0xffffffff),
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      padding: EdgeInsets.all(16),
-                      child: Text(
-                        "Signup",
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          fontStyle: FontStyle.normal,
-                        ),
-                      ),
-                      textColor: Color(0xff76c6c5),
-                      height: 40,
-                      minWidth: 140,
+                ),
+
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
+                child: Container(
+                    height: 50,
+                    decoration: BoxDecoration(),
+                    child:
+                    ElevatedButton(
+                      child: const Text('Next'),
+                      onPressed:(){
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                            builder: (context) =>
+                        const QuoteRequestPage(title: 'bespoke.bakes')
+                            )
+                        );
+                        },
                     ),
-                  ),
+                    /*GridView.builder(gridDelegate:
+                    SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                      childAspectRatio: 1,
+                    ),
+                        shrinkWrap: true,
+                        scrollDirection: Axis.vertical,
+                        itemCount: getOccasionValues().length,
+                        itemBuilder: itemBuilder)*/
+
+                    ),
                 ),
-              ],
-            ),
-          ),
-        ],
-      ),
+          ]
+                ),
+
+    ),
     );
   }
 }

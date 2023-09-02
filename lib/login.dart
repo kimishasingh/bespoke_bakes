@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'LandingPage.dart';
 import 'quote-request.dart';
 
 class LoginPage extends StatefulWidget {
@@ -73,7 +74,7 @@ class _LoginPageState extends State<LoginPage> {
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                        const QuoteRequestPage(title: 'bespoke.bakes')),
+                        const LandingPage(title: 'bespoke.bakes')),
                   );
                 } else {
                   showAlertDialog(context);
