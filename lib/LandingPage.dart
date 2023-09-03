@@ -1,6 +1,7 @@
 
 import 'dart:convert';
 
+import 'package:bespoke_bakes/login.dart';
 import 'package:bespoke_bakes/quote-request.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -58,6 +59,31 @@ class _LandingPageState extends State<LandingPage> {
     return Scaffold(
         key:scaffoldKey,
         backgroundColor: Colors.white,
+        appBar: AppBar(
+          elevation: 1,
+            title: Image.asset('assets/images/Picture5.png', fit: BoxFit.fitHeight,height: 40),
+          automaticallyImplyLeading: false,
+          backgroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.zero,
+          ),
+          actions: <Widget>[
+           IconButton(
+             onPressed: (){Navigator.push(
+               context,
+               MaterialPageRoute(
+                   builder: (context) =>
+                   const LoginPage()
+               )
+           );}
+           , icon: Icon(
+             Icons.person,
+             color: Color(0xFF76C6C5),
+             size: 24,
+           ),
+           )
+          ]
+        ),
         body:
         SingleChildScrollView(
           child: Column(
@@ -65,7 +91,7 @@ class _LandingPageState extends State<LandingPage> {
             children: [
               Container(
                 width: double.infinity,
-                height: 160,
+                height: 80,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   boxShadow: [
@@ -80,7 +106,7 @@ class _LandingPageState extends State<LandingPage> {
                   mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
+                    /*Padding(
                       padding: EdgeInsetsDirectional.fromSTEB(24, 40, 0, 0),
                       child: Image.asset(
                         'assets/images/Picture5.png',
@@ -88,7 +114,7 @@ class _LandingPageState extends State<LandingPage> {
                         height: 50,
                         fit: BoxFit.fitWidth,
                       ),
-                    ),
+                    ),*/
                     Padding(
                       padding: EdgeInsetsDirectional.fromSTEB(24, 12, 24, 8),
                       child: Row(
@@ -100,6 +126,7 @@ class _LandingPageState extends State<LandingPage> {
                             style: TextStyle(
                               fontFamily: 'Urbanist',
                               color: Color(0xFFFC4C69),
+                              fontSize: 24,
                             ),
                           ),
                         ],
@@ -116,7 +143,7 @@ class _LandingPageState extends State<LandingPage> {
                             style: TextStyle(
                               fontFamily: 'Urbanist',
                               color: Colors.grey,
-                              fontWeight: FontWeight.w300,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
                         ],
