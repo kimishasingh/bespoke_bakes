@@ -25,9 +25,10 @@ class QuoteRequestData {
 }
 
 class QuoteRequestPage extends StatefulWidget {
-  const QuoteRequestPage({super.key, required this.title});
+   QuoteRequestPage({super.key, required this.title, required this.occasion});
 
   final String title;
+  String occasion;
 
   @override
   State<QuoteRequestPage> createState() => _QuoteRequestPageState();
@@ -260,6 +261,7 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             var data = snapshot.data!;
+            selectedOccasion = widget.occasion;
             return DropdownButtonFormField(
               decoration: InputDecoration(
                 labelText: 'Occasion',

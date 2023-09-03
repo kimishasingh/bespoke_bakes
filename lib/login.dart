@@ -32,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
           Container(
               alignment: Alignment.centerLeft,
               padding: const EdgeInsets.all(10),
-              child: const Text('Welcome', style: TextStyle(fontSize: 20))),
+              child: const Text('Hello!', style: TextStyle(fontSize: 20))),
           Container(
               padding: const EdgeInsets.all(10),
               child: TextFormField(

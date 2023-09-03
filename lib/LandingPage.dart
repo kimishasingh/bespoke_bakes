@@ -58,14 +58,6 @@ class _LandingPageState extends State<LandingPage> {
     return Scaffold(
         key:scaffoldKey,
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          iconTheme: IconThemeData(
-            color: Colors.black, //change your color here
-          ),
-          leading: BackButton(),
-          title: Text('Tell us more', style: TextStyle( fontFamily: 'Urbanist', color: Colors.black, fontWeight: FontWeight.w400 )),
-          backgroundColor: Colors.white,
-        ),
         body:
         SingleChildScrollView(
           child: Column(
@@ -168,10 +160,13 @@ class _LandingPageState extends State<LandingPage> {
 
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
-                child: Container(
-                    height: 50,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: Container(
+                    height: 500,
                     decoration: BoxDecoration(),
                     child:
+                        /*Next button
                     ElevatedButton(
                       child: const Text('Next'),
                       onPressed:(){
@@ -183,21 +178,94 @@ class _LandingPageState extends State<LandingPage> {
                             )
                         );
                         },
-                    ),
-                    /*GridView.builder(gridDelegate:
-                    SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 10,
-                      childAspectRatio: 1,
-                    ),
-                        shrinkWrap: true,
-                        scrollDirection: Axis.vertical,
-                        itemCount: getOccasionValues().length,
-                        itemBuilder: itemBuilder)*/
+                    )//end Next Button
+                   ,*/
+                     FutureBuilder<List<String>>(
+                        future: getOccasionValues(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            var data = snapshot.data!;
+                            return GridView.builder(
+                                padding: EdgeInsets.zero,
+                                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 3,
+                                  crossAxisSpacing: 10,
+                                  mainAxisSpacing: 10,
+                                  childAspectRatio: 1,
+                                ),
+                                shrinkWrap: true,
+                                scrollDirection: Axis.vertical,
+                                itemCount: data.length,
+                                itemBuilder: (context, gridViewIndex) {
+                                   final gridViewOccasion =
+                                  data[gridViewIndex];
+                                  return Card(
+                                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                                    color: Colors.white,
+                                    elevation: 4,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(0),
+                                    ),
+                                    child: InkWell(
+                                      splashColor: Colors.transparent,
+                                      focusColor: Colors.transparent,
+                                      hoverColor: Colors.transparent,
+                                      highlightColor: Colors.transparent,
+                                      onTap: () async {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                               QuoteRequestPage(title: 'bespoke.bakes', occasion: gridViewOccasion.isNotEmpty? gridViewOccasion: 'Loading')),
+                                        );
+                                      },
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsetsDirectional
+                                                .fromSTEB(0, 5, 0, 0),
+                                            child: ClipRRect(
+                                              borderRadius: BorderRadius
+                                                  .circular(0),
+                                              child: Image.asset(
+                                                'assets/images/birthday-cake.png',
+                                                width: 60,
+                                                height: 60,
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                          ),
+                                          Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            children:  [
+                                              Expanded(
+                                                child: Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(0, 5, 0, 0),
+                                                  child: Text(gridViewOccasion.isNotEmpty? gridViewOccasion: "Loading",
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                      fontFamily: 'Urbanist',
+                                                      color: Color(0xFF76C6C5),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                });
+                          } else {
+    return const CircularProgressIndicator();
+    }
 
-                    ),
-                ),
+                        }),
+                         ),
+                ),),
           ]
                 ),
 
