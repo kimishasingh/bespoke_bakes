@@ -256,7 +256,7 @@ class _LandingPageState extends State<LandingPage> {
                                               borderRadius: BorderRadius
                                                   .circular(0),
                                               child: Image.asset(
-                                                'assets/images/birthday-cake.png',
+                                                'assets/images/$gridViewOccasion.png',
                                                 width: 60,
                                                 height: 60,
                                                 fit: BoxFit.cover,
