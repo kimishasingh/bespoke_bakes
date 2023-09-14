@@ -39,7 +39,7 @@ class LandingPage extends StatefulWidget {
 class _LandingPageState extends State<LandingPage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   Future<List<String>> getOccasionValues() async {
-    var baseUrl = "https://bespokebakes.azurewebsites.net/lookup/occasion";
+    var baseUrl = "https://bespokebakes.azurewebsites.net/api/v1/lookup/occasion";
 
     http.Response response = await http.get(Uri.parse(baseUrl));
 
