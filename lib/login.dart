@@ -20,7 +20,7 @@ class _LoginPageState extends State<LoginPage> {
     // than having to individually change instances of widgets.
     TextEditingController nameController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
-
+    String role = 'buyer';
     return Padding(
         padding: const EdgeInsets.all(10),
         child: ListView(children: <Widget>[
@@ -56,6 +56,38 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
           ),
+           Container(
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                ListTile(
+                  title: const Text('Baker 1'),
+                  leading: Radio(
+                    value: 'baker',
+                    groupValue: role,
+                    onChanged: (value) {
+                      setState(() {
+                        role = value!;
+                      });
+                    },
+                  ),
+                ),
+                ListTile(
+                  title: const Text('Buyer 1'),
+                  leading: Radio(
+                    value: 'buyer',
+                    groupValue: role,
+                    onChanged: (value) {
+                      setState(() {
+                        role = value!;
+                      });
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
           TextButton(
             onPressed: () {
               // forgot password screen
@@ -69,7 +101,7 @@ class _LoginPageState extends State<LoginPage> {
               child: const Text('Login'),
               onPressed: () {
                 if (nameController.text == 'admin' &&
-                    passwordController.text == 'password1') {
+                    passwordController.text == 'password1' && role =='buyer') {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
