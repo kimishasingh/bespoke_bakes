@@ -1,4 +1,5 @@
 import 'package:bespoke_bakes/lookup-service.dart';
+import 'package:bespoke_bakes/quote-request-pg2.dart';
 import 'package:flutter/material.dart';
 
 class QuoteRequestData {
@@ -770,15 +771,20 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
       const SizedBox(height: 20),
     );
 
-    void onPressedSubmit() {
+    void onPressedNext() {
       _formKey.currentState?.save();
 
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('Form Submitted')));
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+            QuoteRequestPage2(title: 'bespoke.bakes', occasion: selectedOccasion!=null && selectedOccasion.toString().isNotEmpty ? selectedOccasion.toString(): 'Loading')),
+      );
     }
 
     formWidget.add(ElevatedButton(
-        onPressed: onPressedSubmit, child: const Text('Submit Request')));
+        onPressed: onPressedNext, child: const Text('Next'))
+    );
 
     return formWidget;
   }

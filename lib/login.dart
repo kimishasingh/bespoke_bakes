@@ -1,7 +1,7 @@
+import 'package:bespoke_bakes/BakerLandingPage.dart';
 import 'package:flutter/material.dart';
 
 import 'LandingPage.dart';
-import 'quote-request.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -20,10 +20,18 @@ class _LoginPageState extends State<LoginPage> {
     // than having to individually change instances of widgets.
     TextEditingController nameController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
-    String role = 'buyer';
+    TextEditingController roleController = TextEditingController();
+    List<DropdownMenuItem<String>> dropdownItems = [
+        DropdownMenuItem(child: Text('Buyer'),value: 'Buyer'),
+        DropdownMenuItem(child: Text('Baker'),value: 'Baker'),
+      ];
+    roleController.text = 'Baker';
+
+
     return Padding(
         padding: const EdgeInsets.all(10),
-        child: ListView(children: <Widget>[
+        child: ListView(children: <Widget>
+        [
           Container(
             alignment: Alignment.center,
             padding: const EdgeInsets.all(10),
@@ -56,44 +64,29 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
           ),
-           Container(
+          Container(
             padding: const EdgeInsets.all(10),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                ListTile(
-                  title: const Text('Baker 1'),
-                  leading: Radio(
-                    value: 'baker',
-                    groupValue: role,
-                    onChanged: (value) {
-                      setState(() {
-                        role = value!;
-                      });
-                    },
-                  ),
-                ),
-                ListTile(
-                  title: const Text('Buyer 1'),
-                  leading: Radio(
-                    value: 'buyer',
-                    groupValue: role,
-                    onChanged: (value) {
-                      setState(() {
-                        role = value!;
-                      });
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ),
-          TextButton(
+            child: DropdownButtonFormField(
+                  value: roleController.text,
+                  onChanged: (String? newValue)
+                  {
+                    setState(() {
+                      roleController.text = newValue!;
+                    });
+                  },
+                  items: dropdownItems
+              )
+              ),
+          Container(
+          padding: const EdgeInsets.all(10),
+          child: TextButton(
             onPressed: () {
               // forgot password screen
             },
             child: const Text('Forgot Password'),
           ),
+      ),
+
           Container(
             height: 50,
             padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
@@ -101,14 +94,24 @@ class _LoginPageState extends State<LoginPage> {
               child: const Text('Login'),
               onPressed: () {
                 if (nameController.text == 'admin' &&
-                    passwordController.text == 'password1' && role =='buyer') {
+                    passwordController.text == 'password1' && roleController.text=='Buyer') {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
                         const LandingPage(title: 'bespoke.bakes')),
                   );
-                } else {
+                }
+               else if (nameController.text == 'admin' &&
+                    passwordController.text == 'password1' && roleController.text=='Baker')
+               {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                      builder: (context) =>
+                  const BakerLandingPage(title: 'bespoke.bakes')),);
+                }
+                else{
                   showAlertDialog(context);
                 }
               },

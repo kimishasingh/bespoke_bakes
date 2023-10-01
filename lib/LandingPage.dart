@@ -193,20 +193,6 @@ class _LandingPageState extends State<LandingPage> {
                     height: 500,
                     decoration: BoxDecoration(),
                     child:
-                        /*Next button
-                    ElevatedButton(
-                      child: const Text('Next'),
-                      onPressed:(){
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                            builder: (context) =>
-                        const QuoteRequestPage(title: 'bespoke.bakes')
-                            )
-                        );
-                        },
-                    )//end Next Button
-                   ,*/
                      FutureBuilder<List<String>>(
                         future: getOccasionValues(),
                         builder: (context, snapshot) {
