@@ -11,6 +11,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  TextEditingController nameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController roleController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called
@@ -18,20 +22,15 @@ class _LoginPageState extends State<LoginPage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    TextEditingController nameController = TextEditingController();
-    TextEditingController passwordController = TextEditingController();
-    TextEditingController roleController = TextEditingController();
     List<DropdownMenuItem<String>> dropdownItems = [
-        DropdownMenuItem(child: Text('Buyer'),value: 'Buyer'),
-        DropdownMenuItem(child: Text('Baker'),value: 'Baker'),
-      ];
+      DropdownMenuItem(child: Text('Buyer'), value: 'Buyer'),
+      DropdownMenuItem(child: Text('Baker'), value: 'Baker'),
+    ];
     roleController.text = 'Buyer';
-
 
     return Padding(
         padding: const EdgeInsets.all(10),
-        child: ListView(children: <Widget>
-        [
+        child: ListView(children: <Widget>[
           Container(
             alignment: Alignment.center,
             padding: const EdgeInsets.all(10),
@@ -46,10 +45,9 @@ class _LoginPageState extends State<LoginPage> {
               child: TextFormField(
                 controller: nameController,
                 decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Username',
-                  helperText: 'Enter your email address here'
-                ),
+                    border: OutlineInputBorder(),
+                    labelText: 'Username',
+                    helperText: 'Enter your email address here'),
               )),
           Container(
             padding: const EdgeInsets.all(10),
@@ -57,36 +55,30 @@ class _LoginPageState extends State<LoginPage> {
               obscureText: true,
               controller: passwordController,
               decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Password',
-                helperText: 'Enter your password here'
-
-              ),
+                  border: OutlineInputBorder(),
+                  labelText: 'Password',
+                  helperText: 'Enter your password here'),
             ),
           ),
           Container(
-            padding: const EdgeInsets.all(10),
-            child: DropdownButtonFormField(
+              padding: const EdgeInsets.all(10),
+              child: DropdownButtonFormField(
                   value: roleController.text,
-                  onChanged: (String? newValue)
-                  {
+                  onChanged: (String? newValue) {
                     setState(() {
                       roleController.text = newValue!;
                     });
                   },
-                  items: dropdownItems
-              )
-              ),
+                  items: dropdownItems)),
           Container(
-          padding: const EdgeInsets.all(10),
-          child: TextButton(
-            onPressed: () {
-              // forgot password screen
-            },
-            child: const Text('Forgot Password'),
+            padding: const EdgeInsets.all(10),
+            child: TextButton(
+              onPressed: () {
+                // forgot password screen
+              },
+              child: const Text('Forgot Password'),
+            ),
           ),
-      ),
-
           Container(
             height: 50,
             padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
@@ -94,24 +86,24 @@ class _LoginPageState extends State<LoginPage> {
               child: const Text('Login'),
               onPressed: () {
                 if (nameController.text == 'admin' &&
-                    passwordController.text == 'password1' && roleController.text=='Buyer') {
+                    passwordController.text == 'password1' &&
+                    roleController.text == 'Buyer') {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                        const LandingPage(title: 'bespoke.bakes')),
+                            const LandingPage(title: 'bespoke.bakes')),
                   );
-                }
-               else if (nameController.text == 'admin' &&
-                    passwordController.text == 'password1' && roleController.text=='Baker')
-               {
+                } else if (nameController.text == 'admin' &&
+                    passwordController.text == 'password1' &&
+                    roleController.text == 'Baker') {
                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                      builder: (context) =>
-                  const BakerLandingPage(title: 'bespoke.bakes')),);
-                }
-                else{
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            const BakerLandingPage(title: 'bespoke.bakes')),
+                  );
+                } else {
                   showAlertDialog(context);
                 }
               },
