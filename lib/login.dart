@@ -25,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
         DropdownMenuItem(child: Text('Buyer'),value: 'Buyer'),
         DropdownMenuItem(child: Text('Baker'),value: 'Baker'),
       ];
-    roleController.text = 'Baker';
+    roleController.text = 'Buyer';
 
 
     return Padding(
