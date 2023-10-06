@@ -1,4 +1,4 @@
-import 'package:bespoke_bakes/quote-request.dart';
+import 'package:bespoke_bakes/domain/quote_request_data.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
@@ -22,7 +22,8 @@ class LookupService {
   }
 
   Future<List<String>> getCakeFlavourValues() async {
-    var baseUrl = "https://bespokebakes.azurewebsites.net/api/v1/lookup/cake-flavour";
+    var baseUrl =
+        "https://bespokebakes.azurewebsites.net/api/v1/lookup/cake-flavour";
 
     http.Response response = await http.get(Uri.parse(baseUrl));
 
@@ -39,7 +40,8 @@ class LookupService {
   }
 
   Future<List<String>> getCakeSizeValues() async {
-    var baseUrl = "https://bespokebakes.azurewebsites.net/api/v1/lookup/cake-size";
+    var baseUrl =
+        "https://bespokebakes.azurewebsites.net/api/v1/lookup/cake-size";
 
     http.Response response = await http.get(Uri.parse(baseUrl));
 
@@ -92,7 +94,8 @@ class LookupService {
   }
 
   Future<List<String>> getIcingFlavourValues() async {
-    var baseUrl = "https://bespokebakes.azurewebsites.net/api/v1/lookup/icing-flavour";
+    var baseUrl =
+        "https://bespokebakes.azurewebsites.net/api/v1/lookup/icing-flavour";
 
     http.Response response = await http.get(Uri.parse(baseUrl));
 
@@ -109,7 +112,8 @@ class LookupService {
   }
 
   Future<List<String>> getIcingTypeValues() async {
-    var baseUrl = "https://bespokebakes.azurewebsites.net/api/v1/lookup/icing-type";
+    var baseUrl =
+        "https://bespokebakes.azurewebsites.net/api/v1/lookup/icing-type";
 
     http.Response response = await http.get(Uri.parse(baseUrl));
 
@@ -126,7 +130,8 @@ class LookupService {
   }
 
   Future<List<String>> getItemTypeValues() async {
-    var baseUrl = "https://bespokebakes.azurewebsites.net/api/v1/lookup/item-type";
+    var baseUrl =
+        "https://bespokebakes.azurewebsites.net/api/v1/lookup/item-type";
 
     http.Response response = await http.get(Uri.parse(baseUrl));
 
@@ -143,7 +148,8 @@ class LookupService {
   }
 
   Future<List<String>> getOccasionValues() async {
-    var baseUrl = "https://bespokebakes.azurewebsites.net/api/v1/lookup/occasion";
+    var baseUrl =
+        "https://bespokebakes.azurewebsites.net/api/v1/lookup/occasion";
 
     http.Response response = await http.get(Uri.parse(baseUrl));
 
