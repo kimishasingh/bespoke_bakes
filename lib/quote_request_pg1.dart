@@ -1,6 +1,8 @@
+import 'package:bespoke_bakes/domain/quote_request_data.dart';
 import 'package:bespoke_bakes/lookup_service.dart';
 import 'package:bespoke_bakes/quote_request_pg2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class QuoteRequestPage extends StatefulWidget {
   const QuoteRequestPage(
@@ -14,15 +16,15 @@ class QuoteRequestPage extends StatefulWidget {
 }
 
 class _QuoteRequestPageState extends State<QuoteRequestPage> {
-  String? selectedOccasion;
-  String? selectedCakeFlavour;
-  String? selectedCakeSize;
-  String? selectedGenderIndicator;
-  String? selectedIcingFlavour;
-  String? selectedIcingType;
-  String? selectedItemType;
-  String? selectedNoOfTiers;
-  String? selectedQuantity;
+  String selectedOccasion="";
+  String selectedCakeFlavour="Chocolate";
+  String selectedCakeSize="10cm";
+  String selectedGenderIndicator="Boy";
+  String selectedIcingFlavour="Cream cheese";
+  String selectedIcingType="Buttercream";
+  String selectedItemType="Cake";
+  String selectedNoOfTiers="1";
+  int selectedQuantity=1;
 
   final LookupService lookupService = LookupService();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -200,7 +202,7 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
               contentPadding: EdgeInsetsDirectional.fromSTEB(8, 8, 0, 8),
             ),
             style: const TextStyle(fontSize: 20, color: Color(0xFF8B97A2)),
-            value: selectedOccasion ?? data[0],
+            value: selectedOccasion,
             icon: const Icon(Icons.keyboard_arrow_down),
             items: data.map((String items) {
               return DropdownMenuItem(
@@ -453,6 +455,14 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
   Widget _buildQuantityTextFormField() {
     return TextFormField(
       keyboardType: TextInputType.number,
+      inputFormatters: <TextInputFormatter>[
+        FilteringTextInputFormatter.digitsOnly,
+        TextInputFormatter.withFunction(
+              (selectedQuantity, newValue) => newValue.copyWith(
+            text: newValue.text.replaceAll('.', ','),
+          ),
+        ),
+      ], // Only numbers can be entered
       decoration: InputDecoration(
         labelText: 'Quantity *',
         floatingLabelStyle: const TextStyle(fontSize: 16, color: Colors.grey),
@@ -490,12 +500,6 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
         contentPadding: EdgeInsetsDirectional.fromSTEB(8, 8, 0, 8),
       ),
       style: const TextStyle(fontSize: 20, color: Color(0xFF8B97A2)),
-      initialValue: selectedQuantity,
-      onChanged: (String? newValue) {
-        setState(() {
-          selectedQuantity = newValue!;
-        });
-      },
       autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
         if (value == null || value.isEmpty) {
@@ -834,11 +838,11 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
 
     if (_formKey.currentState!.validate()) {
       print('Form is valid');
-
+      QuoteRequestData pg1_Obj = QuoteRequestData(occasion: selectedOccasion, itemType: selectedItemType, cakeFlavour: selectedCakeFlavour, icingType: selectedIcingType, icingFlavour: selectedIcingFlavour, cakeSize: selectedCakeSize, quantity: selectedQuantity, dateTimeRequired: DateTime.now(), deliveryOption: "", budget: "", userId: 1, bundleId: 1);
       Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => QuoteRequestPage2(title: 'bespoke.bakes')),
+            builder: (context) => QuoteRequestPage2(title: 'bespoke.bakes', quoteRequestData: pg1_Obj)),
       );
     } else {
       print('Form is not valid');

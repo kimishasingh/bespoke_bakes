@@ -1,12 +1,14 @@
+import 'package:bespoke_bakes/domain/quote_request_data.dart';
 import 'package:bespoke_bakes/lookup_service.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_datetime_picker_bdaya/flutter_datetime_picker_bdaya.dart';
 
 class QuoteRequestPage2 extends StatefulWidget {
-  const QuoteRequestPage2({super.key, required this.title});
+  const QuoteRequestPage2({super.key, required this.title, required this.quoteRequestData});
 
   final String title;
+  final QuoteRequestData quoteRequestData;
 
   @override
   State<QuoteRequestPage2> createState() => _QuoteRequestPage2State();
@@ -124,7 +126,7 @@ class _QuoteRequestPage2State extends State<QuoteRequestPage2> {
           onConfirm: (date) {
             print('confirm $date');
             dateTimeController.text =
-                DateFormat('yyyy-MM-dd HH:mm').format(date);
+                DateFormat('yyyy-MM-dd HH:mm:ss').format(date);
           },
           currentTime: DateTime.now(),
           locale: LocaleType.en,
@@ -366,16 +368,22 @@ class _QuoteRequestPage2State extends State<QuoteRequestPage2> {
   }
 
   void onPressedSubmit() {
-    var dateTime = dateTimeController.text.toString();
+    var dateTime = dateTimeController.text;
     var delivery = selectedDeliveryOption.toString();
     var budget = selectedBudget.toString();
     print('Date/Time: $dateTime');
     print('Delivery: $delivery');
     print('Budget: $budget');
 
-    _formKey.currentState?.save();
+    DateTime tempDate = DateFormat("yyyy-MM-dd hh:mm:ss").parse(dateTime);
 
-   // lookupService.createQuoteRequest(quoteR)
+        _formKey.currentState?.save();
+    widget.quoteRequestData.dateTimeRequired = tempDate;
+    widget.quoteRequestData.deliveryOption = delivery;
+    widget.quoteRequestData.budget = budget;
+    widget.quoteRequestData.additionalInfo = additionalInfoController.text;
+
+  lookupService.createQuoteRequest(widget.quoteRequestData);
 
     ScaffoldMessenger.of(context)
         .showSnackBar(const SnackBar(content: Text('Form Submitted')));

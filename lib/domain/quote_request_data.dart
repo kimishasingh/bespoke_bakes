@@ -15,6 +15,8 @@ class QuoteRequestData {
   String deliveryOption;
   String budget;
   String? additionalInfo;
+  int userId;
+  int bundleId;
 
   QuoteRequestData({
     required this.occasion,
@@ -27,5 +29,7 @@ class QuoteRequestData {
     required this.dateTimeRequired,
     required this.deliveryOption,
     required this.budget,
+    required this.userId,
+    required this.bundleId
   });
 }
