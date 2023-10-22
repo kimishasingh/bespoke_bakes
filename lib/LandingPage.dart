@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:bespoke_bakes/login.dart';
+import 'package:bespoke_bakes/main.dart';
 import 'package:bespoke_bakes/quote_request_pg1.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -74,13 +74,17 @@ class _LandingPageState extends State<LandingPage> {
             IconButton(
               onPressed: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const LoginPage()));
+                    MaterialPageRoute(builder: (context) => const MyApp()));
               },
-              icon: Icon(
-                Icons.person,
-                color: Color(0xFF76C6C5),
-                size: 24,
-              ),
+              icon: const Tooltip(
+                  message: 'Logout',
+                  child:
+                  Icon(
+                    Icons.logout,
+                    color: Color(0xFF76C6C5),
+                    size: 24,
+                  )
+              ) ,
             )
           ]),
       body: SingleChildScrollView(
@@ -283,6 +287,64 @@ class _LandingPageState extends State<LandingPage> {
           ),
         ]),
       ),
+      drawer: Drawer(
+        child: ListView(
+          padding: const EdgeInsets.all(0),
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.white,
+              ), //BoxDecoration
+              child: UserAccountsDrawerHeader(
+                decoration: BoxDecoration(color: Colors.white),
+                accountName: Text(
+                  "Abhishek Mishra",
+                  style: TextStyle(fontSize: 18, color: Color(0xFFFC4C69)),
+                ),
+                accountEmail: Text("abhishekm977@gmail.com", style: TextStyle(fontSize: 18, color: Color(0xFFFC4C69))),
+                currentAccountPictureSize: Size.square(50),
+                currentAccountPicture: CircleAvatar(
+                  backgroundColor: Color(0xFF76C6C5),
+                  child: Text(
+                    "A",
+                    style: TextStyle(fontSize: 30.0, color: Color(0xFFFC4C69)),
+                  ), //Text
+                ), //circleAvatar
+              ), //UserAccountDrawerHeader
+            ), //DrawerHeader
+            ListTile(
+              leading: const Icon(Icons.person),
+              title: const Text(' My Profile '),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.request_quote),
+              title: const Text(' My Quote Requests '),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.shopping_cart),
+              title: const Text(' My Orders '),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.logout),
+              title: const Text('LogOut'),
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const MyApp()));
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
+      ), //Drawer
     );
   }
 }
