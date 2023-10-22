@@ -1,4 +1,6 @@
+import 'package:bespoke_bakes/domain/login_data.dart';
 import 'package:bespoke_bakes/domain/quote_request_data.dart';
+import 'package:bespoke_bakes/domain/user_data.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
@@ -173,5 +175,25 @@ class LookupService {
       },
       body: jsonEncode(quoteRequestData),
     );
+  }
+
+  Future<UserData> login(LoginData loginData) async {
+    final response = await http.post(
+      Uri.parse('https://bespokebakes.azurewebsites.net/login'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(loginData),
+    );
+
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      return UserData.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
+    } else {
+      // If the server returned a 404 response,
+      // then throw an exception.
+      return UserData(userId: 0, name: '', surname: '');
+    }
   }
 }

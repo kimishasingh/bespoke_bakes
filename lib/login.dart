@@ -1,4 +1,7 @@
 import 'package:bespoke_bakes/BakerLandingPage.dart';
+import 'package:bespoke_bakes/domain/login_data.dart';
+import 'package:bespoke_bakes/domain/user_data.dart';
+import 'package:bespoke_bakes/lookup_service.dart';
 import 'package:flutter/material.dart';
 
 import 'LandingPage.dart';
@@ -11,9 +14,11 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final LookupService lookupService = LookupService();
+
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  TextEditingController roleController = TextEditingController();
+  String selectedRole = 'Buyer';
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +31,6 @@ class _LoginPageState extends State<LoginPage> {
       DropdownMenuItem(child: Text('Buyer'), value: 'Buyer'),
       DropdownMenuItem(child: Text('Baker'), value: 'Baker'),
     ];
-    roleController.text = 'Buyer';
 
     return Padding(
         padding: const EdgeInsets.all(10),
@@ -63,10 +67,11 @@ class _LoginPageState extends State<LoginPage> {
           Container(
               padding: const EdgeInsets.all(10),
               child: DropdownButtonFormField(
-                  value: roleController.text,
+                  value: selectedRole,
                   onChanged: (String? newValue) {
+                    print('role changed from: ${selectedRole} to $newValue');
                     setState(() {
-                      roleController.text = newValue!;
+                      selectedRole = newValue!;
                     });
                   },
                   items: dropdownItems)),
@@ -84,28 +89,12 @@ class _LoginPageState extends State<LoginPage> {
             padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
             child: ElevatedButton(
               child: const Text('Login'),
-              onPressed: () {
-                if (nameController.text == 'admin' &&
-                    passwordController.text == 'password1' &&
-                    roleController.text == 'Buyer') {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            const LandingPage(title: 'bespoke.bakes')),
-                  );
-                } else if (nameController.text == 'admin' &&
-                    passwordController.text == 'password1' &&
-                    roleController.text == 'Baker') {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            const BakerLandingPage(title: 'bespoke.bakes')),
-                  );
-                } else {
-                  showAlertDialog(context);
-                }
+              onPressed: () async {
+                LoginData loginData = LoginData(
+                    username: nameController.text,
+                    password: passwordController.text);
+                UserData user = await lookupService.login(loginData);
+                navigateToNextPage(context, user, selectedRole);
               },
             ),
           ),
@@ -138,4 +127,27 @@ showAlertDialog(BuildContext context) {
       return alert;
     },
   );
+}
+
+navigateToNextPage(
+    BuildContext buildContext, UserData user, String selectedRole) {
+  print(selectedRole);
+  if (buildContext.mounted) {
+    if (user.userId != 0 && selectedRole == 'Buyer') {
+      Navigator.push(
+        buildContext,
+        MaterialPageRoute(
+            builder: (context) => const LandingPage(title: 'bespoke.bakes')),
+      );
+    } else if (user.userId != 0 && selectedRole == 'Baker') {
+      Navigator.push(
+        buildContext,
+        MaterialPageRoute(
+            builder: (context) =>
+                const BakerLandingPage(title: 'bespoke.bakes')),
+      );
+    } else {
+      showAlertDialog(buildContext);
+    }
+  }
 }
