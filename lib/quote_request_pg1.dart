@@ -25,6 +25,7 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
   String selectedItemType="Cake";
   String selectedNoOfTiers="1";
   int selectedQuantity=1;
+  TextEditingController descriptionController = TextEditingController();
 
   final LookupService lookupService = LookupService();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -40,11 +41,11 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
       key: scaffoldKey,
       backgroundColor: Colors.white,
       appBar: AppBar(
-        iconTheme: IconThemeData(
+        iconTheme: const IconThemeData(
           color: Colors.black, //change your color here
         ),
-        leading: BackButton(),
-        title: Text('Tell us more',
+        leading: const BackButton(),
+        title: const Text('Tell us more',
             style: TextStyle(
                 fontFamily: 'Urbanist',
                 color: Colors.black,
@@ -55,14 +56,14 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
         child: Column(
           children: [
             Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
+              padding: const EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
               child: Container(
                 height: double.maxFinite,
-                decoration: BoxDecoration(),
+                decoration: const BoxDecoration(),
                 child: Form(
                   key: _formKey,
                   child: ListView(
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
                     children: getFormWidget(),
@@ -133,7 +134,7 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
     formWidget.add(_buildSizedBox(10));
     formWidget.add(_buildIcingFlavourDropDown());
     formWidget.add(_buildSizedBox(10));
-    formWidget.add(_buildAdditionalInfoTextFormField());
+    formWidget.add(_buildDescriptionTextFormField());
     formWidget.add(_buildSizedBox(20));
     formWidget.add(_buildNextButton());
 
@@ -171,27 +172,27 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
             decoration: InputDecoration(
               labelText: 'Occasion *',
               border: OutlineInputBorder(
-                  borderSide: BorderSide(
+                  borderSide: const BorderSide(
                     color: Colors.grey,
                     width: 2,
                   ),
                   borderRadius: BorderRadius.circular(8)),
               focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(
+                borderSide: const BorderSide(
                   color: Color(0x00000000),
                   width: 2,
                 ),
                 borderRadius: BorderRadius.circular(8),
               ),
               errorBorder: OutlineInputBorder(
-                borderSide: BorderSide(
+                borderSide: const BorderSide(
                   color: Color(0x00000000),
                   width: 2,
                 ),
                 borderRadius: BorderRadius.circular(8),
               ),
               focusedErrorBorder: OutlineInputBorder(
-                borderSide: BorderSide(
+                borderSide: const BorderSide(
                   color: Color(0x00000000),
                   width: 2,
                 ),
@@ -199,7 +200,7 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
               ),
               filled: true,
               fillColor: Colors.white,
-              contentPadding: EdgeInsetsDirectional.fromSTEB(8, 8, 0, 8),
+              contentPadding: const EdgeInsetsDirectional.fromSTEB(8, 8, 0, 8),
             ),
             style: const TextStyle(fontSize: 20, color: Color(0xFF8B97A2)),
             value: selectedOccasion,
@@ -240,28 +241,28 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
             decoration: InputDecoration(
               labelText: 'Who is it for?',
               enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(
+                borderSide: const BorderSide(
                   color: Colors.grey,
                   width: 2,
                 ),
                 borderRadius: BorderRadius.circular(8),
               ),
               focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(
+                borderSide: const BorderSide(
                   color: Color(0x00000000),
                   width: 2,
                 ),
                 borderRadius: BorderRadius.circular(8),
               ),
               errorBorder: OutlineInputBorder(
-                borderSide: BorderSide(
+                borderSide: const BorderSide(
                   color: Color(0x00000000),
                   width: 2,
                 ),
                 borderRadius: BorderRadius.circular(8),
               ),
               focusedErrorBorder: OutlineInputBorder(
-                borderSide: BorderSide(
+                borderSide: const BorderSide(
                   color: Color(0x00000000),
                   width: 2,
                 ),
@@ -269,12 +270,12 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
               ),
               filled: true,
               fillColor: Colors.white,
-              contentPadding: EdgeInsetsDirectional.fromSTEB(8, 8, 0, 8),
+              contentPadding: const EdgeInsetsDirectional.fromSTEB(8, 8, 0, 8),
             ),
             style: const TextStyle(fontSize: 20, color: Color(0xFF8B97A2)),
             // Initial Value
             value: selectedGenderIndicator,
-            hint: Text(' '),
+            hint: const Text(' '),
 
             // Down Arrow Icon
             icon: const Icon(Icons.keyboard_arrow_down),
@@ -319,28 +320,28 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
             decoration: InputDecoration(
               labelText: 'Item Type *',
               enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(
+                borderSide: const BorderSide(
                   color: Colors.grey,
                   width: 2,
                 ),
                 borderRadius: BorderRadius.circular(8),
               ),
               focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(
+                borderSide: const BorderSide(
                   color: Color(0x00000000),
                   width: 2,
                 ),
                 borderRadius: BorderRadius.circular(8),
               ),
               errorBorder: OutlineInputBorder(
-                borderSide: BorderSide(
+                borderSide: const BorderSide(
                   color: Color(0x00000000),
                   width: 2,
                 ),
                 borderRadius: BorderRadius.circular(8),
               ),
               focusedErrorBorder: OutlineInputBorder(
-                borderSide: BorderSide(
+                borderSide: const BorderSide(
                   color: Color(0x00000000),
                   width: 2,
                 ),
@@ -348,11 +349,11 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
               ),
               filled: true,
               fillColor: Colors.white,
-              contentPadding: EdgeInsetsDirectional.fromSTEB(8, 8, 0, 8),
+              contentPadding: const EdgeInsetsDirectional.fromSTEB(8, 8, 0, 8),
             ),
             style: const TextStyle(fontSize: 20, color: Color(0xFF8B97A2)),
             value: selectedItemType,
-            hint: Text(' '),
+            hint: const Text(' '),
             icon: const Icon(Icons.keyboard_arrow_down),
             items: data.map((String items) {
               return DropdownMenuItem(
@@ -390,28 +391,28 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
             decoration: InputDecoration(
               labelText: 'Cake Size *',
               enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(
+                borderSide: const BorderSide(
                   color: Colors.grey,
                   width: 2,
                 ),
                 borderRadius: BorderRadius.circular(8),
               ),
               focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(
+                borderSide: const BorderSide(
                   color: Color(0x00000000),
                   width: 2,
                 ),
                 borderRadius: BorderRadius.circular(8),
               ),
               errorBorder: OutlineInputBorder(
-                borderSide: BorderSide(
+                borderSide: const BorderSide(
                   color: Color(0x00000000),
                   width: 2,
                 ),
                 borderRadius: BorderRadius.circular(8),
               ),
               focusedErrorBorder: OutlineInputBorder(
-                borderSide: BorderSide(
+                borderSide: const BorderSide(
                   color: Color(0x00000000),
                   width: 2,
                 ),
@@ -419,12 +420,12 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
               ),
               filled: true,
               fillColor: Colors.white,
-              contentPadding: EdgeInsetsDirectional.fromSTEB(8, 8, 0, 8),
+              contentPadding: const EdgeInsetsDirectional.fromSTEB(8, 8, 0, 8),
             ),
             style: const TextStyle(fontSize: 20, color: Color(0xFF8B97A2)),
             // Initial Value
             value: selectedCakeSize,
-            hint: Text(' '),
+            hint: const Text(' '),
             icon: const Icon(Icons.keyboard_arrow_down),
             items: data.map((String items) {
               return DropdownMenuItem(
@@ -468,28 +469,28 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
         floatingLabelStyle: const TextStyle(fontSize: 16, color: Colors.grey),
         hintStyle: const TextStyle(fontSize: 20, color: Color(0xFF8B97A2)),
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             color: Colors.grey,
             width: 2,
           ),
           borderRadius: BorderRadius.circular(8),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             color: Color(0x00000000),
             width: 2,
           ),
           borderRadius: BorderRadius.circular(8),
         ),
         errorBorder: OutlineInputBorder(
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             color: Color(0x00000000),
             width: 2,
           ),
           borderRadius: BorderRadius.circular(8),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             color: Color(0x00000000),
             width: 2,
           ),
@@ -497,7 +498,7 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
         ),
         filled: true,
         fillColor: Colors.white,
-        contentPadding: EdgeInsetsDirectional.fromSTEB(8, 8, 0, 8),
+        contentPadding: const EdgeInsetsDirectional.fromSTEB(8, 8, 0, 8),
       ),
       style: const TextStyle(fontSize: 20, color: Color(0xFF8B97A2)),
       autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -518,28 +519,28 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
         floatingLabelStyle: const TextStyle(fontSize: 16, color: Colors.grey),
         hintStyle: const TextStyle(fontSize: 20, color: Color(0xFF8B97A2)),
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             color: Colors.grey,
             width: 2,
           ),
           borderRadius: BorderRadius.circular(8),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             color: Color(0x00000000),
             width: 2,
           ),
           borderRadius: BorderRadius.circular(8),
         ),
         errorBorder: OutlineInputBorder(
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             color: Color(0x00000000),
             width: 2,
           ),
           borderRadius: BorderRadius.circular(8),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             color: Color(0x00000000),
             width: 2,
           ),
@@ -576,28 +577,28 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
             decoration: InputDecoration(
               labelText: 'Cake Flavour *',
               enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(
+                borderSide: const BorderSide(
                   color: Colors.grey,
                   width: 2,
                 ),
                 borderRadius: BorderRadius.circular(8),
               ),
               focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(
+                borderSide: const BorderSide(
                   color: Color(0x00000000),
                   width: 2,
                 ),
                 borderRadius: BorderRadius.circular(8),
               ),
               errorBorder: OutlineInputBorder(
-                borderSide: BorderSide(
+                borderSide: const BorderSide(
                   color: Color(0x00000000),
                   width: 2,
                 ),
                 borderRadius: BorderRadius.circular(8),
               ),
               focusedErrorBorder: OutlineInputBorder(
-                borderSide: BorderSide(
+                borderSide: const BorderSide(
                   color: Color(0x00000000),
                   width: 2,
                 ),
@@ -605,11 +606,11 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
               ),
               filled: true,
               fillColor: Colors.white,
-              contentPadding: EdgeInsetsDirectional.fromSTEB(8, 8, 0, 8),
+              contentPadding: const EdgeInsetsDirectional.fromSTEB(8, 8, 0, 8),
             ),
             style: const TextStyle(fontSize: 20, color: Color(0xFF8B97A2)),
             value: selectedCakeFlavour,
-            hint: Text(' '),
+            hint: const Text(' '),
             icon: const Icon(Icons.keyboard_arrow_down),
             items: data.map((String items) {
               return DropdownMenuItem(
@@ -647,28 +648,28 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
             decoration: InputDecoration(
               labelText: 'Icing Type *',
               enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(
+                borderSide: const BorderSide(
                   color: Colors.grey,
                   width: 2,
                 ),
                 borderRadius: BorderRadius.circular(8),
               ),
               focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(
+                borderSide: const BorderSide(
                   color: Color(0x00000000),
                   width: 2,
                 ),
                 borderRadius: BorderRadius.circular(8),
               ),
               errorBorder: OutlineInputBorder(
-                borderSide: BorderSide(
+                borderSide: const BorderSide(
                   color: Color(0x00000000),
                   width: 2,
                 ),
                 borderRadius: BorderRadius.circular(8),
               ),
               focusedErrorBorder: OutlineInputBorder(
-                borderSide: BorderSide(
+                borderSide: const BorderSide(
                   color: Color(0x00000000),
                   width: 2,
                 ),
@@ -676,11 +677,11 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
               ),
               filled: true,
               fillColor: Colors.white,
-              contentPadding: EdgeInsetsDirectional.fromSTEB(8, 8, 0, 8),
+              contentPadding: const EdgeInsetsDirectional.fromSTEB(8, 8, 0, 8),
             ),
             style: const TextStyle(fontSize: 20, color: Color(0xFF8B97A2)),
             value: selectedIcingType,
-            hint: Text(' '),
+            hint: const Text(' '),
             icon: const Icon(Icons.keyboard_arrow_down),
             items: data.map((String items) {
               return DropdownMenuItem(
@@ -718,28 +719,28 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
             decoration: InputDecoration(
               labelText: 'Icing Flavour *',
               enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(
+                borderSide: const BorderSide(
                   color: Colors.grey,
                   width: 2,
                 ),
                 borderRadius: BorderRadius.circular(8),
               ),
               focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(
+                borderSide: const BorderSide(
                   color: Color(0x00000000),
                   width: 2,
                 ),
                 borderRadius: BorderRadius.circular(8),
               ),
               errorBorder: OutlineInputBorder(
-                borderSide: BorderSide(
+                borderSide: const BorderSide(
                   color: Color(0x00000000),
                   width: 2,
                 ),
                 borderRadius: BorderRadius.circular(8),
               ),
               focusedErrorBorder: OutlineInputBorder(
-                borderSide: BorderSide(
+                borderSide: const BorderSide(
                   color: Color(0x00000000),
                   width: 2,
                 ),
@@ -747,11 +748,11 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
               ),
               filled: true,
               fillColor: Colors.white,
-              contentPadding: EdgeInsetsDirectional.fromSTEB(8, 8, 0, 8),
+              contentPadding: const EdgeInsetsDirectional.fromSTEB(8, 8, 0, 8),
             ),
             style: const TextStyle(fontSize: 20, color: Color(0xFF8B97A2)),
             value: selectedIcingFlavour,
-            hint: Text(' '),
+            hint: const Text(' '),
             icon: const Icon(Icons.keyboard_arrow_down),
             items: data.map((String items) {
               return DropdownMenuItem(
@@ -779,14 +780,14 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
     );
   }
 
-  Widget _buildAdditionalInfoTextFormField() {
+  Widget _buildDescriptionTextFormField() {
     return TextFormField(
-      controller: TextEditingController(),
+      controller: descriptionController,
       obscureText: false,
       maxLines: 5,
       textAlignVertical: TextAlignVertical.top,
       textAlign: TextAlign.start,
-      style: TextStyle(
+      style: const TextStyle(
         fontWeight: FontWeight.w400,
         fontStyle: FontStyle.normal,
         fontSize: 14,
@@ -795,36 +796,36 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
       decoration: InputDecoration(
         disabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4.0),
-          borderSide: BorderSide(color: Color(0xffc4bfbf), width: 1),
+          borderSide: const BorderSide(color: Color(0xffc4bfbf), width: 1),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4.0),
-          borderSide: BorderSide(color: Color(0xffc4bfbf), width: 1),
+          borderSide: const BorderSide(color: Color(0xffc4bfbf), width: 1),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4.0),
-          borderSide: BorderSide(color: Color(0xffc4bfbf), width: 1),
+          borderSide: const BorderSide(color: Color(0xffc4bfbf), width: 1),
         ),
         labelText: "Description",
         floatingLabelAlignment: FloatingLabelAlignment.start,
-        floatingLabelStyle: TextStyle(fontSize: 16, color: Color(0xffc4bfbf)),
-        labelStyle: TextStyle(
+        floatingLabelStyle: const TextStyle(fontSize: 16, color: Color(0xffc4bfbf)),
+        labelStyle: const TextStyle(
           fontWeight: FontWeight.w400,
           fontStyle: FontStyle.normal,
           fontSize: 14,
           color: Color(0xFF76C6C5),
         ),
         hintText: "Enter Text",
-        hintStyle: TextStyle(
+        hintStyle: const TextStyle(
           fontWeight: FontWeight.w400,
           fontStyle: FontStyle.normal,
           fontSize: 12,
           color: Color(0xff000000),
         ),
         filled: true,
-        fillColor: Color(0xffffffff),
+        fillColor: const Color(0xffffffff),
         isDense: false,
-        contentPadding: EdgeInsets.all(10),
+        contentPadding: const EdgeInsets.all(10),
       ),
     );
   }
@@ -838,7 +839,23 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
 
     if (_formKey.currentState!.validate()) {
       print('Form is valid');
-      QuoteRequestData pg1_Obj = QuoteRequestData(occasion: selectedOccasion, itemType: selectedItemType, cakeFlavour: selectedCakeFlavour, icingType: selectedIcingType, icingFlavour: selectedIcingFlavour, cakeSize: selectedCakeSize, quantity: selectedQuantity, dateTimeRequired: DateTime.now(), deliveryOption: "", budget: "", userId: 1, bundleId: 1);
+      QuoteRequestData pg1_Obj = QuoteRequestData(occasion: selectedOccasion,
+          itemType: selectedItemType,
+          cakeFlavour: selectedCakeFlavour,
+          icingType: selectedIcingType,
+          icingFlavour: selectedIcingFlavour,
+          cakeSize: selectedCakeSize,
+          quantity: selectedQuantity,
+          dateTimeRequired: DateTime.now(),
+          deliveryOption: "",
+          budget: "",
+          userId: 1,
+          bundleId: 1);
+
+      if (descriptionController.text.isNotEmpty) {
+        pg1_Obj.description = descriptionController.text;
+      }
+
       Navigator.push(
         context,
         MaterialPageRoute(

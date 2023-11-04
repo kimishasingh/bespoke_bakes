@@ -22,9 +22,9 @@ class MyApp extends StatelessWidget {
         ),
       ),
 
-      home: Scaffold(
+      home: const Scaffold(
         //appBar: AppBar(title: const Text(appTitle)),
-        body: const LoginPage(),
+        body: LoginPage(),
       ),
     );
   }
