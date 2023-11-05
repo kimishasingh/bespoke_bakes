@@ -11,15 +11,17 @@ import 'package:intl/intl.dart';
 import 'package:flutter_datetime_picker_bdaya/flutter_datetime_picker_bdaya.dart';
 
 import 'LandingPage.dart';
+import 'domain/user_data.dart';
 
 typedef Progress = Function(double percent);
 
 
 class QuoteRequestPage2 extends StatefulWidget {
   const QuoteRequestPage2(
-      {super.key, required this.title, required this.quoteRequestData});
+      {super.key, required this.title, required this.loggedInUser, required this.quoteRequestData});
 
   final String title;
+  final UserData loggedInUser;
   final QuoteRequestData quoteRequestData;
 
   @override
@@ -44,7 +46,7 @@ class _QuoteRequestPage2State extends State<QuoteRequestPage2> {
       {Progress? uploadProgress}) async {
     final stream = file!.openRead();
     int length = await file.length();
-    final client = new HttpClient();
+    final client = HttpClient();
 
     final request = await client.postUrl(Uri.parse('URI'));
     request.headers.add('Content-Type', 'application/octet-stream');
@@ -473,7 +475,7 @@ class _QuoteRequestPage2State extends State<QuoteRequestPage2> {
       Navigator.push(
         buildContext,
         MaterialPageRoute(
-            builder: (context) => const LandingPage(title: 'bespoke.bakes')),
+            builder: (context) => LandingPage(title: 'bespoke.bakes', loggedInUser: widget.loggedInUser)),
       );
     }
   }

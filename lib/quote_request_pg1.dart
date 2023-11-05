@@ -4,27 +4,33 @@ import 'package:bespoke_bakes/quote_request_pg2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'domain/user_data.dart';
+
 class QuoteRequestPage extends StatefulWidget {
   const QuoteRequestPage(
-      {super.key, required this.title, required this.occasion});
+      {super.key,
+      required this.title,
+      required this.occasion,
+      required this.loggedInUser});
 
   final String title;
   final String occasion;
+  final UserData loggedInUser;
 
   @override
   State<QuoteRequestPage> createState() => _QuoteRequestPageState();
 }
 
 class _QuoteRequestPageState extends State<QuoteRequestPage> {
-  String selectedOccasion="";
-  String selectedCakeFlavour="Chocolate";
-  String selectedCakeSize="10cm";
-  String selectedGenderIndicator="Boy";
-  String selectedIcingFlavour="Cream cheese";
-  String selectedIcingType="Buttercream";
-  String selectedItemType="Cake";
-  String selectedNoOfTiers="1";
-  int selectedQuantity=1;
+  String selectedOccasion = "";
+  String selectedCakeFlavour = "Chocolate";
+  String selectedCakeSize = "10cm";
+  String selectedGenderIndicator = "Boy";
+  String selectedIcingFlavour = "Cream cheese";
+  String selectedIcingType = "Buttercream";
+  String selectedItemType = "Cake";
+  String selectedNoOfTiers = "1";
+  int selectedQuantity = 1;
   TextEditingController descriptionController = TextEditingController();
   TextEditingController icingColourController = TextEditingController();
 
@@ -462,11 +468,12 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
       inputFormatters: <TextInputFormatter>[
         FilteringTextInputFormatter.digitsOnly,
         TextInputFormatter.withFunction(
-              (selectedQuantity, newValue) => newValue.copyWith(
+          (selectedQuantity, newValue) => newValue.copyWith(
             text: newValue.text.replaceAll('.', ','),
           ),
         ),
-      ], // Only numbers can be entered
+      ],
+      // Only numbers can be entered
       decoration: InputDecoration(
         labelText: 'Quantity *',
         floatingLabelStyle: const TextStyle(fontSize: 16, color: Colors.grey),
@@ -811,7 +818,8 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
         ),
         labelText: "Icing Colour *",
         floatingLabelAlignment: FloatingLabelAlignment.start,
-        floatingLabelStyle: const TextStyle(fontSize: 16, color: Color(0xffc4bfbf)),
+        floatingLabelStyle:
+            const TextStyle(fontSize: 16, color: Color(0xffc4bfbf)),
         labelStyle: const TextStyle(
           fontWeight: FontWeight.w400,
           fontStyle: FontStyle.normal,
@@ -861,7 +869,8 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
         ),
         labelText: "Description",
         floatingLabelAlignment: FloatingLabelAlignment.start,
-        floatingLabelStyle: const TextStyle(fontSize: 16, color: Color(0xffc4bfbf)),
+        floatingLabelStyle:
+            const TextStyle(fontSize: 16, color: Color(0xffc4bfbf)),
         labelStyle: const TextStyle(
           fontWeight: FontWeight.w400,
           fontStyle: FontStyle.normal,
@@ -891,7 +900,8 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
     _formKey.currentState?.save();
 
     if (_formKey.currentState!.validate()) {
-      QuoteRequestData pg1_Obj = QuoteRequestData(occasion: selectedOccasion,
+      QuoteRequestData pg1_Obj = QuoteRequestData(
+          occasion: selectedOccasion,
           itemType: selectedItemType,
           cakeFlavour: selectedCakeFlavour,
           icingType: selectedIcingType,
@@ -912,7 +922,10 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
       Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => QuoteRequestPage2(title: 'bespoke.bakes', quoteRequestData: pg1_Obj)),
+            builder: (context) => QuoteRequestPage2(
+                title: 'bespoke.bakes',
+                loggedInUser: widget.loggedInUser,
+                quoteRequestData: pg1_Obj)),
       );
     }
   }

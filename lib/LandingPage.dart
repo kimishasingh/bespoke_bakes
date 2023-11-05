@@ -1,35 +1,17 @@
 import 'dart:convert';
 
+import 'package:bespoke_bakes/domain/user_data.dart';
 import 'package:bespoke_bakes/main.dart';
 import 'package:bespoke_bakes/quote_request_pg1.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class OccasionData {
-  String occasion;
-
-  // String cakeFlavour;
-  // String icingType;
-  // String icingFlavour;
-  // String cakeSize;
-  // int numOfTiers;
-  // String description;
-  // int quantity;
-  // String genderIndicator;
-  // DateTime dateTimeRequired;
-  // double locationLongitude;
-  // double locationLatitude;
-  // String deliveryOption;
-  // String budget;
-  // String additionalInfo;
-
-  OccasionData({required this.occasion});
-}
-
 class LandingPage extends StatefulWidget {
-  const LandingPage({super.key, required this.title});
+  const LandingPage(
+      {super.key, required this.title, required this.loggedInUser});
 
   final String title;
+  final UserData loggedInUser;
 
   @override
   State<LandingPage> createState() => _LandingPageState();
@@ -67,7 +49,7 @@ class _LandingPageState extends State<LandingPage> {
               fit: BoxFit.fitHeight, height: 40),
           automaticallyImplyLeading: false,
           backgroundColor: Colors.white,
-          shape: RoundedRectangleBorder(
+          shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.zero,
           ),
           actions: <Widget>[
@@ -78,13 +60,11 @@ class _LandingPageState extends State<LandingPage> {
               },
               icon: const Tooltip(
                   message: 'Logout',
-                  child:
-                  Icon(
+                  child: Icon(
                     Icons.logout,
                     color: Color(0xFF76C6C5),
                     size: 24,
-                  )
-              ) ,
+                  )),
             )
           ]),
       body: SingleChildScrollView(
@@ -92,7 +72,7 @@ class _LandingPageState extends State<LandingPage> {
           Container(
             width: double.infinity,
             height: 80,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Colors.white,
               boxShadow: [
                 BoxShadow(
@@ -102,7 +82,7 @@ class _LandingPageState extends State<LandingPage> {
                 )
               ],
             ),
-            child: Column(
+            child: const Column(
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -155,7 +135,7 @@ class _LandingPageState extends State<LandingPage> {
           Container(
             width: 396,
             height: 50,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Colors.white,
             ),
             child: Row(
@@ -165,10 +145,10 @@ class _LandingPageState extends State<LandingPage> {
                   child: Container(
                     width: 100,
                     height: 100,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: Color(0xFFFC4C69),
                     ),
-                    child: Align(
+                    child: const Align(
                       alignment: AlignmentDirectional(0, 0),
                       child: Text(
                         'What\'s the occasion?',
@@ -185,7 +165,7 @@ class _LandingPageState extends State<LandingPage> {
             ),
           ),
           Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
+            padding: const EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
             child: SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: Container(
@@ -232,15 +212,17 @@ class _LandingPageState extends State<LandingPage> {
                                                   occasion: gridViewOccasion
                                                           .isNotEmpty
                                                       ? gridViewOccasion
-                                                      : 'Loading')),
+                                                      : 'Loading',
+                                                  loggedInUser:
+                                                      widget.loggedInUser)),
                                     );
                                   },
                                   child: Column(
                                     mainAxisSize: MainAxisSize.max,
                                     children: [
                                       Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            0, 5, 0, 0),
+                                        padding: const EdgeInsetsDirectional
+                                            .fromSTEB(0, 5, 0, 0),
                                         child: ClipRRect(
                                           borderRadius:
                                               BorderRadius.circular(0),
@@ -257,14 +239,15 @@ class _LandingPageState extends State<LandingPage> {
                                         children: [
                                           Expanded(
                                             child: Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(0, 5, 0, 0),
+                                              padding:
+                                                  const EdgeInsetsDirectional
+                                                      .fromSTEB(0, 5, 0, 0),
                                               child: Text(
                                                 gridViewOccasion.isNotEmpty
                                                     ? gridViewOccasion
                                                     : "Loading",
                                                 textAlign: TextAlign.center,
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   fontFamily: 'Urbanist',
                                                   color: Color(0xFF76C6C5),
                                                 ),
@@ -291,19 +274,21 @@ class _LandingPageState extends State<LandingPage> {
         child: ListView(
           padding: const EdgeInsets.all(0),
           children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(
+            DrawerHeader(
+              decoration: const BoxDecoration(
                 color: Colors.white,
               ), //BoxDecoration
               child: UserAccountsDrawerHeader(
-                decoration: BoxDecoration(color: Colors.white),
+                decoration: const BoxDecoration(color: Colors.white),
                 accountName: Text(
-                  "Abhishek Mishra",
-                  style: TextStyle(fontSize: 18, color: Color(0xFFFC4C69)),
+                  "${widget.loggedInUser.name} ${widget.loggedInUser.surname}",
+                  style:
+                      const TextStyle(fontSize: 18, color: Color(0xFFFC4C69)),
                 ),
-                accountEmail: Text("abhishekm977@gmail.com", style: TextStyle(fontSize: 18, color: Color(0xFFFC4C69))),
-                currentAccountPictureSize: Size.square(50),
-                currentAccountPicture: CircleAvatar(
+                accountEmail: const Text("abhishekm977@gmail.com",
+                    style: TextStyle(fontSize: 18, color: Color(0xFFFC4C69))),
+                currentAccountPictureSize: const Size.square(50),
+                currentAccountPicture: const CircleAvatar(
                   backgroundColor: Color(0xFF76C6C5),
                   child: Text(
                     "A",

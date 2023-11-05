@@ -69,7 +69,6 @@ class _LoginPageState extends State<LoginPage> {
               child: DropdownButtonFormField(
                   value: selectedRole,
                   onChanged: (String? newValue) {
-                    print('role changed from: ${selectedRole} to $newValue');
                     setState(() {
                       selectedRole = newValue!;
                     });
@@ -137,7 +136,7 @@ navigateToNextPage(
       Navigator.push(
         buildContext,
         MaterialPageRoute(
-            builder: (context) => const LandingPage(title: 'bespoke.bakes')),
+            builder: (context) => LandingPage(title: 'bespoke.bakes', loggedInUser: user)),
       );
     } else if (user.userId != 0 && selectedRole == 'Baker') {
       Navigator.push(
