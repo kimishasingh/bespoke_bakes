@@ -285,14 +285,14 @@ class _LandingPageState extends State<LandingPage> {
                   style:
                       const TextStyle(fontSize: 18, color: Color(0xFFFC4C69)),
                 ),
-                accountEmail: const Text("abhishekm977@gmail.com",
-                    style: TextStyle(fontSize: 18, color: Color(0xFFFC4C69))),
+                accountEmail: Text(widget.loggedInUser.emailAddress,
+                    style: const TextStyle(fontSize: 18, color: Color(0xFFFC4C69))),
                 currentAccountPictureSize: const Size.square(50),
-                currentAccountPicture: const CircleAvatar(
-                  backgroundColor: Color(0xFF76C6C5),
+                currentAccountPicture: CircleAvatar(
+                  backgroundColor: const Color(0xFF76C6C5),
                   child: Text(
-                    "A",
-                    style: TextStyle(fontSize: 30.0, color: Color(0xFFFC4C69)),
+                    widget.loggedInUser.name.substring(0, 1),
+                    style: const TextStyle(fontSize: 30.0, color: Color(0xFFFC4C69)),
                   ), //Text
                 ), //circleAvatar
               ), //UserAccountDrawerHeader

@@ -268,7 +268,7 @@ class LookupService {
     } else {
       // If the server returned a 404 response,
       // then throw an exception.
-      return UserData(userId: 0, name: '', surname: '');
+      return UserData(userId: 0, name: '', surname: '', emailAddress: '');
     }
   }
 }

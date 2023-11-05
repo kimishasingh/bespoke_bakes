@@ -91,7 +91,8 @@ class _LoginPageState extends State<LoginPage> {
               onPressed: () async {
                 LoginData loginData = LoginData(
                     username: nameController.text,
-                    password: passwordController.text);
+                    password: passwordController.text,
+                    roleName: selectedRole);
                 UserData user = await lookupService.login(loginData);
                 navigateToNextPage(context, user, selectedRole);
               },
@@ -136,7 +137,8 @@ navigateToNextPage(
       Navigator.push(
         buildContext,
         MaterialPageRoute(
-            builder: (context) => LandingPage(title: 'bespoke.bakes', loggedInUser: user)),
+            builder: (context) =>
+                LandingPage(title: 'bespoke.bakes', loggedInUser: user)),
       );
     } else if (user.userId != 0 && selectedRole == 'Baker') {
       Navigator.push(
