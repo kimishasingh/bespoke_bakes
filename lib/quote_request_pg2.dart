@@ -15,10 +15,12 @@ import 'domain/user_data.dart';
 
 typedef Progress = Function(double percent);
 
-
 class QuoteRequestPage2 extends StatefulWidget {
   const QuoteRequestPage2(
-      {super.key, required this.title, required this.loggedInUser, required this.quoteRequestData});
+      {super.key,
+      required this.title,
+      required this.loggedInUser,
+      required this.quoteRequestData});
 
   final String title;
   final UserData loggedInUser;
@@ -40,7 +42,6 @@ class _QuoteRequestPage2State extends State<QuoteRequestPage2> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   dynamic remoteFiles;
-
 
   Future<dynamic> uploadToServer(XFile? file,
       {Progress? uploadProgress}) async {
@@ -138,14 +139,14 @@ class _QuoteRequestPage2State extends State<QuoteRequestPage2> {
           },
           files: remoteFiles != null
               ? remoteFiles!.map((image) {
-            return ImageAndCaptionModel(
-                file: image, caption: image.alt.toString());
-          }).toList()
+                  return ImageAndCaptionModel(
+                      file: image, caption: image.alt.toString());
+                }).toList()
               : [],
           remoteImage: true,
           onUpload: (dynamic pickedFile,
               ControllerLinearProgressIndicatorIF?
-              controllerLinearProgressIndicator) async {
+                  controllerLinearProgressIndicator) async {
             dynamic fileUploaded = await uploadToServer(
               pickedFile,
               uploadProgress: (percent) {
@@ -159,9 +160,7 @@ class _QuoteRequestPage2State extends State<QuoteRequestPage2> {
           onSave: (List<ImageAndCaptionModel>? imageAndCaptionList) {
             remoteFiles = imageAndCaptionList;
           }),
-
     );
-
 
     formWidget.add(
       const SizedBox(height: 10),
@@ -475,7 +474,8 @@ class _QuoteRequestPage2State extends State<QuoteRequestPage2> {
       Navigator.push(
         buildContext,
         MaterialPageRoute(
-            builder: (context) => LandingPage(title: 'bespoke.bakes', loggedInUser: widget.loggedInUser)),
+            builder: (context) => LandingPage(
+                title: 'bespoke.bakes', loggedInUser: widget.loggedInUser)),
       );
     }
   }
