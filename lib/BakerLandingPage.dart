@@ -2,11 +2,11 @@
 import 'dart:convert';
 
 import 'package:bespoke_bakes/login.dart';
-import 'package:bespoke_bakes/quote_request_pg1.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
-import 'LandingPage.dart';
+import 'CaptureQuoteResponsePage.dart';
 
 
 class OccasionData {
@@ -40,16 +40,17 @@ class BakerLandingPage extends StatefulWidget {
 
 class _BakerLandingPageState extends State<BakerLandingPage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  Future<List<String>> getOccasionValues() async {
-    var baseUrl = "https://bespokebakes.azurewebsites.net/api/v1/lookup/occasion";
+
+  Future<List<Map<String, dynamic>>> getQuoteRequests() async {
+    var baseUrl = "https://bespokebakes.azurewebsites.net/admin/quote-request";
 
     http.Response response = await http.get(Uri.parse(baseUrl));
 
     if (response.statusCode == 200) {
-      List<String> items = [];
+      List<Map<String, dynamic>> items = [];
       var jsonData = json.decode(response.body) as List;
       for (var element in jsonData) {
-        items.add(element);
+                items.add(element);
       }
       return items;
     } else {
@@ -187,8 +188,8 @@ class _BakerLandingPageState extends State<BakerLandingPage> {
                           height: 500,
                           decoration: BoxDecoration(),
                           child:
-                          FutureBuilder<List<String>>(
-                              future: getOccasionValues(),
+                          FutureBuilder<List<Map<String, dynamic>>>(
+                              future: getQuoteRequests(),
                               builder: (context, snapshot) {
                                 if (snapshot.hasData) {
                                   var data = snapshot.data!;
@@ -202,9 +203,25 @@ class _BakerLandingPageState extends State<BakerLandingPage> {
                                       scrollDirection: Axis.vertical,
                                       itemCount: data.length,
                                       itemBuilder: (context, gridViewIndex) {
-                                        final gridViewOccasion =
-                                        data[gridViewIndex];
-                                        return Card(
+                                        Map qrMap = data[gridViewIndex];
+                                        final gridViewOccasion = qrMap["occasion"];
+                                        final gridViewDateReqdDateTime = DateFormat("yyyy-MM-dd").parse(qrMap["dateTimeRequired"]);
+                                        final gridViewDateReqd = DateFormat("yyyy-MM-dd").format(gridViewDateReqdDateTime);
+                                        final selectedQuoteRequestId = qrMap["id"];
+
+                                        return GestureDetector(
+                                          onTap: () {
+                                            ScaffoldMessenger.of(context).showSnackBar(
+                                                SnackBar(content: Text('Gesture Detected!')));
+
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                   QuoteResponsePage(title: 'bespoke.bakes', quoteRequestId: selectedQuoteRequestId)),
+                                            );
+                                          },
+                                          child: Card (
                                           clipBehavior: Clip.antiAliasWithSaveLayer,
                                           color: Colors.white,
                                           elevation: 4,
@@ -216,18 +233,12 @@ class _BakerLandingPageState extends State<BakerLandingPage> {
                                             focusColor: Colors.transparent,
                                             hoverColor: Colors.transparent,
                                             highlightColor: Colors.transparent,
-                                            onTap: () async {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        QuoteRequestPage(title: 'bespoke.bakes', occasion: gridViewOccasion.isNotEmpty? gridViewOccasion: 'Loading')),
-                                              );
-                                            },
+
                                             child: Row(
                                               mainAxisSize: MainAxisSize.min,
                                               mainAxisAlignment: MainAxisAlignment.start,
                                               children: [
+                                                // icon
                                                 Expanded(
                                                   flex: 1,
                                                   child: Align(
@@ -248,6 +259,7 @@ class _BakerLandingPageState extends State<BakerLandingPage> {
                                                       ),
                                                   )
                                                 ),
+                                                //occasion
                                                 Expanded(
                                                     flex: 2,
                                                     child:
@@ -256,9 +268,19 @@ class _BakerLandingPageState extends State<BakerLandingPage> {
                                                       mainAxisAlignment: MainAxisAlignment.start,
                                                       children:  [
                                                         Padding(
-                                                          padding: EdgeInsetsDirectional
-                                                              .fromSTEB(5, 5, 5, 5),
+                                                          padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
                                                           child: Text(gridViewOccasion.isNotEmpty? gridViewOccasion: "Loading",
+                                                            textAlign: TextAlign.left,
+                                                            style: TextStyle(
+                                                              fontFamily: 'Urbanist',
+                                                              color: Color(0xFF76C6C5),
+                                                            ),
+                                                          ),
+                                                        ),
+
+                                                        Padding(
+                                                          padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
+                                                          child: Text(gridViewDateReqd.isNotEmpty? gridViewDateReqd: "Loading",
                                                             textAlign: TextAlign.left,
                                                             style: TextStyle(
                                                               fontFamily: 'Urbanist',
@@ -269,32 +291,13 @@ class _BakerLandingPageState extends State<BakerLandingPage> {
                                                       ],
                                                     ),
                                                 ),
-                                                Expanded(
-                                                    flex: 1,
-                                                    child:
-                                                    Column(
-                                                      mainAxisSize: MainAxisSize.min,
-                                                      children: [
-                                                        Padding(padding: EdgeInsetsDirectional.fromSTEB(5, 5, 5, 5),
-                                                            child:
-                                                            ElevatedButton(
-                                                                child: const Text('View'),
-                                                                onPressed: () {
-                                                                  Navigator.push(
-                                                                    context,
-                                                                    MaterialPageRoute(
-                                                                        builder: (context) =>
-                                                                        const LandingPage(title: 'bespoke.bakes')),
-                                                                  );
-                                                                }
-                                                            )
-                                                        )],
-                                                    )
-                                                )
+
                                               ],
+
                                             ),
                                           ),
-                                        );
+
+                                          ));
                                       });
                                 } else {
                                   return const CircularProgressIndicator();

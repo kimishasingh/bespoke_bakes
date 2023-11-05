@@ -5,6 +5,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
 
+import 'domain/quote_response_data.dart';
+
 class LookupService {
   Future<List<String>> getBudgetValues() async {
     var baseUrl = "https://bespokebakes.azurewebsites.net/api/v1/lookup/budget";
@@ -168,6 +170,42 @@ class LookupService {
     }
   }
 
+  Future<List<String>> getQuoteRequests() async {
+    var baseUrl =
+        "https://bespokebakes.azurewebsites.net/admin/quote-request";
+
+    http.Response response = await http.get(Uri.parse(baseUrl));
+
+    if (response.statusCode == 200) {
+      List<String> items = [];
+      var jsonData = json.decode(response.body) as List;
+      for (var element in jsonData) {
+        items.add(element);
+      }
+      return items;
+    } else {
+      throw response.statusCode;
+    }
+  }
+
+  Future<List<String>> getQuoteRequestById(int quoteRequestId) async {
+    var baseUrl =
+        "https://bespokebakes.azurewebsites.net/admin/quote-request/$quoteRequestId";
+
+    http.Response response = await http.get(Uri.parse(baseUrl));
+
+    if (response.statusCode == 200) {
+      List<String> items = [];
+      var jsonData = json.decode(response.body) as List;
+      for (var element in jsonData) {
+        items.add(element);
+      }
+      return items;
+    } else {
+      throw response.statusCode;
+    }
+  }
+
   Future<QuoteRequestData?> createQuoteRequest(QuoteRequestData quoteRequestData) async {
     final response = await http.post(
       Uri.parse('https://bespokebakes.azurewebsites.net/admin/quote-request'),
@@ -189,6 +227,29 @@ class LookupService {
       return null;
     }
   }
+
+  Future<QuoteResponseData?> createQuoteResponse(QuoteResponseData quoteResponseData) async {
+    final response = await http.post(
+      Uri.parse('https://bespokebakes.azurewebsites.net/admin/quote-response'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(quoteResponseData),
+    );
+
+    print(response.statusCode);
+    if (response.statusCode == 201) {
+      // If the server did return a 201 OK response,
+      // then parse the JSON.
+      return QuoteResponseData.fromJson(
+          jsonDecode(response.body) as Map<String, dynamic>);
+    } else {
+      // If the server returned a 404 response,
+      // then throw an exception.
+      return null;
+    }
+  }
+
 
   Future<UserData> login(LoginData loginData) async {
     final response = await http.post(
