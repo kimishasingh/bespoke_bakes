@@ -20,6 +20,8 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController passwordController = TextEditingController();
   String selectedRole = 'Buyer';
 
+  bool _passwordVisible = true;
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called
@@ -28,8 +30,8 @@ class _LoginPageState extends State<LoginPage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     List<DropdownMenuItem<String>> dropdownItems = [
-      DropdownMenuItem(child: Text('Buyer'), value: 'Buyer'),
-      DropdownMenuItem(child: Text('Baker'), value: 'Baker'),
+      const DropdownMenuItem(value: 'Buyer', child: Text('Buyer')),
+      const DropdownMenuItem(value: 'Baker', child: Text('Baker')),
     ];
 
     return Padding(
@@ -59,9 +61,18 @@ class _LoginPageState extends State<LoginPage> {
               obscureText: true,
               controller: passwordController,
               decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Password',
-                  helperText: 'Enter your password here'),
+                border: OutlineInputBorder(),
+                labelText: 'Password',
+                helperText: 'Enter your password here',
+              ),
+              onFieldSubmitted: (value) async {
+                LoginData loginData = LoginData(
+                    username: nameController.text,
+                    password: passwordController.text,
+                    roleName: selectedRole);
+                UserData user = await lookupService.login(loginData);
+                navigateToNextPage(context, user, selectedRole);
+              },
             ),
           ),
           Container(
