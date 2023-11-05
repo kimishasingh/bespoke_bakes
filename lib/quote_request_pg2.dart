@@ -1,11 +1,19 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:bespoke_bakes/domain/quote_request_data.dart';
 import 'package:bespoke_bakes/lookup_service.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
+import 'package:image_field/image_field.dart';
+import 'package:image_field/linear_progress_indicator_if.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_datetime_picker_bdaya/flutter_datetime_picker_bdaya.dart';
 
 import 'LandingPage.dart';
+
+typedef Progress = Function(double percent);
+
 
 class QuoteRequestPage2 extends StatefulWidget {
   const QuoteRequestPage2(
@@ -28,6 +36,44 @@ class _QuoteRequestPage2State extends State<QuoteRequestPage2> {
   final LookupService lookupService = LookupService();
   final _formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  dynamic remoteFiles;
+
+
+  Future<dynamic> uploadToServer(XFile? file,
+      {Progress? uploadProgress}) async {
+    final stream = file!.openRead();
+    int length = await file.length();
+    final client = new HttpClient();
+
+    final request = await client.postUrl(Uri.parse('URI'));
+    request.headers.add('Content-Type', 'application/octet-stream');
+    request.headers.add('Accept', '*/*');
+    request.headers.add('Content-Disposition', 'file; filename="${file.name}"');
+    request.headers.add('Authorization', 'Bearer ACCESS_TOKEN');
+    request.contentLength = length;
+
+    int byteCount = 0;
+    double percent = 0;
+    Stream<List<int>> stream2 = stream.transform(
+      StreamTransformer.fromHandlers(
+        handleData: (data, sink) {
+          byteCount += data.length;
+          if (uploadProgress != null) {
+            percent = (byteCount / length) * 100;
+            uploadProgress(percent);
+          }
+          sink.add(data);
+        },
+        handleError: (error, stack, sink) {},
+        handleDone: (sink) {
+          sink.close();
+        },
+      ),
+    );
+
+    await request.addStream(stream2);
+  }
 
   void initState() {
     dateTimeController.text = ""; //set the initial value of text field
@@ -76,6 +122,44 @@ class _QuoteRequestPage2State extends State<QuoteRequestPage2> {
 
   List<Widget> getFormWidget() {
     List<Widget> formWidget = [];
+
+    formWidget.add(
+      const SizedBox(height: 10),
+    );
+
+    formWidget.add(
+      //Remote Image upload
+      ImageField(
+          texts: const {
+            'fieldFormText': 'Upload images',
+            'titleText': 'Upload images'
+          },
+          files: remoteFiles != null
+              ? remoteFiles!.map((image) {
+            return ImageAndCaptionModel(
+                file: image, caption: image.alt.toString());
+          }).toList()
+              : [],
+          remoteImage: true,
+          onUpload: (dynamic pickedFile,
+              ControllerLinearProgressIndicatorIF?
+              controllerLinearProgressIndicator) async {
+            dynamic fileUploaded = await uploadToServer(
+              pickedFile,
+              uploadProgress: (percent) {
+                var uploadProgressPercentage = percent / 100;
+                controllerLinearProgressIndicator!
+                    .updateProgress(uploadProgressPercentage);
+              },
+            );
+            return fileUploaded;
+          },
+          onSave: (List<ImageAndCaptionModel>? imageAndCaptionList) {
+            remoteFiles = imageAndCaptionList;
+          }),
+
+    );
+
 
     formWidget.add(
       const SizedBox(height: 10),
