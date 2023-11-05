@@ -1,11 +1,15 @@
 import 'package:bespoke_bakes/domain/quote_request_data.dart';
 import 'package:bespoke_bakes/lookup_service.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_datetime_picker_bdaya/flutter_datetime_picker_bdaya.dart';
 
+import 'LandingPage.dart';
+
 class QuoteRequestPage2 extends StatefulWidget {
-  const QuoteRequestPage2({super.key, required this.title, required this.quoteRequestData});
+  const QuoteRequestPage2(
+      {super.key, required this.title, required this.quoteRequestData});
 
   final String title;
   final QuoteRequestData quoteRequestData;
@@ -120,11 +124,7 @@ class _QuoteRequestPage2State extends State<QuoteRequestPage2> {
           showTitleActions: true,
           minTime: DateTime.now(),
           maxTime: DateTime(2024, 1, 1, 0, 0, 0),
-          onChanged: (date) {
-            print('change $date');
-          },
           onConfirm: (date) {
-            print('confirm $date');
             dateTimeController.text =
                 DateFormat('yyyy-MM-dd HH:mm:ss').format(date);
           },
@@ -333,7 +333,7 @@ class _QuoteRequestPage2State extends State<QuoteRequestPage2> {
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4.0),
-          borderSide: BorderSide(color: Color(0xffc4bfbf), width: 1),
+          borderSide: const BorderSide(color: Color(0xffc4bfbf), width: 1),
         ),
         labelText: "Additional Info",
         floatingLabelAlignment: FloatingLabelAlignment.start,
@@ -362,30 +362,35 @@ class _QuoteRequestPage2State extends State<QuoteRequestPage2> {
     );
 
     formWidget.add(ElevatedButton(
-        onPressed: onPressedSubmit, child: const Text('Submit Request')));
+        onPressed: () async {
+          onPressedSubmit(context);
+        },
+        child: const Text('Submit Request')));
 
     return formWidget;
   }
 
-  void onPressedSubmit() {
+  Future<void> onPressedSubmit(BuildContext buildContext) async {
     var dateTime = dateTimeController.text;
     var delivery = selectedDeliveryOption.toString();
     var budget = selectedBudget.toString();
-    print('Date/Time: $dateTime');
-    print('Delivery: $delivery');
-    print('Budget: $budget');
 
-    DateTime tempDate = DateFormat("yyyy-MM-dd hh:mm:ss").parse(dateTime);
+    DateTime tempDate = DateFormat("yyyy-MM-dd HH:mm:ss").parse(dateTime);
 
-        _formKey.currentState?.save();
+    _formKey.currentState?.save();
     widget.quoteRequestData.dateTimeRequired = tempDate;
     widget.quoteRequestData.deliveryOption = delivery;
     widget.quoteRequestData.budget = budget;
     widget.quoteRequestData.additionalInfo = additionalInfoController.text;
 
-  lookupService.createQuoteRequest(widget.quoteRequestData);
-
-    ScaffoldMessenger.of(context)
-        .showSnackBar(const SnackBar(content: Text('Form Submitted')));
+    QuoteRequestData? response =
+        await lookupService.createQuoteRequest(widget.quoteRequestData);
+    if (response != null) {
+      Navigator.push(
+        buildContext,
+        MaterialPageRoute(
+            builder: (context) => const LandingPage(title: 'bespoke.bakes')),
+      );
+    }
   }
 }

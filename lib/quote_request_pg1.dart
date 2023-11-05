@@ -26,6 +26,7 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
   String selectedNoOfTiers="1";
   int selectedQuantity=1;
   TextEditingController descriptionController = TextEditingController();
+  TextEditingController icingColourController = TextEditingController();
 
   final LookupService lookupService = LookupService();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -133,6 +134,8 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
     formWidget.add(_buildIcingTypeDropDown());
     formWidget.add(_buildSizedBox(10));
     formWidget.add(_buildIcingFlavourDropDown());
+    formWidget.add(_buildSizedBox(10));
+    formWidget.add(_buildIcingColourTextFormField());
     formWidget.add(_buildSizedBox(10));
     formWidget.add(_buildDescriptionTextFormField());
     formWidget.add(_buildSizedBox(20));
@@ -780,6 +783,56 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
     );
   }
 
+  Widget _buildIcingColourTextFormField() {
+    return TextFormField(
+      controller: icingColourController,
+      obscureText: false,
+      maxLines: 1,
+      textAlignVertical: TextAlignVertical.top,
+      textAlign: TextAlign.start,
+      style: const TextStyle(
+        fontWeight: FontWeight.w400,
+        fontStyle: FontStyle.normal,
+        fontSize: 18,
+        color: Color(0xff000000),
+      ),
+      decoration: InputDecoration(
+        disabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(4.0),
+          borderSide: const BorderSide(color: Color(0xffc4bfbf), width: 1),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(4.0),
+          borderSide: const BorderSide(color: Color(0xffc4bfbf), width: 1),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(4.0),
+          borderSide: const BorderSide(color: Color(0xffc4bfbf), width: 1),
+        ),
+        labelText: "Icing Colour *",
+        floatingLabelAlignment: FloatingLabelAlignment.start,
+        floatingLabelStyle: const TextStyle(fontSize: 16, color: Color(0xffc4bfbf)),
+        labelStyle: const TextStyle(
+          fontWeight: FontWeight.w400,
+          fontStyle: FontStyle.normal,
+          fontSize: 18,
+          color: Color(0xFF76C6C5),
+        ),
+        hintText: "Enter Text",
+        hintStyle: const TextStyle(
+          fontWeight: FontWeight.w400,
+          fontStyle: FontStyle.normal,
+          fontSize: 18,
+          color: Color(0xff000000),
+        ),
+        filled: true,
+        fillColor: const Color(0xffffffff),
+        isDense: false,
+        contentPadding: const EdgeInsets.all(10),
+      ),
+    );
+  }
+
   Widget _buildDescriptionTextFormField() {
     return TextFormField(
       controller: descriptionController,
@@ -790,7 +843,7 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
       style: const TextStyle(
         fontWeight: FontWeight.w400,
         fontStyle: FontStyle.normal,
-        fontSize: 14,
+        fontSize: 18,
         color: Color(0xff000000),
       ),
       decoration: InputDecoration(
@@ -812,14 +865,14 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
         labelStyle: const TextStyle(
           fontWeight: FontWeight.w400,
           fontStyle: FontStyle.normal,
-          fontSize: 14,
+          fontSize: 18,
           color: Color(0xFF76C6C5),
         ),
         hintText: "Enter Text",
         hintStyle: const TextStyle(
           fontWeight: FontWeight.w400,
           fontStyle: FontStyle.normal,
-          fontSize: 12,
+          fontSize: 18,
           color: Color(0xff000000),
         ),
         filled: true,
@@ -838,12 +891,12 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
     _formKey.currentState?.save();
 
     if (_formKey.currentState!.validate()) {
-      print('Form is valid');
       QuoteRequestData pg1_Obj = QuoteRequestData(occasion: selectedOccasion,
           itemType: selectedItemType,
           cakeFlavour: selectedCakeFlavour,
           icingType: selectedIcingType,
           icingFlavour: selectedIcingFlavour,
+          icingColour: icingColourController.text,
           cakeSize: selectedCakeSize,
           quantity: selectedQuantity,
           dateTimeRequired: DateTime.now(),
@@ -861,8 +914,6 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
         MaterialPageRoute(
             builder: (context) => QuoteRequestPage2(title: 'bespoke.bakes', quoteRequestData: pg1_Obj)),
       );
-    } else {
-      print('Form is not valid');
     }
   }
 }
