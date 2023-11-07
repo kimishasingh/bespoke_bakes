@@ -1,4 +1,5 @@
 class QuoteRequestData {
+  int? id;
   String occasion;
   String itemType;
   String cakeFlavour;
@@ -37,6 +38,7 @@ class QuoteRequestData {
 
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'occasion': occasion,
       'itemType': itemType,
       'cakeFlavour': cakeFlavour,
@@ -76,6 +78,7 @@ class QuoteRequestData {
         userId: 0,
         bundleId: json['bundleId'] as int);
 
+    obj.id = json['id'] as int?;
     obj.numOfTiers = json['numOfTiers'] as int?;
     obj.description = json['description'] as String?;
     obj.genderIndicator = json['genderIndicator'] as String?;

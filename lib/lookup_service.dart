@@ -183,36 +183,28 @@ class LookupService {
     }
   }
 
-  Future<List<String>> getQuoteRequests() async {
+  Future<List<QuoteRequestData>> getQuoteRequests() async {
     var baseUrl = "https://bespokebakes.azurewebsites.net/admin/quote-request";
 
     http.Response response = await http.get(Uri.parse(baseUrl));
 
     if (response.statusCode == 200) {
-      List<String> items = [];
-      var jsonData = json.decode(response.body) as List;
-      for (var element in jsonData) {
-        items.add(element);
-      }
-      return items;
+      final Iterable decodeJson = jsonDecode(response.body);
+      return decodeJson.map((item) => QuoteRequestData.fromJson(item)).toList();
     } else {
       throw response.statusCode;
     }
   }
 
-  Future<List<String>> getQuoteRequestById(int quoteRequestId) async {
+  Future<QuoteRequestData> getQuoteRequestById(int quoteRequestId) async {
     var baseUrl =
         "https://bespokebakes.azurewebsites.net/admin/quote-request/$quoteRequestId";
 
     http.Response response = await http.get(Uri.parse(baseUrl));
 
     if (response.statusCode == 200) {
-      List<String> items = [];
-      var jsonData = json.decode(response.body) as List;
-      for (var element in jsonData) {
-        items.add(element);
-      }
-      return items;
+      return QuoteRequestData.fromJson(
+          jsonDecode(response.body) as Map<String, dynamic>);
     } else {
       throw response.statusCode;
     }
