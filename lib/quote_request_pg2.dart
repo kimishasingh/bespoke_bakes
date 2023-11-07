@@ -11,7 +11,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_datetime_picker_bdaya/flutter_datetime_picker_bdaya.dart';
 
-import 'LandingPage.dart';
+import 'landing_page.dart';
 import 'domain/user_data.dart';
 
 typedef Progress = Function(double percent);

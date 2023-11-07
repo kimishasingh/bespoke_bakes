@@ -1,10 +1,10 @@
-import 'package:bespoke_bakes/BakerLandingPage.dart';
+import 'package:bespoke_bakes/baker_landing_page.dart';
 import 'package:bespoke_bakes/domain/login_data.dart';
 import 'package:bespoke_bakes/domain/user_data.dart';
 import 'package:bespoke_bakes/lookup_service.dart';
 import 'package:flutter/material.dart';
 
-import 'LandingPage.dart';
+import 'landing_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

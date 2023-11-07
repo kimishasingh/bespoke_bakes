@@ -4,7 +4,7 @@ import 'package:bespoke_bakes/lookup_service.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import 'CaptureQuoteResponsePage.dart';
+import 'capture_quote_response_page.dart';
 
 class BakerLandingPage extends StatefulWidget {
   const BakerLandingPage({super.key, required this.title});
