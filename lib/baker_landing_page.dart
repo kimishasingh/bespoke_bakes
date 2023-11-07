@@ -1,3 +1,4 @@
+import 'package:bespoke_bakes/domain/location_data.dart';
 import 'package:bespoke_bakes/domain/quote_request_data.dart';
 import 'package:bespoke_bakes/login.dart';
 import 'package:bespoke_bakes/lookup_service.dart';
@@ -18,6 +19,7 @@ class BakerLandingPage extends StatefulWidget {
 class _BakerLandingPageState extends State<BakerLandingPage> {
   final LookupService lookupService = LookupService();
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  String selectedLocationId = "1";
 
   @override
   Widget build(BuildContext context) {
@@ -135,6 +137,73 @@ class _BakerLandingPageState extends State<BakerLandingPage> {
             ),
           ),
 
+          // Location Selector
+          Padding(
+            padding: const EdgeInsetsDirectional.fromSTEB(12, 15, 12, 12),
+            child: FutureBuilder<List<LocationData>>(
+              future: lookupService.getLocationValues(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  var data = snapshot.data!;
+                  selectedLocationId = data[0].id.toString();
+                  return DropdownButtonFormField(
+                    decoration: InputDecoration(
+                      labelText: 'Location',
+                      border: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            color: Colors.grey,
+                            width: 2,
+                          ),
+                          borderRadius: BorderRadius.circular(8)),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(
+                          color: Color(0x00000000),
+                          width: 2,
+                        ),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(
+                          color: Color(0x00000000),
+                          width: 2,
+                        ),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(
+                          color: Color(0x00000000),
+                          width: 2,
+                        ),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      filled: true,
+                      fillColor: Colors.white,
+                      contentPadding:
+                          const EdgeInsetsDirectional.fromSTEB(8, 8, 0, 8),
+                    ),
+                    style:
+                        const TextStyle(fontSize: 20, color: Color(0xFF8B97A2)),
+                    value: selectedLocationId,
+                    icon: const Icon(Icons.keyboard_arrow_down),
+                    items: data.map((LocationData item) {
+                      return DropdownMenuItem(
+                        value: item.id.toString(),
+                        child: Text(item.name),
+                      );
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        selectedLocationId = newValue!;
+                      });
+                    },
+                  );
+                } else {
+                  return const CircularProgressIndicator();
+                }
+              },
+            ),
+          ),
+
           //Quote requests List
 
           Padding(
@@ -164,7 +233,8 @@ class _BakerLandingPageState extends State<BakerLandingPage> {
                                   data[gridViewIndex];
                               final gridViewOccasion =
                                   currentQuoteRequest.occasion;
-                              final gridViewDateReqd = DateFormat("yyyy-MM-dd").format(currentQuoteRequest.dateTimeRequired);
+                              final gridViewDateReqd = DateFormat("yyyy-MM-dd")
+                                  .format(currentQuoteRequest.dateTimeRequired);
                               final selectedQuoteRequest = currentQuoteRequest;
 
                               return GestureDetector(
