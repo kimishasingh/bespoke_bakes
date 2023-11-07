@@ -20,7 +20,13 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController passwordController = TextEditingController();
   String selectedRole = 'Buyer';
 
-  bool _passwordVisible = true;
+  bool _showPassword = false;
+
+  void _togglevisibility() {
+    setState(() {
+      _showPassword = !_showPassword;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,12 +64,20 @@ class _LoginPageState extends State<LoginPage> {
           Container(
             padding: const EdgeInsets.all(10),
             child: TextFormField(
-              obscureText: true,
+              obscureText: !_showPassword,
               controller: passwordController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                border: const OutlineInputBorder(),
                 labelText: 'Password',
                 helperText: 'Enter your password here',
+                suffixIcon: GestureDetector(
+                  onTap: () {
+                    _togglevisibility();
+                  },
+                  child: Icon(
+                    _showPassword ? Icons.visibility : Icons.visibility_off,
+                  ),
+                ),
               ),
               onFieldSubmitted: (value) async {
                 LoginData loginData = LoginData(
