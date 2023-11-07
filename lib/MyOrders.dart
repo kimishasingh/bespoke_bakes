@@ -1,7 +1,6 @@
 
 import 'dart:convert';
 
-import 'package:bespoke_bakes/login.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
@@ -124,7 +123,7 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
                                   message: 'Back',
                                   child: Icon(
                                     Icons.arrow_back_sharp,
-                                    color: Color(0xFF76C6C5),
+                                    color: Colors.white,
                                     size: 24,
                                   )),
                             ),

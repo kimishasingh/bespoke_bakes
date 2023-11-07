@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bespoke_bakes/MyOrders.dart';
 import 'package:bespoke_bakes/MyQuoteRequestsPage.dart';
 import 'package:bespoke_bakes/domain/user_data.dart';
 import 'package:bespoke_bakes/main.dart';
@@ -337,7 +338,13 @@ class _LandingPageState extends State<LandingPage> {
               leading: const Icon(Icons.shopping_cart),
               title: const Text(' My Orders '),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                        const MyOrdersPage(title: "My Orders")
+                    )
+                );
               },
             ),
             ListTile(

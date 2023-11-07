@@ -1,8 +1,6 @@
 
 import 'dart:convert';
 
-import 'package:bespoke_bakes/MyOrders.dart';
-import 'package:bespoke_bakes/login.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
@@ -160,12 +158,13 @@ class _MyQuoteRequestsPageState extends State<MyQuoteRequestsPage> {
                                         ScaffoldMessenger.of(context).showSnackBar(
                                             SnackBar(content: Text('Gesture Detected!')));
 
+                                       /* Should navigate to view of quote responses for the selected quote as well as a summary of the quote
                                        Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
                                                   MyOrdersPage(title: 'My Orders')),
-                                        );
+                                        );*/
                                       },
                                       child: Card (
                                         clipBehavior: Clip.antiAliasWithSaveLayer,
