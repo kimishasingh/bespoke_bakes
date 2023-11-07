@@ -1,3 +1,4 @@
+import 'package:bespoke_bakes/domain/location_data.dart';
 import 'package:bespoke_bakes/domain/login_data.dart';
 import 'package:bespoke_bakes/domain/quote_request_data.dart';
 import 'package:bespoke_bakes/domain/user_data.dart';
@@ -42,7 +43,6 @@ class LookupService {
       throw response.statusCode;
     }
   }
-
 
   Future<List<String>> getCakeSizeValues() async {
     var baseUrl =
@@ -170,9 +170,21 @@ class LookupService {
     }
   }
 
+  Future<List<LocationData>> getLocationValues() async {
+    var baseUrl = "https://bespokebakes.azurewebsites.net/admin/location";
+
+    http.Response response = await http.get(Uri.parse(baseUrl));
+
+    if (response.statusCode == 200) {
+      final Iterable decodeJson = jsonDecode(response.body);
+      return decodeJson.map((item) => LocationData.fromJson(item)).toList();
+    } else {
+      throw response.statusCode;
+    }
+  }
+
   Future<List<String>> getQuoteRequests() async {
-    var baseUrl =
-        "https://bespokebakes.azurewebsites.net/admin/quote-request";
+    var baseUrl = "https://bespokebakes.azurewebsites.net/admin/quote-request";
 
     http.Response response = await http.get(Uri.parse(baseUrl));
 
@@ -206,7 +218,8 @@ class LookupService {
     }
   }
 
-  Future<QuoteRequestData?> createQuoteRequest(QuoteRequestData quoteRequestData) async {
+  Future<QuoteRequestData?> createQuoteRequest(
+      QuoteRequestData quoteRequestData) async {
     final response = await http.post(
       Uri.parse('https://bespokebakes.azurewebsites.net/admin/quote-request'),
       headers: <String, String>{
@@ -215,7 +228,6 @@ class LookupService {
       body: jsonEncode(quoteRequestData),
     );
 
-    print(response.statusCode);
     if (response.statusCode == 201) {
       // If the server did return a 201 OK response,
       // then parse the JSON.
@@ -228,7 +240,8 @@ class LookupService {
     }
   }
 
-  Future<QuoteResponseData?> createQuoteResponse(QuoteResponseData quoteResponseData) async {
+  Future<QuoteResponseData?> createQuoteResponse(
+      QuoteResponseData quoteResponseData) async {
     final response = await http.post(
       Uri.parse('https://bespokebakes.azurewebsites.net/admin/quote-response'),
       headers: <String, String>{
@@ -249,7 +262,6 @@ class LookupService {
       return null;
     }
   }
-
 
   Future<UserData> login(LoginData loginData) async {
     final response = await http.post(

@@ -18,6 +18,7 @@ class QuoteRequestData {
   String? additionalInfo;
   int userId;
   int bundleId;
+  int? locationId;
 
   QuoteRequestData(
       {required this.occasion,
@@ -54,7 +55,8 @@ class QuoteRequestData {
       'budget': budget,
       'additionalInfo': additionalInfo,
       'userId': userId,
-      'bundleId': bundleId
+      'bundleId': bundleId,
+      'locationId': locationId
     };
   }
 
@@ -80,6 +82,7 @@ class QuoteRequestData {
     obj.locationLongitude = json['locationLongitude'] as double?;
     obj.locationLatitude = json['locationLatitude'] as double?;
     obj.additionalInfo = json['additionalInfo'] as String?;
+    obj.locationId = json['locationId'] as int?;
 
     return obj;
   }

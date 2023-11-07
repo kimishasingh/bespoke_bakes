@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:bespoke_bakes/domain/location_data.dart';
 import 'package:bespoke_bakes/domain/quote_request_data.dart';
 import 'package:bespoke_bakes/lookup_service.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +33,7 @@ class QuoteRequestPage2 extends StatefulWidget {
 
 class _QuoteRequestPage2State extends State<QuoteRequestPage2> {
   String? selectedDeliveryOption;
+  String? selectedLocation;
   String? selectedBudget;
 
   TextEditingController dateTimeController = TextEditingController();
@@ -168,10 +170,11 @@ class _QuoteRequestPage2State extends State<QuoteRequestPage2> {
 
     //Date picker
     formWidget.add(TextFormField(
-      controller: dateTimeController, //editing controller of this TextField
+      controller: dateTimeController,
+      //editing controller of this TextField
       decoration: InputDecoration(
         //icon: Icon(Icons.calendar_today), //icon of text field
-        labelText: "Date/Time Order Required",
+        labelText: "Date/Time Order Required *",
         //label text of field
         enabledBorder: OutlineInputBorder(
           borderSide: const BorderSide(
@@ -202,7 +205,8 @@ class _QuoteRequestPage2State extends State<QuoteRequestPage2> {
           borderRadius: BorderRadius.circular(8),
         ),
       ),
-      readOnly: true, //set it true, so that user will not able to edit text
+      readOnly: true,
+      //set it true, so that user will not able to edit text
       onTap: () async {
         DatePickerBdaya.showDateTimePicker(
           context,
@@ -216,6 +220,13 @@ class _QuoteRequestPage2State extends State<QuoteRequestPage2> {
           currentTime: DateTime.now(),
           locale: LocaleType.en,
         );
+      },
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please select a Date/Time';
+        }
+        return null;
       },
     ));
 
@@ -298,6 +309,102 @@ class _QuoteRequestPage2State extends State<QuoteRequestPage2> {
                 setState(() {
                   selectedDeliveryOption = newValue!;
                 });
+              },
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please select a Delivery option';
+                }
+                return null;
+              },
+            );
+          } else {
+            return const CircularProgressIndicator();
+          }
+        },
+      ),
+    );
+
+    formWidget.add(
+      const SizedBox(height: 10),
+    );
+
+    formWidget.add(
+      FutureBuilder<List<LocationData>>(
+        future: lookupService.getLocationValues(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            var data = snapshot.data!;
+            return DropdownButtonFormField(
+              decoration: InputDecoration(
+                labelText: 'Location *',
+                labelStyle: const TextStyle(
+                  fontWeight: FontWeight.w400,
+                  fontStyle: FontStyle.normal,
+                  fontSize: 14,
+                  color: Color(0xFF76C6C5),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(
+                    color: Colors.grey,
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(
+                    color: Color(0x00000000),
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                errorBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(
+                    color: Color(0x00000000),
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                focusedErrorBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(
+                    color: Color(0x00000000),
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                filled: true,
+                fillColor: Colors.white,
+                contentPadding:
+                    const EdgeInsetsDirectional.fromSTEB(8, 8, 0, 8),
+              ),
+              style: const TextStyle(fontSize: 20, color: Color(0xFF8B97A2)),
+              // Initial Value
+              value: selectedLocation,
+              hint: const Text(' '),
+
+              // Down Arrow Icon
+              icon: const Icon(Icons.keyboard_arrow_down),
+
+              // Array list of items
+              items: data.map((LocationData item) {
+                return DropdownMenuItem(
+                  value: item.id.toString(),
+                  child: Text(item.name),
+                );
+              }).toList(),
+              // After selecting the desired option,it will
+              // change button value to selected value
+              onChanged: (String? newValue) {
+                setState(() {
+                  selectedLocation = newValue!;
+                });
+              },
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please select a Location';
+                }
+                return null;
               },
             );
           } else {
@@ -382,6 +489,13 @@ class _QuoteRequestPage2State extends State<QuoteRequestPage2> {
                   selectedBudget = newValue!;
                 });
               },
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please select a Budget range';
+                }
+                return null;
+              },
             );
           } else {
             return const CircularProgressIndicator();
@@ -456,27 +570,34 @@ class _QuoteRequestPage2State extends State<QuoteRequestPage2> {
   }
 
   Future<void> onPressedSubmit(BuildContext buildContext) async {
-    var dateTime = dateTimeController.text;
-    var delivery = selectedDeliveryOption.toString();
-    var budget = selectedBudget.toString();
-
-    DateTime tempDate = DateFormat("yyyy-MM-dd HH:mm:ss").parse(dateTime);
-
     _formKey.currentState?.save();
-    widget.quoteRequestData.dateTimeRequired = tempDate;
-    widget.quoteRequestData.deliveryOption = delivery;
-    widget.quoteRequestData.budget = budget;
-    widget.quoteRequestData.additionalInfo = additionalInfoController.text;
 
-    QuoteRequestData? response =
-        await lookupService.createQuoteRequest(widget.quoteRequestData);
-    if (response != null) {
-      Navigator.push(
-        buildContext,
-        MaterialPageRoute(
-            builder: (context) => LandingPage(
-                title: 'bespoke.bakes', loggedInUser: widget.loggedInUser)),
-      );
+    if (_formKey.currentState!.validate()) {
+      var dateTime = dateTimeController.text;
+      var delivery = selectedDeliveryOption.toString();
+      var budget = selectedBudget.toString();
+      var location =
+          selectedLocation != null ? int.parse(selectedLocation!) : null;
+
+      DateTime tempDate = DateFormat("yyyy-MM-dd HH:mm:ss").parse(dateTime);
+
+      _formKey.currentState?.save();
+      widget.quoteRequestData.dateTimeRequired = tempDate;
+      widget.quoteRequestData.deliveryOption = delivery;
+      widget.quoteRequestData.budget = budget;
+      widget.quoteRequestData.additionalInfo = additionalInfoController.text;
+      widget.quoteRequestData.locationId = location;
+
+      QuoteRequestData? response =
+          await lookupService.createQuoteRequest(widget.quoteRequestData);
+      if (response != null) {
+        Navigator.push(
+          buildContext,
+          MaterialPageRoute(
+              builder: (context) => LandingPage(
+                  title: 'bespoke.bakes', loggedInUser: widget.loggedInUser)),
+        );
+      }
     }
   }
 }

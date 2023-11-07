@@ -838,6 +838,13 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
         isDense: false,
         contentPadding: const EdgeInsets.all(10),
       ),
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please enter an Icing colour';
+        }
+        return null;
+      },
     );
   }
 
