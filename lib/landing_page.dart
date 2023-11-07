@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bespoke_bakes/MyQuoteRequestsPage.dart';
 import 'package:bespoke_bakes/domain/user_data.dart';
 import 'package:bespoke_bakes/main.dart';
 import 'package:bespoke_bakes/quote_request_pg1.dart';
@@ -53,6 +54,21 @@ class _LandingPageState extends State<LandingPage> {
             borderRadius: BorderRadius.zero,
           ),
           actions: <Widget>[
+            //Notifications
+            IconButton(
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const MyApp())); // change to Notification Panel
+              },
+              icon: const Tooltip(
+                  message: 'Notifications',
+                  child: Icon(
+                    Icons.notifications,
+                    color: Color(0xFF76C6C5),
+                    size: 24,
+                  )),
+            ),
+            //Exit
             IconButton(
               onPressed: () {
                 Navigator.push(context,
@@ -308,8 +324,14 @@ class _LandingPageState extends State<LandingPage> {
               leading: const Icon(Icons.request_quote),
               title: const Text(' My Quote Requests '),
               onTap: () {
-                Navigator.pop(context);
-              },
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                        const MyQuoteRequestsPage(title: "My Quote Requests")
+                    )
+                );
+                },
             ),
             ListTile(
               leading: const Icon(Icons.shopping_cart),
