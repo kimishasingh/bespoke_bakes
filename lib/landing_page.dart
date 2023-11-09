@@ -47,9 +47,12 @@ class _LandingPageState extends State<LandingPage> {
       backgroundColor: Colors.white,
       appBar: AppBar(
           elevation: 1,
-          title: Image.asset('assets/images/Picture5.png',
-              fit: BoxFit.fitHeight, height: 40),
-          automaticallyImplyLeading: false,
+          title:  Image.asset('assets/images/Picture5.png',
+              fit: BoxFit.fitHeight, height: 40)
+          ,
+          centerTitle: false,
+          automaticallyImplyLeading: true,
+          iconTheme: IconThemeData(color: Color(0xFF76C6C5)),
           backgroundColor: Colors.white,
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.zero,
@@ -136,11 +139,11 @@ class _LandingPageState extends State<LandingPage> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        'Let\'s bring your cake creations to life!',
+                        'Let\'s bring your cake visions to life!',
                         style: TextStyle(
                           fontFamily: 'Urbanist',
                           color: Colors.grey,
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.w400,
                         ),
                       ),
                     ],
@@ -309,7 +312,7 @@ class _LandingPageState extends State<LandingPage> {
                   backgroundColor: const Color(0xFF76C6C5),
                   child: Text(
                     widget.loggedInUser.name.substring(0, 1),
-                    style: const TextStyle(fontSize: 30.0, color: Color(0xFFFC4C69)),
+                    style: const TextStyle(fontSize: 30.0, color: Colors.white),
                   ), //Text
                 ), //circleAvatar
               ), //UserAccountDrawerHeader

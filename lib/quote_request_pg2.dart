@@ -93,14 +93,16 @@ class _QuoteRequestPage2State extends State<QuoteRequestPage2> {
         backgroundColor: Colors.white,
         appBar: AppBar(
           iconTheme: const IconThemeData(
-            color: Colors.black, //change your color here
+            color: Color(0xFFFC4C69), //change your color here
           ),
           leading: BackButton(),
-          title: const Text('Tell us more',
+          title: const Text('Almost done...',
               style: TextStyle(
                   fontFamily: 'Urbanist',
-                  color: Colors.black,
-                  fontWeight: FontWeight.w400)),
+                  fontSize: 16,
+                  color: Color(0xFFFC4C69),
+                  fontWeight: FontWeight.w400
+              )),
           backgroundColor: Colors.white,
         ),
         body: SingleChildScrollView(
@@ -165,6 +167,21 @@ class _QuoteRequestPage2State extends State<QuoteRequestPage2> {
     );
 
     formWidget.add(
+      Card(
+        elevation: 0,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children:[
+            Image.asset(
+                'assets/images/hpcake.jpg',
+                width: 60,
+                height: 100)
+          ]
+        )
+      )
+    );
+
+    formWidget.add(
       const SizedBox(height: 10),
     );
 
@@ -176,31 +193,34 @@ class _QuoteRequestPage2State extends State<QuoteRequestPage2> {
         //icon: Icon(Icons.calendar_today), //icon of text field
         labelText: "Date/Time Order Required *",
         //label text of field
+        labelStyle: Theme.of(context).textTheme.labelMedium,
+        floatingLabelStyle: Theme.of(context).textTheme.titleMedium,
+        hintStyle: Theme.of(context).textTheme.titleMedium,
         enabledBorder: OutlineInputBorder(
           borderSide: const BorderSide(
-            color: Colors.grey,
-            width: 2,
+            color: Color(0xffc4bfbf),
+            width: 1,
           ),
           borderRadius: BorderRadius.circular(8),
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: const BorderSide(
-            color: Color(0x00000000),
-            width: 2,
+            color: Color(0xffc4bfbf),
+            width: 1,
           ),
           borderRadius: BorderRadius.circular(8),
         ),
         errorBorder: OutlineInputBorder(
           borderSide: const BorderSide(
-            color: Color(0x00000000),
-            width: 2,
+            color: Colors.redAccent,
+            width: 1,
           ),
           borderRadius: BorderRadius.circular(8),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderSide: const BorderSide(
-            color: Color(0x00000000),
-            width: 2,
+            color: Colors.red,
+            width: 1,
           ),
           borderRadius: BorderRadius.circular(8),
         ),
@@ -249,37 +269,35 @@ class _QuoteRequestPage2State extends State<QuoteRequestPage2> {
             return DropdownButtonFormField(
               decoration: InputDecoration(
                 labelText: 'Delivery Option *',
-                labelStyle: const TextStyle(
-                  fontWeight: FontWeight.w400,
-                  fontStyle: FontStyle.normal,
-                  fontSize: 14,
-                  color: Color(0xFF76C6C5),
-                ),
+                labelStyle: Theme.of(context).textTheme.labelMedium,
+                floatingLabelStyle: Theme.of(context).textTheme.titleMedium,
+                hintText: 'Select your preference',
+                hintStyle: Theme.of(context).textTheme.titleMedium,
                 enabledBorder: OutlineInputBorder(
                   borderSide: const BorderSide(
-                    color: Colors.grey,
-                    width: 2,
+                    color: Color(0xffc4bfbf),
+                    width: 1,
                   ),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderSide: const BorderSide(
-                    color: Color(0x00000000),
-                    width: 2,
+                    color: Color(0xffc4bfbf),
+                    width: 1,
                   ),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 errorBorder: OutlineInputBorder(
                   borderSide: const BorderSide(
-                    color: Color(0x00000000),
-                    width: 2,
+                    color: Colors.redAccent,
+                    width: 1,
                   ),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 focusedErrorBorder: OutlineInputBorder(
                   borderSide: const BorderSide(
-                    color: Color(0x00000000),
-                    width: 2,
+                    color: Colors.red,
+                    width: 1,
                   ),
                   borderRadius: BorderRadius.circular(8),
                 ),
@@ -291,7 +309,6 @@ class _QuoteRequestPage2State extends State<QuoteRequestPage2> {
               style: const TextStyle(fontSize: 20, color: Color(0xFF8B97A2)),
               // Initial Value
               value: selectedDeliveryOption,
-              hint: const Text(' '),
 
               // Down Arrow Icon
               icon: const Icon(Icons.keyboard_arrow_down),
@@ -338,37 +355,35 @@ class _QuoteRequestPage2State extends State<QuoteRequestPage2> {
             return DropdownButtonFormField(
               decoration: InputDecoration(
                 labelText: 'Location *',
-                labelStyle: const TextStyle(
-                  fontWeight: FontWeight.w400,
-                  fontStyle: FontStyle.normal,
-                  fontSize: 14,
-                  color: Color(0xFF76C6C5),
-                ),
+                labelStyle: Theme.of(context).textTheme.labelMedium,
+                floatingLabelStyle: Theme.of(context).textTheme.titleMedium,
+                hintText: 'Select your location',
+                hintStyle: Theme.of(context).textTheme.titleMedium,
                 enabledBorder: OutlineInputBorder(
                   borderSide: const BorderSide(
-                    color: Colors.grey,
-                    width: 2,
+                    color: Color(0xffc4bfbf),
+                    width: 1,
                   ),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderSide: const BorderSide(
-                    color: Color(0x00000000),
-                    width: 2,
+                    color: Color(0xffc4bfbf),
+                    width: 1,
                   ),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 errorBorder: OutlineInputBorder(
                   borderSide: const BorderSide(
-                    color: Color(0x00000000),
-                    width: 2,
+                    color: Colors.redAccent,
+                    width: 1,
                   ),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 focusedErrorBorder: OutlineInputBorder(
                   borderSide: const BorderSide(
-                    color: Color(0x00000000),
-                    width: 2,
+                    color: Colors.red,
+                    width: 1,
                   ),
                   borderRadius: BorderRadius.circular(8),
                 ),
@@ -377,10 +392,8 @@ class _QuoteRequestPage2State extends State<QuoteRequestPage2> {
                 contentPadding:
                     const EdgeInsetsDirectional.fromSTEB(8, 8, 0, 8),
               ),
-              style: const TextStyle(fontSize: 20, color: Color(0xFF8B97A2)),
               // Initial Value
               value: selectedLocation,
-              hint: const Text(' '),
 
               // Down Arrow Icon
               icon: const Icon(Icons.keyboard_arrow_down),
@@ -428,37 +441,35 @@ class _QuoteRequestPage2State extends State<QuoteRequestPage2> {
             return DropdownButtonFormField(
               decoration: InputDecoration(
                 labelText: 'Budget Range *',
-                labelStyle: const TextStyle(
-                  fontWeight: FontWeight.w400,
-                  fontStyle: FontStyle.normal,
-                  fontSize: 14,
-                  color: Color(0xFF76C6C5),
-                ),
+                labelStyle: Theme.of(context).textTheme.labelMedium,
+                floatingLabelStyle: Theme.of(context).textTheme.titleMedium,
+                hintText: 'Select your price range',
+                hintStyle: Theme.of(context).textTheme.titleMedium,
                 enabledBorder: OutlineInputBorder(
                   borderSide: const BorderSide(
-                    color: Colors.grey,
-                    width: 2,
+                    color: Color(0xffc4bfbf),
+                    width: 1,
                   ),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderSide: const BorderSide(
-                    color: Color(0x00000000),
-                    width: 2,
+                    color: Color(0xffc4bfbf),
+                    width: 1,
                   ),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 errorBorder: OutlineInputBorder(
                   borderSide: const BorderSide(
-                    color: Color(0x00000000),
-                    width: 2,
+                    color: Colors.redAccent,
+                    width: 1,
                   ),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 focusedErrorBorder: OutlineInputBorder(
                   borderSide: const BorderSide(
-                    color: Color(0x00000000),
-                    width: 2,
+                    color: Colors.red,
+                    width: 1,
                   ),
                   borderRadius: BorderRadius.circular(8),
                 ),
@@ -470,8 +481,6 @@ class _QuoteRequestPage2State extends State<QuoteRequestPage2> {
               style: const TextStyle(fontSize: 20, color: Color(0xFF8B97A2)),
               // Initial Value
               value: selectedBudget,
-              hint: const Text(' '),
-
               // Down Arrow Icon
               icon: const Icon(Icons.keyboard_arrow_down),
 
@@ -512,42 +521,43 @@ class _QuoteRequestPage2State extends State<QuoteRequestPage2> {
     formWidget.add(TextFormField(
       controller: additionalInfoController,
       obscureText: false,
-      maxLines: 5,
+      maxLines: 3,
       textAlignVertical: TextAlignVertical.top,
       textAlign: TextAlign.start,
-      style: const TextStyle(
-        fontWeight: FontWeight.w400,
-        fontStyle: FontStyle.normal,
-        fontSize: 14,
-        color: Color(0xff000000),
-      ),
       decoration: InputDecoration(
-        disabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4.0),
-          borderSide: const BorderSide(color: Color(0xffc4bfbf), width: 1),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4.0),
-          borderSide: const BorderSide(color: Color(0xffc4bfbf), width: 1),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4.0),
-          borderSide: const BorderSide(color: Color(0xffc4bfbf), width: 1),
-        ),
         labelText: "Additional Info",
         floatingLabelAlignment: FloatingLabelAlignment.start,
-        labelStyle: const TextStyle(
-          fontWeight: FontWeight.w400,
-          fontStyle: FontStyle.normal,
-          fontSize: 14,
-          color: Color(0xFF76C6C5),
+        labelStyle: Theme.of(context).textTheme.labelMedium,
+        floatingLabelStyle: Theme.of(context).textTheme.titleMedium,
+        hintText: "Provide any additional info around allergies, delivery or collection information",
+        hintStyle: Theme.of(context).textTheme.titleMedium,
+        enabledBorder: OutlineInputBorder(
+          borderSide: const BorderSide(
+            color: Color(0xffc4bfbf),
+            width: 1,
+          ),
+          borderRadius: BorderRadius.circular(8),
         ),
-        hintText: "Enter Text",
-        hintStyle: const TextStyle(
-          fontWeight: FontWeight.w400,
-          fontStyle: FontStyle.normal,
-          fontSize: 12,
-          color: Color(0xff000000),
+        focusedBorder: OutlineInputBorder(
+          borderSide: const BorderSide(
+            color: Color(0xffc4bfbf),
+            width: 1,
+          ),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderSide: const BorderSide(
+            color: Colors.redAccent,
+            width: 1,
+          ),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderSide: const BorderSide(
+            color: Colors.red,
+            width: 1,
+          ),
+          borderRadius: BorderRadius.circular(8),
         ),
         filled: true,
         fillColor: const Color(0xffffffff),
@@ -591,6 +601,17 @@ class _QuoteRequestPage2State extends State<QuoteRequestPage2> {
       QuoteRequestData? response =
           await lookupService.createQuoteRequest(widget.quoteRequestData);
       if (response != null) {
+        final snackBar = SnackBar(
+          content: const Text('Quote Request Submitted!'),
+         /* action: SnackBarAction(
+            label: 'Undo',
+            onPressed: () {
+              // Some code to undo the change.
+            },
+          ),*/
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
         Navigator.push(
           buildContext,
           MaterialPageRoute(

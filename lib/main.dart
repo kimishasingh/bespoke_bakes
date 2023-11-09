@@ -18,8 +18,37 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSwatch().copyWith(
           primary: const Color(0xFF76C6C5),
           secondary: const Color(0xFFFC4C69),
-
         ),
+        textTheme: const TextTheme(
+          labelLarge: TextStyle(
+            fontWeight: FontWeight.w400,
+            fontStyle: FontStyle.normal,
+            color: Color(0xFF76C6C5),
+            fontSize: 18,
+          ),
+          labelMedium: TextStyle(
+            fontWeight: FontWeight.w400,
+            fontStyle: FontStyle.normal,
+            color: Color(0xFF76C6C5),
+            fontSize: 16,
+          ),
+          labelSmall: TextStyle(
+            fontWeight: FontWeight.w400,
+            fontStyle: FontStyle.normal,
+            color: Color(0xFF76C6C5),
+          fontSize: 14,
+          ),
+          titleMedium: TextStyle(
+            fontWeight: FontWeight.w400,
+            fontStyle: FontStyle.normal,
+            color: Colors.grey,
+            fontSize: 16,
+          ),
+          displayLarge: TextStyle(
+              color: Color(0xFFFC4C69),
+              fontWeight: FontWeight.w400
+          ),
+        )
       ),
 
       home: const Scaffold(

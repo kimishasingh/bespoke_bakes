@@ -49,15 +49,16 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         iconTheme: const IconThemeData(
-          color: Colors.black, //change your color here
+          color: Color(0xFFFC4C69), //change your color here
         ),
         leading: const BackButton(),
-        title: const Text('Tell us more',
+        title: const Text('Share your cake vision',
             style: TextStyle(
                 fontFamily: 'Urbanist',
-                color: Colors.black,
+                fontSize: 16,
+                color: Color(0xFFFC4C69),
                 fontWeight: FontWeight.w400)),
-        backgroundColor: Colors.white,
+            backgroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -180,30 +181,34 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
           return DropdownButtonFormField(
             decoration: InputDecoration(
               labelText: 'Occasion *',
-              border: OutlineInputBorder(
-                  borderSide: const BorderSide(
-                    color: Colors.grey,
-                    width: 2,
-                  ),
-                  borderRadius: BorderRadius.circular(8)),
+              labelStyle: Theme.of(context).textTheme.labelMedium,
+              floatingLabelStyle: Theme.of(context).textTheme.titleMedium,
+              hintStyle: Theme.of(context).textTheme.titleMedium,
+              enabledBorder: OutlineInputBorder(
+                borderSide: const BorderSide(
+                  color: Color(0xffc4bfbf),
+                  width: 1,
+                ),
+                borderRadius: BorderRadius.circular(8),
+              ),
               focusedBorder: OutlineInputBorder(
                 borderSide: const BorderSide(
-                  color: Color(0x00000000),
-                  width: 2,
+                  color: Color(0xffc4bfbf),
+                  width: 1,
                 ),
                 borderRadius: BorderRadius.circular(8),
               ),
               errorBorder: OutlineInputBorder(
                 borderSide: const BorderSide(
-                  color: Color(0x00000000),
-                  width: 2,
+                  color: Colors.redAccent,
+                  width: 1,
                 ),
                 borderRadius: BorderRadius.circular(8),
               ),
               focusedErrorBorder: OutlineInputBorder(
                 borderSide: const BorderSide(
-                  color: Color(0x00000000),
-                  width: 2,
+                  color: Colors.red,
+                  width: 1,
                 ),
                 borderRadius: BorderRadius.circular(8),
               ),
@@ -211,7 +216,6 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
               fillColor: Colors.white,
               contentPadding: const EdgeInsetsDirectional.fromSTEB(8, 8, 0, 8),
             ),
-            style: const TextStyle(fontSize: 20, color: Color(0xFF8B97A2)),
             value: selectedOccasion,
             icon: const Icon(Icons.keyboard_arrow_down),
             items: data.map((String items) {
@@ -249,31 +253,34 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
           return DropdownButtonFormField(
             decoration: InputDecoration(
               labelText: 'Who is it for?',
+              labelStyle: Theme.of(context).textTheme.labelMedium,
+              floatingLabelStyle: Theme.of(context).textTheme.titleMedium,
+              hintStyle: Theme.of(context).textTheme.titleMedium,
               enabledBorder: OutlineInputBorder(
                 borderSide: const BorderSide(
-                  color: Colors.grey,
-                  width: 2,
+                  color: Color(0xffc4bfbf),
+                  width: 1,
                 ),
                 borderRadius: BorderRadius.circular(8),
               ),
               focusedBorder: OutlineInputBorder(
                 borderSide: const BorderSide(
-                  color: Color(0x00000000),
-                  width: 2,
+                  color: Color(0xffc4bfbf),
+                  width: 1,
                 ),
                 borderRadius: BorderRadius.circular(8),
               ),
               errorBorder: OutlineInputBorder(
                 borderSide: const BorderSide(
-                  color: Color(0x00000000),
-                  width: 2,
+                  color: Colors.redAccent,
+                  width: 1,
                 ),
                 borderRadius: BorderRadius.circular(8),
               ),
               focusedErrorBorder: OutlineInputBorder(
                 borderSide: const BorderSide(
-                  color: Color(0x00000000),
-                  width: 2,
+                  color: Colors.red,
+                  width: 1,
                 ),
                 borderRadius: BorderRadius.circular(8),
               ),
@@ -281,7 +288,6 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
               fillColor: Colors.white,
               contentPadding: const EdgeInsetsDirectional.fromSTEB(8, 8, 0, 8),
             ),
-            style: const TextStyle(fontSize: 20, color: Color(0xFF8B97A2)),
             // Initial Value
             value: selectedGenderIndicator,
             hint: const Text(' '),
@@ -328,31 +334,34 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
           return DropdownButtonFormField(
             decoration: InputDecoration(
               labelText: 'Item Type *',
+              labelStyle: Theme.of(context).textTheme.labelMedium,
+              floatingLabelStyle: Theme.of(context).textTheme.titleMedium,
+              hintStyle: Theme.of(context).textTheme.titleMedium,
               enabledBorder: OutlineInputBorder(
                 borderSide: const BorderSide(
-                  color: Colors.grey,
-                  width: 2,
+                  color: Color(0xffc4bfbf),
+                  width: 1,
                 ),
                 borderRadius: BorderRadius.circular(8),
               ),
               focusedBorder: OutlineInputBorder(
                 borderSide: const BorderSide(
-                  color: Color(0x00000000),
-                  width: 2,
+                  color: Color(0xffc4bfbf),
+                  width: 1,
                 ),
                 borderRadius: BorderRadius.circular(8),
               ),
               errorBorder: OutlineInputBorder(
                 borderSide: const BorderSide(
-                  color: Color(0x00000000),
-                  width: 2,
+                  color: Colors.redAccent,
+                  width: 1,
                 ),
                 borderRadius: BorderRadius.circular(8),
               ),
               focusedErrorBorder: OutlineInputBorder(
                 borderSide: const BorderSide(
-                  color: Color(0x00000000),
-                  width: 2,
+                  color: Colors.red,
+                  width: 1,
                 ),
                 borderRadius: BorderRadius.circular(8),
               ),
@@ -360,7 +369,6 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
               fillColor: Colors.white,
               contentPadding: const EdgeInsetsDirectional.fromSTEB(8, 8, 0, 8),
             ),
-            style: const TextStyle(fontSize: 20, color: Color(0xFF8B97A2)),
             value: selectedItemType,
             hint: const Text(' '),
             icon: const Icon(Icons.keyboard_arrow_down),
@@ -399,31 +407,34 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
           return DropdownButtonFormField(
             decoration: InputDecoration(
               labelText: 'Cake Size *',
+              labelStyle: Theme.of(context).textTheme.labelMedium,
+              floatingLabelStyle: Theme.of(context).textTheme.titleMedium,
+              hintStyle: Theme.of(context).textTheme.titleMedium,
               enabledBorder: OutlineInputBorder(
                 borderSide: const BorderSide(
-                  color: Colors.grey,
-                  width: 2,
+                  color: Color(0xffc4bfbf),
+                  width: 1,
                 ),
                 borderRadius: BorderRadius.circular(8),
               ),
               focusedBorder: OutlineInputBorder(
                 borderSide: const BorderSide(
-                  color: Color(0x00000000),
-                  width: 2,
+                  color: Color(0xffc4bfbf),
+                  width: 1,
                 ),
                 borderRadius: BorderRadius.circular(8),
               ),
               errorBorder: OutlineInputBorder(
                 borderSide: const BorderSide(
-                  color: Color(0x00000000),
-                  width: 2,
+                  color: Colors.redAccent,
+                  width: 1,
                 ),
                 borderRadius: BorderRadius.circular(8),
               ),
               focusedErrorBorder: OutlineInputBorder(
                 borderSide: const BorderSide(
-                  color: Color(0x00000000),
-                  width: 2,
+                  color: Colors.red,
+                  width: 1,
                 ),
                 borderRadius: BorderRadius.circular(8),
               ),
@@ -431,7 +442,6 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
               fillColor: Colors.white,
               contentPadding: const EdgeInsetsDirectional.fromSTEB(8, 8, 0, 8),
             ),
-            style: const TextStyle(fontSize: 20, color: Color(0xFF8B97A2)),
             // Initial Value
             value: selectedCakeSize,
             hint: const Text(' '),
@@ -473,36 +483,38 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
           ),
         ),
       ],
+      initialValue: "1",
       // Only numbers can be entered
       decoration: InputDecoration(
         labelText: 'Quantity *',
-        floatingLabelStyle: const TextStyle(fontSize: 16, color: Colors.grey),
-        hintStyle: const TextStyle(fontSize: 20, color: Color(0xFF8B97A2)),
+        labelStyle: Theme.of(context).textTheme.labelMedium,
+        floatingLabelStyle: Theme.of(context).textTheme.titleMedium,
+        hintStyle: Theme.of(context).textTheme.titleMedium,
         enabledBorder: OutlineInputBorder(
           borderSide: const BorderSide(
-            color: Colors.grey,
-            width: 2,
+            color: Color(0xffc4bfbf),
+            width: 1,
           ),
           borderRadius: BorderRadius.circular(8),
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: const BorderSide(
-            color: Color(0x00000000),
-            width: 2,
+            color: Color(0xffc4bfbf),
+            width: 1,
           ),
           borderRadius: BorderRadius.circular(8),
         ),
         errorBorder: OutlineInputBorder(
           borderSide: const BorderSide(
-            color: Color(0x00000000),
-            width: 2,
+            color: Colors.redAccent,
+            width: 1,
           ),
           borderRadius: BorderRadius.circular(8),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderSide: const BorderSide(
-            color: Color(0x00000000),
-            width: 2,
+            color: Colors.red,
+            width: 1,
           ),
           borderRadius: BorderRadius.circular(8),
         ),
@@ -510,7 +522,6 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
         fillColor: Colors.white,
         contentPadding: const EdgeInsetsDirectional.fromSTEB(8, 8, 0, 8),
       ),
-      style: const TextStyle(fontSize: 20, color: Color(0xFF8B97A2)),
       autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
         if (value == null || value.isEmpty) {
@@ -526,41 +537,41 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
       keyboardType: TextInputType.number,
       decoration: InputDecoration(
         labelText: 'No. of Tiers *',
-        floatingLabelStyle: const TextStyle(fontSize: 16, color: Colors.grey),
-        hintStyle: const TextStyle(fontSize: 20, color: Color(0xFF8B97A2)),
+        labelStyle: Theme.of(context).textTheme.labelMedium,
+        floatingLabelStyle: Theme.of(context).textTheme.titleMedium,
+        hintStyle: Theme.of(context).textTheme.titleMedium,
         enabledBorder: OutlineInputBorder(
           borderSide: const BorderSide(
-            color: Colors.grey,
-            width: 2,
+            color: Color(0xffc4bfbf),
+            width: 1,
           ),
           borderRadius: BorderRadius.circular(8),
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: const BorderSide(
-            color: Color(0x00000000),
-            width: 2,
+            color: Color(0xffc4bfbf),
+            width: 1,
           ),
           borderRadius: BorderRadius.circular(8),
         ),
         errorBorder: OutlineInputBorder(
           borderSide: const BorderSide(
-            color: Color(0x00000000),
-            width: 2,
+            color: Colors.redAccent,
+            width: 1,
           ),
           borderRadius: BorderRadius.circular(8),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderSide: const BorderSide(
-            color: Color(0x00000000),
-            width: 2,
+            color: Colors.red,
+            width: 1,
           ),
           borderRadius: BorderRadius.circular(8),
         ),
         filled: true,
         fillColor: Colors.white,
-        contentPadding: EdgeInsetsDirectional.fromSTEB(8, 8, 0, 8),
+        contentPadding: const EdgeInsetsDirectional.fromSTEB(8, 8, 0, 8),
       ),
-      style: const TextStyle(fontSize: 20, color: Color(0xFF8B97A2)),
       initialValue: selectedNoOfTiers,
       onChanged: (String? newValue) {
         setState(() {
@@ -586,31 +597,33 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
           return DropdownButtonFormField(
             decoration: InputDecoration(
               labelText: 'Cake Flavour *',
+              labelStyle: Theme.of(context).textTheme.labelMedium,
+              floatingLabelStyle: Theme.of(context).textTheme.titleMedium,
               enabledBorder: OutlineInputBorder(
                 borderSide: const BorderSide(
-                  color: Colors.grey,
-                  width: 2,
+                  color: Color(0xffc4bfbf),
+                  width: 1,
                 ),
                 borderRadius: BorderRadius.circular(8),
               ),
               focusedBorder: OutlineInputBorder(
                 borderSide: const BorderSide(
-                  color: Color(0x00000000),
-                  width: 2,
+                  color: Color(0xffc4bfbf),
+                  width: 1,
                 ),
                 borderRadius: BorderRadius.circular(8),
               ),
               errorBorder: OutlineInputBorder(
                 borderSide: const BorderSide(
-                  color: Color(0x00000000),
-                  width: 2,
+                  color: Colors.redAccent,
+                  width: 1,
                 ),
                 borderRadius: BorderRadius.circular(8),
               ),
               focusedErrorBorder: OutlineInputBorder(
                 borderSide: const BorderSide(
-                  color: Color(0x00000000),
-                  width: 2,
+                  color: Colors.red,
+                  width: 1,
                 ),
                 borderRadius: BorderRadius.circular(8),
               ),
@@ -618,7 +631,6 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
               fillColor: Colors.white,
               contentPadding: const EdgeInsetsDirectional.fromSTEB(8, 8, 0, 8),
             ),
-            style: const TextStyle(fontSize: 20, color: Color(0xFF8B97A2)),
             value: selectedCakeFlavour,
             hint: const Text(' '),
             icon: const Icon(Icons.keyboard_arrow_down),
@@ -657,31 +669,33 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
           return DropdownButtonFormField(
             decoration: InputDecoration(
               labelText: 'Icing Type *',
+              labelStyle: Theme.of(context).textTheme.labelMedium,
+              floatingLabelStyle: Theme.of(context).textTheme.titleMedium,
               enabledBorder: OutlineInputBorder(
                 borderSide: const BorderSide(
-                  color: Colors.grey,
-                  width: 2,
+                  color: Color(0xffc4bfbf),
+                  width: 1,
                 ),
                 borderRadius: BorderRadius.circular(8),
               ),
               focusedBorder: OutlineInputBorder(
                 borderSide: const BorderSide(
-                  color: Color(0x00000000),
-                  width: 2,
+                  color: Color(0xffc4bfbf),
+                  width: 1,
                 ),
                 borderRadius: BorderRadius.circular(8),
               ),
               errorBorder: OutlineInputBorder(
                 borderSide: const BorderSide(
-                  color: Color(0x00000000),
-                  width: 2,
+                  color: Colors.redAccent,
+                  width: 1,
                 ),
                 borderRadius: BorderRadius.circular(8),
               ),
               focusedErrorBorder: OutlineInputBorder(
                 borderSide: const BorderSide(
-                  color: Color(0x00000000),
-                  width: 2,
+                  color: Colors.red,
+                  width: 1,
                 ),
                 borderRadius: BorderRadius.circular(8),
               ),
@@ -689,7 +703,6 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
               fillColor: Colors.white,
               contentPadding: const EdgeInsetsDirectional.fromSTEB(8, 8, 0, 8),
             ),
-            style: const TextStyle(fontSize: 20, color: Color(0xFF8B97A2)),
             value: selectedIcingType,
             hint: const Text(' '),
             icon: const Icon(Icons.keyboard_arrow_down),
@@ -728,31 +741,33 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
           return DropdownButtonFormField(
             decoration: InputDecoration(
               labelText: 'Icing Flavour *',
+              labelStyle: Theme.of(context).textTheme.labelMedium,
+              floatingLabelStyle: Theme.of(context).textTheme.titleMedium,
               enabledBorder: OutlineInputBorder(
                 borderSide: const BorderSide(
-                  color: Colors.grey,
-                  width: 2,
+                  color: Color(0xffc4bfbf),
+                  width: 1,
                 ),
                 borderRadius: BorderRadius.circular(8),
               ),
               focusedBorder: OutlineInputBorder(
                 borderSide: const BorderSide(
-                  color: Color(0x00000000),
-                  width: 2,
+                  color: Color(0xffc4bfbf),
+                  width: 1,
                 ),
                 borderRadius: BorderRadius.circular(8),
               ),
               errorBorder: OutlineInputBorder(
                 borderSide: const BorderSide(
-                  color: Color(0x00000000),
-                  width: 2,
+                  color: Colors.redAccent,
+                  width: 1,
                 ),
                 borderRadius: BorderRadius.circular(8),
               ),
               focusedErrorBorder: OutlineInputBorder(
                 borderSide: const BorderSide(
-                  color: Color(0x00000000),
-                  width: 2,
+                  color: Colors.red,
+                  width: 1,
                 ),
                 borderRadius: BorderRadius.circular(8),
               ),
@@ -760,7 +775,6 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
               fillColor: Colors.white,
               contentPadding: const EdgeInsetsDirectional.fromSTEB(8, 8, 0, 8),
             ),
-            style: const TextStyle(fontSize: 20, color: Color(0xFF8B97A2)),
             value: selectedIcingFlavour,
             hint: const Text(' '),
             icon: const Icon(Icons.keyboard_arrow_down),
@@ -797,12 +811,6 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
       maxLines: 1,
       textAlignVertical: TextAlignVertical.top,
       textAlign: TextAlign.start,
-      style: const TextStyle(
-        fontWeight: FontWeight.w400,
-        fontStyle: FontStyle.normal,
-        fontSize: 18,
-        color: Color(0xff000000),
-      ),
       decoration: InputDecoration(
         disabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4.0),
@@ -818,21 +826,10 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
         ),
         labelText: "Icing Colour *",
         floatingLabelAlignment: FloatingLabelAlignment.start,
-        floatingLabelStyle:
-            const TextStyle(fontSize: 16, color: Color(0xffc4bfbf)),
-        labelStyle: const TextStyle(
-          fontWeight: FontWeight.w400,
-          fontStyle: FontStyle.normal,
-          fontSize: 18,
-          color: Color(0xFF76C6C5),
-        ),
-        hintText: "Enter Text",
-        hintStyle: const TextStyle(
-          fontWeight: FontWeight.w400,
-          fontStyle: FontStyle.normal,
-          fontSize: 18,
-          color: Color(0xff000000),
-        ),
+        labelStyle: Theme.of(context).textTheme.labelMedium,
+        floatingLabelStyle: Theme.of(context).textTheme.titleMedium,
+        hintText: "List the icing colour(s) you want",
+        hintStyle: Theme.of(context).textTheme.titleMedium,
         filled: true,
         fillColor: const Color(0xffffffff),
         isDense: false,
@@ -855,13 +852,7 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
       maxLines: 5,
       textAlignVertical: TextAlignVertical.top,
       textAlign: TextAlign.start,
-      style: const TextStyle(
-        fontWeight: FontWeight.w400,
-        fontStyle: FontStyle.normal,
-        fontSize: 18,
-        color: Color(0xff000000),
-      ),
-      decoration: InputDecoration(
+            decoration: InputDecoration(
         disabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4.0),
           borderSide: const BorderSide(color: Color(0xffc4bfbf), width: 1),
@@ -876,21 +867,10 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
         ),
         labelText: "Description",
         floatingLabelAlignment: FloatingLabelAlignment.start,
-        floatingLabelStyle:
-            const TextStyle(fontSize: 16, color: Color(0xffc4bfbf)),
-        labelStyle: const TextStyle(
-          fontWeight: FontWeight.w400,
-          fontStyle: FontStyle.normal,
-          fontSize: 18,
-          color: Color(0xFF76C6C5),
-        ),
-        hintText: "Enter Text",
-        hintStyle: const TextStyle(
-          fontWeight: FontWeight.w400,
-          fontStyle: FontStyle.normal,
-          fontSize: 18,
-          color: Color(0xff000000),
-        ),
+        labelStyle: Theme.of(context).textTheme.labelMedium,
+        floatingLabelStyle: Theme.of(context).textTheme.titleMedium,
+        hintText: "Provide any details to help explain what your baked treat should look like",
+        hintStyle: Theme.of(context).textTheme.titleMedium,
         filled: true,
         fillColor: const Color(0xffffffff),
         isDense: false,
