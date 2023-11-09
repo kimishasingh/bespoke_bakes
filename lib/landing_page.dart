@@ -345,7 +345,7 @@ class _LandingPageState extends State<LandingPage> {
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                        const MyOrdersPage(title: "My Orders")
+                         MyOrdersPage(title: "My Orders", loggedInUser: widget.loggedInUser)
                     )
                 );
               },

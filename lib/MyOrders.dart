@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
+import 'domain/user_data.dart';
 import 'main.dart';
 
 class OccasionData {
@@ -13,9 +14,11 @@ class OccasionData {
 }
 
 class MyOrdersPage extends StatefulWidget {
-  const MyOrdersPage({super.key, required this.title});
+  const MyOrdersPage({super.key, required this.title,  required this.loggedInUser});
 
   final String title;
+  final UserData loggedInUser;
+
 
   @override
   State<MyOrdersPage> createState() => _MyOrdersPageState();
@@ -24,25 +27,20 @@ class MyOrdersPage extends StatefulWidget {
 class _MyOrdersPageState extends State<MyOrdersPage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
-  Future<List<Map<String, dynamic>>> getQuoteRequests() async {
+  Future<List<Map<String, dynamic>>> getAcceptedQuoteRequests() async {
     //this query needs to pull quote requests and responses that have been accepted
-    var baseUrl = "https://bespokebakes.azurewebsites.net/admin/quote-request";
+    var baseUrl = "https://bespokebakes.azurewebsites.net/admin/quote-request/accepted?userId=${widget.loggedInUser.userId}";
 
     http.Response response = await http.get(Uri.parse(baseUrl));
 
     if (response.statusCode == 200) {
       List<Map<String, dynamic>> items = [];
-      List<Map<String, dynamic>> filteredList = [];
       var jsonData = json.decode(response.body) as List;
       for (var element in jsonData) {
         items.add(element);
       }
-      for(var item in items){
-        if (item['quoteAccepted'] = true) {
-          filteredList.add(item);
-        }
-      }
-      return filteredList;
+
+      return items;
     } else {
       throw response.statusCode;
     }
@@ -156,7 +154,7 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
                     decoration: BoxDecoration(),
                     child:
                     FutureBuilder<List<Map<String, dynamic>>>(
-                        future: getQuoteRequests(),
+                        future: getAcceptedQuoteRequests(),
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
                             var data = snapshot.data!;
@@ -171,8 +169,8 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
                                 itemCount: data.length,
                                 itemBuilder: (context, gridViewIndex) {
                                   Map qrMap = data[gridViewIndex];
-                                  final gridViewOccasion = qrMap["occasion"];
-                                  final gridViewDateReqdDateTime = DateFormat("yyyy-MM-dd").parse(qrMap["dateTimeRequired"]);
+                                  final gridViewOccasion = qrMap["quoteRequest"]["occasion"];
+                                  final gridViewDateReqdDateTime = DateFormat("yyyy-MM-dd").parse(qrMap["quoteRequest"]["dateTimeRequired"]);
                                   final gridViewDateReqd = DateFormat("yyyy-MM-dd").format(gridViewDateReqdDateTime);
                                   final selectedQuoteRequestId = qrMap["id"];
 
