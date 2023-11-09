@@ -123,7 +123,7 @@ class _BakerLandingPageState extends State<BakerLandingPage> {
                     child: const Align(
                       alignment: AlignmentDirectional(0, 0),
                       child: Text(
-                        'Quote Requests',
+                        'Available Quote Requests',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontFamily: 'Poppins',
@@ -148,31 +148,34 @@ class _BakerLandingPageState extends State<BakerLandingPage> {
                   selectedLocationId = data[0].id.toString();
                   return DropdownButtonFormField(
                     decoration: InputDecoration(
-                      labelText: 'Location',
-                      border: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                            color: Colors.grey,
-                            width: 2,
-                          ),
-                          borderRadius: BorderRadius.circular(8)),
+                      labelText: 'Filter by Location',
+                      labelStyle: Theme.of(context).textTheme.labelSmall,
+                      floatingLabelStyle: Theme.of(context).textTheme.labelSmall,
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(
+                          color: Color(0xffc4bfbf),
+                          width: 1,
+                        ),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
                       focusedBorder: OutlineInputBorder(
                         borderSide: const BorderSide(
-                          color: Color(0x00000000),
-                          width: 2,
+                          color: Color(0xffc4bfbf),
+                          width: 1,
                         ),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       errorBorder: OutlineInputBorder(
                         borderSide: const BorderSide(
-                          color: Color(0x00000000),
-                          width: 2,
+                          color: Colors.redAccent,
+                          width: 1,
                         ),
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(0),
                       ),
                       focusedErrorBorder: OutlineInputBorder(
                         borderSide: const BorderSide(
-                          color: Color(0x00000000),
-                          width: 2,
+                          color: Colors.red,
+                          width: 1,
                         ),
                         borderRadius: BorderRadius.circular(8),
                       ),
@@ -181,8 +184,6 @@ class _BakerLandingPageState extends State<BakerLandingPage> {
                       contentPadding:
                           const EdgeInsetsDirectional.fromSTEB(8, 8, 0, 8),
                     ),
-                    style:
-                        const TextStyle(fontSize: 20, color: Color(0xFF8B97A2)),
                     value: selectedLocationId,
                     icon: const Icon(Icons.keyboard_arrow_down),
                     items: data.map((LocationData item) {
