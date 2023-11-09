@@ -899,7 +899,7 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
           dateTimeRequired: DateTime.now(),
           deliveryOption: "",
           budget: "",
-          userId: 1,
+          userId: widget.loggedInUser.userId,
           bundleId: 1);
 
       if (descriptionController.text.isNotEmpty) {
