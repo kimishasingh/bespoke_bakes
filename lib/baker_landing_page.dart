@@ -21,6 +21,24 @@ class _BakerLandingPageState extends State<BakerLandingPage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   String selectedLocationId = "1";
 
+  late List<QuoteRequestData> unfilteredQuoteRequests;
+  late List<QuoteRequestData> filteredQuoteRequests;
+
+  Future loadAllQuoteRequests() async {
+    List<QuoteRequestData> quoteRequests =
+        await lookupService.getQuoteRequests();
+    setState(() {
+      unfilteredQuoteRequests = quoteRequests;
+    });
+    return filteredQuoteRequests;
+  }
+
+  filterQuoteRequests() {
+    filteredQuoteRequests = unfilteredQuoteRequests
+        .where((element) => element.locationId.toString() == selectedLocationId)
+        .toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -150,7 +168,8 @@ class _BakerLandingPageState extends State<BakerLandingPage> {
                     decoration: InputDecoration(
                       labelText: 'Filter by Location',
                       labelStyle: Theme.of(context).textTheme.labelSmall,
-                      floatingLabelStyle: Theme.of(context).textTheme.labelSmall,
+                      floatingLabelStyle:
+                          Theme.of(context).textTheme.labelSmall,
                       enabledBorder: OutlineInputBorder(
                         borderSide: const BorderSide(
                           color: Color(0xffc4bfbf),
@@ -195,6 +214,7 @@ class _BakerLandingPageState extends State<BakerLandingPage> {
                     onChanged: (String? newValue) {
                       setState(() {
                         selectedLocationId = newValue!;
+                        filterQuoteRequests();
                       });
                     },
                   );
@@ -214,11 +234,10 @@ class _BakerLandingPageState extends State<BakerLandingPage> {
               child: Container(
                 height: 500,
                 decoration: const BoxDecoration(),
-                child: FutureBuilder<List<QuoteRequestData>>(
-                    future: lookupService.getQuoteRequests(),
+                child: FutureBuilder(
+                    future: loadAllQuoteRequests(),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
-                        var data = snapshot.data!;
                         return GridView.builder(
                             padding: EdgeInsets.zero,
                             gridDelegate:
@@ -228,10 +247,10 @@ class _BakerLandingPageState extends State<BakerLandingPage> {
                             ),
                             shrinkWrap: true,
                             scrollDirection: Axis.vertical,
-                            itemCount: data.length,
+                            itemCount: snapshot.data.length,
                             itemBuilder: (context, gridViewIndex) {
                               QuoteRequestData currentQuoteRequest =
-                                  data[gridViewIndex];
+                                  snapshot.data[gridViewIndex];
                               final gridViewOccasion =
                                   currentQuoteRequest.occasion;
                               final gridViewDateReqd = DateFormat("yyyy-MM-dd")

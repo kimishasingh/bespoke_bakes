@@ -59,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
                 decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Username',
-                    helperText: 'Enter your email address here'),
+                    helperText: 'Enter your username here'),
               )),
           Container(
             padding: const EdgeInsets.all(10),

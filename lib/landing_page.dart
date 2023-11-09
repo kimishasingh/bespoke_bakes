@@ -8,6 +8,8 @@ import 'package:bespoke_bakes/quote_request_pg1.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import 'lookup_service.dart';
+
 class LandingPage extends StatefulWidget {
   const LandingPage(
       {super.key, required this.title, required this.loggedInUser});
@@ -21,24 +23,7 @@ class LandingPage extends StatefulWidget {
 
 class _LandingPageState extends State<LandingPage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
-
-  Future<List<String>> getOccasionValues() async {
-    var baseUrl =
-        "https://bespokebakes.azurewebsites.net/api/v1/lookup/occasion";
-
-    http.Response response = await http.get(Uri.parse(baseUrl));
-
-    if (response.statusCode == 200) {
-      List<String> items = [];
-      var jsonData = json.decode(response.body) as List;
-      for (var element in jsonData) {
-        items.add(element);
-      }
-      return items;
-    } else {
-      throw response.statusCode;
-    }
-  }
+  final LookupService lookupService = LookupService();
 
   @override
   Widget build(BuildContext context) {
@@ -47,12 +32,11 @@ class _LandingPageState extends State<LandingPage> {
       backgroundColor: Colors.white,
       appBar: AppBar(
           elevation: 1,
-          title:  Image.asset('assets/images/Picture5.png',
-              fit: BoxFit.fitHeight, height: 40)
-          ,
+          title: Image.asset('assets/images/Picture5.png',
+              fit: BoxFit.fitHeight, height: 40),
           centerTitle: false,
           automaticallyImplyLeading: true,
-          iconTheme: IconThemeData(color: Color(0xFF76C6C5)),
+          iconTheme: const IconThemeData(color: Color(0xFF76C6C5)),
           backgroundColor: Colors.white,
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.zero,
@@ -61,8 +45,11 @@ class _LandingPageState extends State<LandingPage> {
             //Notifications
             IconButton(
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const MyApp())); // change to Notification Panel
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            const MyApp())); // change to Notification Panel
               },
               icon: const Tooltip(
                   message: 'Notifications',
@@ -190,9 +177,9 @@ class _LandingPageState extends State<LandingPage> {
               scrollDirection: Axis.vertical,
               child: Container(
                 height: 500,
-                decoration: BoxDecoration(),
+                decoration: const BoxDecoration(),
                 child: FutureBuilder<List<String>>(
-                    future: getOccasionValues(),
+                    future: lookupService.getOccasionValues(),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         var data = snapshot.data!;
@@ -306,7 +293,8 @@ class _LandingPageState extends State<LandingPage> {
                       const TextStyle(fontSize: 18, color: Color(0xFFFC4C69)),
                 ),
                 accountEmail: Text(widget.loggedInUser.emailAddress,
-                    style: const TextStyle(fontSize: 18, color: Color(0xFFFC4C69))),
+                    style: const TextStyle(
+                        fontSize: 18, color: Color(0xFFFC4C69))),
                 currentAccountPictureSize: const Size.square(50),
                 currentAccountPicture: CircleAvatar(
                   backgroundColor: const Color(0xFF76C6C5),
@@ -331,11 +319,9 @@ class _LandingPageState extends State<LandingPage> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                        const MyQuoteRequestsPage(title: "My Quote Requests")
-                    )
-                );
-                },
+                        builder: (context) => const MyQuoteRequestsPage(
+                            title: "My Quote Requests")));
+              },
             ),
             ListTile(
               leading: const Icon(Icons.shopping_cart),
@@ -352,7 +338,7 @@ class _LandingPageState extends State<LandingPage> {
             ),
             ListTile(
               leading: const Icon(Icons.logout),
-              title: const Text('LogOut'),
+              title: const Text('Logout'),
               onTap: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => const MyApp()));

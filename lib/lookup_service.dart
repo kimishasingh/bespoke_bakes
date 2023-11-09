@@ -1,3 +1,4 @@
+import 'package:bespoke_bakes/domain/image_data.dart';
 import 'package:bespoke_bakes/domain/location_data.dart';
 import 'package:bespoke_bakes/domain/login_data.dart';
 import 'package:bespoke_bakes/domain/quote_request_data.dart';
@@ -273,6 +274,26 @@ class LookupService {
       // If the server returned a 404 response,
       // then throw an exception.
       return UserData(userId: 0, name: '', surname: '', emailAddress: '');
+    }
+  }
+
+  Future<ImageData?> getImage(ImageType imageType, String matchingId) async {
+    String imageTypeString = imageType.description;
+
+    final response = await http.get(
+      Uri.parse(
+          'https://bespokebakes.azurewebsites.net/admin/image/type$imageTypeString/id/$matchingId'),
+    );
+
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      return ImageData.fromJson(
+          jsonDecode(response.body) as Map<String, dynamic>);
+    } else {
+      // If the server returned a 404 response,
+      // then throw an exception.
+      return null;
     }
   }
 }
