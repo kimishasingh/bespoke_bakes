@@ -319,8 +319,8 @@ class _LandingPageState extends State<LandingPage> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const MyQuoteRequestsPage(
-                            title: "My Quote Requests")));
+                        builder: (context) =>  MyQuoteRequestsPage(
+                            title: "My Quote Requests", loggedInUser: widget.loggedInUser)));
               },
             ),
             ListTile(

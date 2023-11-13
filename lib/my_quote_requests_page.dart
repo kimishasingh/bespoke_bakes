@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
+import 'domain/user_data.dart';
 import 'main.dart';
+import 'my_orders.dart';
 
 class OccasionData {
   String occasion;
@@ -13,9 +15,10 @@ class OccasionData {
 }
 
 class MyQuoteRequestsPage extends StatefulWidget {
-  const MyQuoteRequestsPage({super.key, required this.title});
+   MyQuoteRequestsPage({super.key, required this.title, required this.loggedInUser});
 
   final String title;
+  final UserData loggedInUser;
 
   @override
   State<MyQuoteRequestsPage> createState() => _MyQuoteRequestsPageState();
@@ -255,7 +258,77 @@ class _MyQuoteRequestsPageState extends State<MyQuoteRequestsPage> {
         ),
 
       ),
-
+      drawer: Drawer(
+        child: ListView(
+          padding: const EdgeInsets.all(0),
+          children: [
+            DrawerHeader(
+              decoration: const BoxDecoration(
+                color: Colors.white,
+              ), //BoxDecoration
+              child: UserAccountsDrawerHeader(
+                decoration: const BoxDecoration(color: Colors.white),
+                accountName: Text(
+                  "${widget.loggedInUser.name} ${widget.loggedInUser.surname}",
+                  style:
+                  const TextStyle(fontSize: 18, color: Color(0xFFFC4C69)),
+                ),
+                accountEmail: Text(widget.loggedInUser.emailAddress,
+                    style: const TextStyle(
+                        fontSize: 18, color: Color(0xFFFC4C69))),
+                currentAccountPictureSize: const Size.square(50),
+                currentAccountPicture: CircleAvatar(
+                  backgroundColor: const Color(0xFF76C6C5),
+                  child: Text(
+                    widget.loggedInUser.name.substring(0, 1),
+                    style: const TextStyle(fontSize: 30.0, color: Colors.white),
+                  ), //Text
+                ), //circleAvatar
+              ), //UserAccountDrawerHeader
+            ), //DrawerHeader
+            ListTile(
+              leading: const Icon(Icons.person),
+              title: const Text(' My Profile '),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.request_quote),
+              title: const Text(' My Quote Requests '),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => MyQuoteRequestsPage(
+                            title: "My Quote Requests", loggedInUser: widget.loggedInUser)));
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.shopping_cart),
+              title: const Text(' My Orders '),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            MyOrdersPage(title: "My Orders", loggedInUser: widget.loggedInUser)
+                    )
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.logout),
+              title: const Text('Logout'),
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const MyApp()));
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
