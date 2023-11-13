@@ -257,6 +257,31 @@ class LookupService {
     }
   }
 
+  Future<QuoteResponseData?> updateQuoteResponse(
+      QuoteResponseData quoteResponseData) async {
+    print(jsonEncode(quoteResponseData));
+    final response = await http.put(
+      Uri.parse('https://bespokebakes.azurewebsites.net/admin/quote-response'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(quoteResponseData),
+    );
+
+    print(response.statusCode);
+    if (response.statusCode == 201) {
+      // If the server did return a 201 OK response,
+      // then parse the JSON.
+      return QuoteResponseData.fromJson(
+          jsonDecode(response.body) as Map<String, dynamic>);
+    } else {
+      // If the server returned a 404 response,
+      // then throw an exception.
+      return null;
+    }
+  }
+
+
   Future<UserData> login(LoginData loginData) async {
     final response = await http.post(
       Uri.parse('https://bespokebakes.azurewebsites.net/login'),
