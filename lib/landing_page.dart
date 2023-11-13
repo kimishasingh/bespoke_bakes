@@ -340,9 +340,12 @@ class _LandingPageState extends State<LandingPage> {
               leading: const Icon(Icons.logout),
               title: const Text('Logout'),
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const MyApp()));
-                Navigator.pop(context);
+
+                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context){
+                  return const MyApp();
+                }), (r){
+                  return false;
+                });
               },
             ),
           ],
