@@ -20,21 +20,24 @@ class QuoteRequestData {
   int userId;
   int bundleId;
   int? locationId;
+  String nickname;
 
-  QuoteRequestData(
-      {required this.occasion,
-      required this.itemType,
-      required this.cakeFlavour,
-      required this.icingType,
-      required this.icingFlavour,
-      required this.icingColour,
-      required this.cakeSize,
-      required this.quantity,
-      required this.dateTimeRequired,
-      required this.deliveryOption,
-      required this.budget,
-      required this.userId,
-      required this.bundleId});
+  QuoteRequestData({
+    required this.occasion,
+    required this.itemType,
+    required this.cakeFlavour,
+    required this.icingType,
+    required this.icingFlavour,
+    required this.icingColour,
+    required this.cakeSize,
+    required this.quantity,
+    required this.dateTimeRequired,
+    required this.deliveryOption,
+    required this.budget,
+    required this.userId,
+    required this.bundleId,
+    required this.nickname,
+  });
 
   Map<String, dynamic> toJson() {
     return {
@@ -58,7 +61,8 @@ class QuoteRequestData {
       'additionalInfo': additionalInfo,
       'userId': userId,
       'bundleId': bundleId,
-      'locationId': locationId
+      'locationId': locationId,
+      'nickname': nickname,
     };
   }
 
@@ -76,7 +80,8 @@ class QuoteRequestData {
         deliveryOption: json['deliveryOption'] as String,
         budget: json['budget'] as String,
         userId: 0,
-        bundleId: json['bundleId'] as int);
+        bundleId: json['bundleId'] as int,
+        nickname: json['nickname'] as String);
 
     obj.id = json['id'] as int?;
     obj.numOfTiers = json['numOfTiers'] as int?;

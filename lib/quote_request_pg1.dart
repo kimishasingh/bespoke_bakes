@@ -33,6 +33,7 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
   int selectedQuantity = 1;
   TextEditingController descriptionController = TextEditingController();
   TextEditingController icingColourController = TextEditingController();
+  TextEditingController orderNicknameController = TextEditingController();
 
   final LookupService lookupService = LookupService();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -58,7 +59,7 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
                 fontSize: 16,
                 color: Color(0xFFFC4C69),
                 fontWeight: FontWeight.w400)),
-            backgroundColor: Colors.white,
+        backgroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -87,6 +88,9 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
 
   List<Widget> getFormWidget() {
     List<Widget> formWidget = [];
+
+    formWidget.add(_buildSizedBox(10));
+    formWidget.add(_buildNicknameTextFormField());
 
     formWidget.add(_buildSizedBox(10));
     formWidget.add(_buildOccasionDropDown());
@@ -852,7 +856,7 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
       maxLines: 5,
       textAlignVertical: TextAlignVertical.top,
       textAlign: TextAlign.start,
-            decoration: InputDecoration(
+      decoration: InputDecoration(
         disabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4.0),
           borderSide: const BorderSide(color: Color(0xffc4bfbf), width: 1),
@@ -869,13 +873,55 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
         floatingLabelAlignment: FloatingLabelAlignment.start,
         labelStyle: Theme.of(context).textTheme.labelMedium,
         floatingLabelStyle: Theme.of(context).textTheme.titleMedium,
-        hintText: "Provide any details to help explain what your baked treat should look like",
+        hintText:
+            "Provide any details to help explain what your baked treat should look like",
         hintStyle: Theme.of(context).textTheme.titleMedium,
         filled: true,
         fillColor: const Color(0xffffffff),
         isDense: false,
         contentPadding: const EdgeInsets.all(10),
       ),
+    );
+  }
+
+  Widget _buildNicknameTextFormField() {
+    return TextFormField(
+      controller: orderNicknameController,
+      obscureText: false,
+      maxLines: 1,
+      textAlignVertical: TextAlignVertical.top,
+      textAlign: TextAlign.start,
+      decoration: InputDecoration(
+        disabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(4.0),
+          borderSide: const BorderSide(color: Color(0xffc4bfbf), width: 1),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(4.0),
+          borderSide: const BorderSide(color: Color(0xffc4bfbf), width: 1),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(4.0),
+          borderSide: const BorderSide(color: Color(0xffc4bfbf), width: 1),
+        ),
+        labelText: "Order Nickname",
+        floatingLabelAlignment: FloatingLabelAlignment.start,
+        labelStyle: Theme.of(context).textTheme.labelMedium,
+        floatingLabelStyle: Theme.of(context).textTheme.titleMedium,
+        hintText: "Provide a nickname for your order request",
+        hintStyle: Theme.of(context).textTheme.titleMedium,
+        filled: true,
+        fillColor: const Color(0xffffffff),
+        isDense: false,
+        contentPadding: const EdgeInsets.all(10),
+      ),
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please enter an Order Nickname';
+        }
+        return null;
+      },
     );
   }
 
@@ -900,7 +946,8 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
           deliveryOption: "",
           budget: "",
           userId: widget.loggedInUser.userId,
-          bundleId: 1);
+          bundleId: 1,
+          nickname: orderNicknameController.text);
 
       if (descriptionController.text.isNotEmpty) {
         pg1_Obj.description = descriptionController.text;

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:bespoke_bakes/MyOrders.dart';
-import 'package:bespoke_bakes/MyQuoteRequestsPage.dart';
+import 'package:bespoke_bakes/my_orders.dart';
+import 'package:bespoke_bakes/my_quote_requests_page.dart';
 import 'package:bespoke_bakes/domain/user_data.dart';
 import 'package:bespoke_bakes/main.dart';
 import 'package:bespoke_bakes/quote_request_pg1.dart';
