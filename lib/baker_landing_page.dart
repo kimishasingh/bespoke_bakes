@@ -21,16 +21,22 @@ class _BakerLandingPageState extends State<BakerLandingPage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   String selectedLocationId = "1";
 
-  late List<QuoteRequestData> unfilteredQuoteRequests;
-  late List<QuoteRequestData> filteredQuoteRequests;
+  List<QuoteRequestData> unfilteredQuoteRequests = [];
+  List<QuoteRequestData> filteredQuoteRequests = [];
 
-  Future loadAllQuoteRequests() async {
-    List<QuoteRequestData> quoteRequests =
-        await lookupService.getQuoteRequests();
-    setState(() {
-      unfilteredQuoteRequests = quoteRequests;
+  Future<List<QuoteRequestData>> _fetchAllQuoteRequests() async {
+    return await lookupService.getQuoteRequests();
+  }
+
+  @override
+  void initState() {
+    _fetchAllQuoteRequests().then((value) {
+      setState(() {
+        unfilteredQuoteRequests = value;
+        filterQuoteRequests();
+      });
     });
-    return filteredQuoteRequests;
+    super.initState();
   }
 
   filterQuoteRequests() {
@@ -234,156 +240,130 @@ class _BakerLandingPageState extends State<BakerLandingPage> {
                 child: SingleChildScrollView(
                   scrollDirection: Axis.vertical,
                   child: Container(
-                    height: 500,
-                    decoration: const BoxDecoration(),
-                    child: FutureBuilder(
-                        future: loadAllQuoteRequests(),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            return GridView.builder(
-                                padding: EdgeInsets.zero,
-                                gridDelegate:
-                                    const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 1,
-                                  childAspectRatio: 5,
-                                ),
-                                shrinkWrap: true,
-                                scrollDirection: Axis.vertical,
-                                itemCount: snapshot.data.length,
-                                itemBuilder: (context, gridViewIndex) {
-                                  QuoteRequestData currentQuoteRequest =
-                                      snapshot.data[gridViewIndex];
-                                  final gridViewOccasion =
-                                      currentQuoteRequest.occasion;
-                                  final gridViewNickname =
-                                      currentQuoteRequest.nickname;
-                                  final gridViewDateReqd =
-                                      DateFormat("yyyy-MM-dd").format(
-                                          currentQuoteRequest.dateTimeRequired);
-                                  final selectedQuoteRequest =
-                                      currentQuoteRequest;
+                      height: 500,
+                      decoration: const BoxDecoration(),
+                      child: GridView.builder(
+                          padding: EdgeInsets.zero,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 1,
+                            childAspectRatio: 5,
+                          ),
+                          shrinkWrap: true,
+                          scrollDirection: Axis.vertical,
+                          itemCount: filteredQuoteRequests.length,
+                          itemBuilder: (context, gridViewIndex) {
+                            QuoteRequestData currentQuoteRequest =
+                                filteredQuoteRequests[gridViewIndex];
+                            final gridViewOccasion =
+                                currentQuoteRequest.occasion;
+                            final gridViewNickname =
+                                currentQuoteRequest.nickname;
+                            final gridViewDateReqd = DateFormat("yyyy-MM-dd")
+                                .format(currentQuoteRequest.dateTimeRequired);
+                            final selectedQuoteRequest = currentQuoteRequest;
 
-                                  return GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                QuoteResponsePage(
-                                              title: 'bespoke.bakes',
-                                              selectedQuoteRequest:
-                                                  selectedQuoteRequest,
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                      child: Card(
-                                        clipBehavior:
-                                            Clip.antiAliasWithSaveLayer,
-                                        color: Colors.white,
-                                        elevation: 4,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(0),
-                                        ),
-                                        child: InkWell(
-                                          splashColor: Colors.transparent,
-                                          focusColor: Colors.transparent,
-                                          hoverColor: Colors.transparent,
-                                          highlightColor: Colors.transparent,
-                                          child: Row(
+                            return GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => QuoteResponsePage(
+                                        title: 'bespoke.bakes',
+                                        selectedQuoteRequest:
+                                            selectedQuoteRequest,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: Card(
+                                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                                  color: Colors.white,
+                                  elevation: 4,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(0),
+                                  ),
+                                  child: InkWell(
+                                    splashColor: Colors.transparent,
+                                    focusColor: Colors.transparent,
+                                    hoverColor: Colors.transparent,
+                                    highlightColor: Colors.transparent,
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        // icon
+                                        Expanded(
+                                            flex: 1,
+                                            child: Align(
+                                              alignment:
+                                                  const AlignmentDirectional(
+                                                      -0.5, 0.00),
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsetsDirectional
+                                                        .fromSTEB(5, 5, 5, 5),
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(0),
+                                                  child: Image.asset(
+                                                    'assets/images/$gridViewOccasion.png',
+                                                    width: 30,
+                                                    height: 30,
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                              ),
+                                            )),
+                                        //occasion
+                                        Expanded(
+                                          flex: 2,
+                                          child: Column(
                                             mainAxisSize: MainAxisSize.min,
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,
                                             children: [
-                                              // icon
-                                              Expanded(
-                                                  flex: 1,
-                                                  child: Align(
-                                                    alignment:
-                                                        const AlignmentDirectional(
-                                                            -0.5, 0.00),
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                              5, 5, 5, 5),
-                                                      child: ClipRRect(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(0),
-                                                        child: Image.asset(
-                                                          'assets/images/$gridViewOccasion.png',
-                                                          width: 30,
-                                                          height: 30,
-                                                          fit: BoxFit.cover,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  )),
-                                              //occasion
-                                              Expanded(
-                                                flex: 2,
-                                                child: Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  children: [
-                                                    Padding(
-                                                      padding: const EdgeInsets
-                                                          .fromLTRB(5, 5, 5, 5),
-                                                      child: Text(
-                                                        gridViewNickname
-                                                                .isNotEmpty
-                                                            ? gridViewNickname
-                                                            : "Loading",
-                                                        textAlign:
-                                                            TextAlign.left,
-                                                        style: const TextStyle(
-                                                          fontFamily:
-                                                              'Urbanist',
-                                                          color:
-                                                              Color(0xFF76C6C5),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Padding(
-                                                      padding: const EdgeInsets
-                                                          .fromLTRB(5, 5, 5, 5),
-                                                      child: Text(
-                                                        gridViewDateReqd
-                                                                .isNotEmpty
-                                                            ? gridViewDateReqd
-                                                            : "Loading",
-                                                        textAlign:
-                                                            TextAlign.left,
-                                                        style: const TextStyle(
-                                                          fontFamily:
-                                                              'Urbanist',
-                                                          color:
-                                                              Color(0xFF76C6C5),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        5, 5, 5, 5),
+                                                child: Text(
+                                                  gridViewNickname.isNotEmpty
+                                                      ? gridViewNickname
+                                                      : "Loading",
+                                                  textAlign: TextAlign.left,
+                                                  style: const TextStyle(
+                                                    fontFamily: 'Urbanist',
+                                                    color: Color(0xFF76C6C5),
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        5, 5, 5, 5),
+                                                child: Text(
+                                                  gridViewDateReqd.isNotEmpty
+                                                      ? gridViewDateReqd
+                                                      : "Loading",
+                                                  textAlign: TextAlign.left,
+                                                  style: const TextStyle(
+                                                    fontFamily: 'Urbanist',
+                                                    color: Color(0xFF76C6C5),
+                                                  ),
                                                 ),
                                               ),
                                             ],
                                           ),
                                         ),
-                                      ));
-                                });
-                          } else {
-                            return const CircularProgressIndicator();
-                          }
-                        }),
-                  ),
+                                      ],
+                                    ),
+                                  ),
+                                ));
+                          })),
                 ),
               ),
-              // const Center(
-              //   child: CircularProgressIndicator(),
-              // ),
             ],
           ),
         ]),
