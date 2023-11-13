@@ -933,7 +933,7 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
     _formKey.currentState?.save();
 
     if (_formKey.currentState!.validate()) {
-      QuoteRequestData pg1_Obj = QuoteRequestData(
+      QuoteRequestData pg1Obj = QuoteRequestData(
           occasion: selectedOccasion,
           itemType: selectedItemType,
           cakeFlavour: selectedCakeFlavour,
@@ -950,7 +950,7 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
           nickname: orderNicknameController.text);
 
       if (descriptionController.text.isNotEmpty) {
-        pg1_Obj.description = descriptionController.text;
+        pg1Obj.description = descriptionController.text;
       }
 
       Navigator.push(
@@ -959,7 +959,7 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
             builder: (context) => QuoteRequestPage2(
                 title: 'bespoke.bakes',
                 loggedInUser: widget.loggedInUser,
-                quoteRequestData: pg1_Obj)),
+                quoteRequestData: pg1Obj)),
       );
     }
   }

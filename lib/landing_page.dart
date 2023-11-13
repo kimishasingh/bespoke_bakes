@@ -1,12 +1,9 @@
-import 'dart:convert';
-
 import 'package:bespoke_bakes/my_orders.dart';
 import 'package:bespoke_bakes/my_quote_requests_page.dart';
 import 'package:bespoke_bakes/domain/user_data.dart';
 import 'package:bespoke_bakes/main.dart';
 import 'package:bespoke_bakes/quote_request_pg1.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 import 'lookup_service.dart';
 

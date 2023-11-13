@@ -156,7 +156,6 @@ showAlertDialog(BuildContext context) {
 
 navigateToNextPage(
     BuildContext buildContext, UserData user, String selectedRole) {
-  print(selectedRole);
   if (buildContext.mounted) {
     if (user.userId != 0 && selectedRole == 'Buyer') {
       Navigator.push(

@@ -80,6 +80,7 @@ class _QuoteRequestPage2State extends State<QuoteRequestPage2> {
     await request.addStream(stream2);
   }
 
+  @override
   void initState() {
     dateTimeController.text = ""; //set the initial value of text field
     super.initState();
@@ -95,14 +96,13 @@ class _QuoteRequestPage2State extends State<QuoteRequestPage2> {
           iconTheme: const IconThemeData(
             color: Color(0xFFFC4C69), //change your color here
           ),
-          leading: BackButton(),
+          leading: const BackButton(),
           title: const Text('Almost done...',
               style: TextStyle(
                   fontFamily: 'Urbanist',
                   fontSize: 16,
                   color: Color(0xFFFC4C69),
-                  fontWeight: FontWeight.w400
-              )),
+                  fontWeight: FontWeight.w400)),
           backgroundColor: Colors.white,
         ),
         body: SingleChildScrollView(
@@ -166,20 +166,11 @@ class _QuoteRequestPage2State extends State<QuoteRequestPage2> {
           }),
     );
 
-    formWidget.add(
-      Card(
+    formWidget.add(Card(
         elevation: 0,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children:[
-            Image.asset(
-                'assets/images/hpcake.jpg',
-                width: 60,
-                height: 100)
-          ]
-        )
-      )
-    );
+        child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+          Image.asset('assets/images/hpcake.jpg', width: 60, height: 100)
+        ])));
 
     formWidget.add(
       const SizedBox(height: 10),
@@ -529,7 +520,8 @@ class _QuoteRequestPage2State extends State<QuoteRequestPage2> {
         floatingLabelAlignment: FloatingLabelAlignment.start,
         labelStyle: Theme.of(context).textTheme.labelMedium,
         floatingLabelStyle: Theme.of(context).textTheme.titleMedium,
-        hintText: "Provide any additional info around allergies, delivery or collection information",
+        hintText:
+            "Provide any additional info around allergies, delivery or collection information",
         hintStyle: Theme.of(context).textTheme.titleMedium,
         enabledBorder: OutlineInputBorder(
           borderSide: const BorderSide(
@@ -601,9 +593,9 @@ class _QuoteRequestPage2State extends State<QuoteRequestPage2> {
       QuoteRequestData? response =
           await lookupService.createQuoteRequest(widget.quoteRequestData);
       if (response != null) {
-        final snackBar = SnackBar(
-          content: const Text('Quote Request Submitted!'),
-         /* action: SnackBarAction(
+        const snackBar = SnackBar(
+          content: Text('Quote Request Submitted!'),
+          /* action: SnackBarAction(
             label: 'Undo',
             onPressed: () {
               // Some code to undo the change.

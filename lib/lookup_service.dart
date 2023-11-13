@@ -243,7 +243,6 @@ class LookupService {
       body: jsonEncode(quoteResponseData),
     );
 
-    print(response.statusCode);
     if (response.statusCode == 201) {
       // If the server did return a 201 OK response,
       // then parse the JSON.

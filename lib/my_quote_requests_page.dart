@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -11,11 +10,13 @@ import 'my_orders.dart';
 
 class OccasionData {
   String occasion;
+
   OccasionData({required this.occasion});
 }
 
 class MyQuoteRequestsPage extends StatefulWidget {
-   MyQuoteRequestsPage({super.key, required this.title, required this.loggedInUser});
+  MyQuoteRequestsPage(
+      {super.key, required this.title, required this.loggedInUser});
 
   final String title;
   final UserData loggedInUser;
@@ -28,7 +29,8 @@ class _MyQuoteRequestsPageState extends State<MyQuoteRequestsPage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   Future<List<Map<String, dynamic>>> getQuoteRequests() async {
-    var baseUrl = "https://bespokebakes.azurewebsites.net/admin/quote-request/user/${widget.loggedInUser.userId}";
+    var baseUrl =
+        "https://bespokebakes.azurewebsites.net/admin/quote-request/user/${widget.loggedInUser.userId}";
 
     http.Response response = await http.get(Uri.parse(baseUrl));
 
@@ -43,10 +45,11 @@ class _MyQuoteRequestsPageState extends State<MyQuoteRequestsPage> {
       throw response.statusCode;
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key:scaffoldKey,
+      key: scaffoldKey,
       backgroundColor: Colors.white,
       appBar: AppBar(
           elevation: 1,
@@ -63,8 +66,11 @@ class _MyQuoteRequestsPageState extends State<MyQuoteRequestsPage> {
             //Notifications
             IconButton(
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const MyApp())); // change to Notification Panel
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            const MyApp())); // change to Notification Panel
               },
               icon: const Tooltip(
                   message: 'Notifications',
@@ -89,177 +95,186 @@ class _MyQuoteRequestsPageState extends State<MyQuoteRequestsPage> {
                   )),
             )
           ]),
-      body:
-      SingleChildScrollView(
-        child:
-        Column(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Container(
-                width: 396,
-                height: 50,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Expanded(
-                      child: Container(
-                        width: 100,
-                        height: 100,
-                        decoration: BoxDecoration(
-                          color: Color(0xFFFC4C69),
-                        ),
-                        child: Align(
-                          alignment: AlignmentDirectional(0, 0),
-                          child: Text(
-                            'My Quote Requests',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              color: Colors.white,
-                            ),
-                          ),
+      body: SingleChildScrollView(
+        child: Column(mainAxisSize: MainAxisSize.max, children: [
+          Container(
+            width: 396,
+            height: 50,
+            decoration: const BoxDecoration(
+              color: Colors.white,
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Expanded(
+                  child: Container(
+                    width: 100,
+                    height: 100,
+                    decoration: const BoxDecoration(
+                      color: Color(0xFFFC4C69),
+                    ),
+                    child: const Align(
+                      alignment: AlignmentDirectional(0, 0),
+                      child: Text(
+                        'My Quote Requests',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          color: Colors.white,
                         ),
                       ),
-                    ),          ],
+                    ),
+                  ),
                 ),
-              ),
+              ],
+            ),
+          ),
 
-              //Quote requests List
+          //Quote requests List
 
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  child: Container(
-                    height: 500,
-                    decoration: BoxDecoration(),
-                    child:
-                    FutureBuilder<List<Map<String, dynamic>>>(
-                        future: getQuoteRequests(),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            var data = snapshot.data!;
-                            return GridView.builder(
-                                padding: EdgeInsets.zero,
-                                gridDelegate:   SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 1,
-                                  childAspectRatio: 5,
-                                ),
-                                shrinkWrap: true,
-                                scrollDirection: Axis.vertical,
-                                itemCount: data.length,
-                                itemBuilder: (context, gridViewIndex) {
-                                  Map qrMap = data[gridViewIndex];
-                                  final gridViewOccasion = qrMap["occasion"];
-                                  final gridViewNickname = qrMap["nickname"];
-                                  final gridViewDateReqdDateTime = DateFormat("yyyy-MM-dd").parse(qrMap["dateTimeRequired"]);
-                                  final gridViewDateReqd = DateFormat("yyyy-MM-dd").format(gridViewDateReqdDateTime);
-                                  final selectedQuoteRequestId = qrMap["id"];
+          Padding(
+            padding: const EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Container(
+                height: 500,
+                decoration: const BoxDecoration(),
+                child: FutureBuilder<List<Map<String, dynamic>>>(
+                    future: getQuoteRequests(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        var data = snapshot.data!;
+                        return GridView.builder(
+                            padding: EdgeInsets.zero,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 1,
+                              childAspectRatio: 5,
+                            ),
+                            shrinkWrap: true,
+                            scrollDirection: Axis.vertical,
+                            itemCount: data.length,
+                            itemBuilder: (context, gridViewIndex) {
+                              Map qrMap = data[gridViewIndex];
+                              final gridViewOccasion = qrMap["occasion"];
+                              final gridViewNickname = qrMap["nickname"];
+                              final gridViewDateReqdDateTime =
+                                  DateFormat("yyyy-MM-dd")
+                                      .parse(qrMap["dateTimeRequired"]);
+                              final gridViewDateReqd = DateFormat("yyyy-MM-dd")
+                                  .format(gridViewDateReqdDateTime);
+                              final selectedQuoteRequestId = qrMap["id"];
 
-                                  return GestureDetector(
-                                      onTap: () {
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                            SnackBar(content: Text('Gesture Detected!')));
+                              return GestureDetector(
+                                  onTap: () {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        const SnackBar(
+                                            content:
+                                                Text('Gesture Detected!')));
 
-                                       /* Should navigate to view of quote responses for the selected quote as well as a summary of the quote
+                                    /* Should navigate to view of quote responses for the selected quote as well as a summary of the quote
                                        Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
                                                   MyOrdersPage(title: 'My Orders')),
                                         );*/
-                                      },
-                                      child: Card (
-                                        clipBehavior: Clip.antiAliasWithSaveLayer,
-                                        color: Colors.white,
-                                        elevation: 4,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(0),
-                                        ),
-                                        child: InkWell(
-                                          splashColor: Colors.transparent,
-                                          focusColor: Colors.transparent,
-                                          hoverColor: Colors.transparent,
-                                          highlightColor: Colors.transparent,
-
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            children: [
-                                              // icon
-                                              Expanded(
-                                                  flex: 1,
-                                                  child: Align(
-                                                    alignment:
-                                                    AlignmentDirectional(-0.5, 0.00),
-                                                    child: Padding(padding: EdgeInsetsDirectional
-                                                        .fromSTEB(5, 5, 5, 5),
-                                                      child: ClipRRect(
-                                                        borderRadius: BorderRadius
-                                                            .circular(0),
-                                                        child: Image.asset(
-                                                          'assets/images/$gridViewOccasion.png',
-                                                          width: 30,
-                                                          height: 30,
-                                                          fit: BoxFit.cover,
-                                                        ),
-                                                      ),
+                                  },
+                                  child: Card(
+                                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                                    color: Colors.white,
+                                    elevation: 4,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(0),
+                                    ),
+                                    child: InkWell(
+                                      splashColor: Colors.transparent,
+                                      focusColor: Colors.transparent,
+                                      hoverColor: Colors.transparent,
+                                      highlightColor: Colors.transparent,
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          // icon
+                                          Expanded(
+                                              flex: 1,
+                                              child: Align(
+                                                alignment:
+                                                    const AlignmentDirectional(
+                                                        -0.5, 0.00),
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsetsDirectional
+                                                          .fromSTEB(5, 5, 5, 5),
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            0),
+                                                    child: Image.asset(
+                                                      'assets/images/$gridViewOccasion.png',
+                                                      width: 30,
+                                                      height: 30,
+                                                      fit: BoxFit.cover,
                                                     ),
-                                                  )
-                                              ),
-                                              //occasion
-                                              Expanded(
-                                                flex: 2,
-                                                child:
-                                                Column(
-                                                  mainAxisSize: MainAxisSize.min,
-                                                  mainAxisAlignment: MainAxisAlignment.start,
-                                                  children:  [
-                                                    Padding(
-                                                      padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
-                                                      child: Text(gridViewOccasion.isNotEmpty? gridViewNickname: "Loading",
-                                                        textAlign: TextAlign.left,
-                                                        style: TextStyle(
-                                                          fontFamily: 'Urbanist',
-                                                          color: Color(0xFF76C6C5),
-                                                        ),
-                                                      ),
-                                                    ),
-
-                                                    Padding(
-                                                      padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
-                                                      child: Text(gridViewDateReqd.isNotEmpty? gridViewDateReqd: "Loading",
-                                                        textAlign: TextAlign.left,
-                                                        style: TextStyle(
-                                                          fontFamily: 'Urbanist',
-                                                          color: Color(0xFF76C6C5),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
+                                                  ),
                                                 ),
-                                              ),
-
-                                            ],
-
+                                              )),
+                                          //occasion
+                                          Expanded(
+                                            flex: 2,
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.fromLTRB(
+                                                          5, 5, 5, 5),
+                                                  child: Text(
+                                                    gridViewOccasion.isNotEmpty
+                                                        ? gridViewNickname
+                                                        : "Loading",
+                                                    textAlign: TextAlign.left,
+                                                    style: const TextStyle(
+                                                      fontFamily: 'Urbanist',
+                                                      color: Color(0xFF76C6C5),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.fromLTRB(
+                                                          5, 5, 5, 5),
+                                                  child: Text(
+                                                    gridViewDateReqd.isNotEmpty
+                                                        ? gridViewDateReqd
+                                                        : "Loading",
+                                                    textAlign: TextAlign.left,
+                                                    style: const TextStyle(
+                                                      fontFamily: 'Urbanist',
+                                                      color: Color(0xFF76C6C5),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
-                                        ),
-
-                                      ));
-                                });
-                          } else {
-                            return const CircularProgressIndicator();
-                          }
-
-                        }),
-                  ),
-                ),),
-            ]
-        ),
-
+                                        ],
+                                      ),
+                                    ),
+                                  ));
+                            });
+                      } else {
+                        return const CircularProgressIndicator();
+                      }
+                    }),
+              ),
+            ),
+          ),
+        ]),
       ),
       drawer: Drawer(
         child: ListView(
@@ -274,7 +289,7 @@ class _MyQuoteRequestsPageState extends State<MyQuoteRequestsPage> {
                 accountName: Text(
                   "${widget.loggedInUser.name} ${widget.loggedInUser.surname}",
                   style:
-                  const TextStyle(fontSize: 18, color: Color(0xFFFC4C69)),
+                      const TextStyle(fontSize: 18, color: Color(0xFFFC4C69)),
                 ),
                 accountEmail: Text(widget.loggedInUser.emailAddress,
                     style: const TextStyle(
@@ -304,7 +319,8 @@ class _MyQuoteRequestsPageState extends State<MyQuoteRequestsPage> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => MyQuoteRequestsPage(
-                            title: "My Quote Requests", loggedInUser: widget.loggedInUser)));
+                            title: "My Quote Requests",
+                            loggedInUser: widget.loggedInUser)));
               },
             ),
             ListTile(
@@ -314,10 +330,9 @@ class _MyQuoteRequestsPageState extends State<MyQuoteRequestsPage> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            MyOrdersPage(title: "My Orders", loggedInUser: widget.loggedInUser)
-                    )
-                );
+                        builder: (context) => MyOrdersPage(
+                            title: "My Orders",
+                            loggedInUser: widget.loggedInUser)));
               },
             ),
             ListTile(
