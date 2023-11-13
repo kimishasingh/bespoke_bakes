@@ -84,8 +84,11 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
             //Exit
             IconButton(
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const MyApp()));
+                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context){
+                  return const MyApp();
+                }), (r){
+                  return false;
+                });
               },
               icon: const Tooltip(
                   message: 'Logout',

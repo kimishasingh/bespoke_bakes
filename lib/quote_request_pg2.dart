@@ -604,7 +604,7 @@ class _QuoteRequestPage2State extends State<QuoteRequestPage2> {
         );
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
-        Navigator.push(
+        Navigator.pushReplacement(
           buildContext,
           MaterialPageRoute(
               builder: (context) => LandingPage(

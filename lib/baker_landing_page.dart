@@ -1,11 +1,11 @@
 import 'package:bespoke_bakes/domain/location_data.dart';
 import 'package:bespoke_bakes/domain/quote_request_data.dart';
-import 'package:bespoke_bakes/login.dart';
 import 'package:bespoke_bakes/lookup_service.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import 'capture_quote_response_page.dart';
+import 'main.dart';
 
 class BakerLandingPage extends StatefulWidget {
   const BakerLandingPage({super.key, required this.title});
@@ -54,22 +54,44 @@ class _BakerLandingPageState extends State<BakerLandingPage> {
           elevation: 1,
           title: Image.asset('assets/images/Picture5.png',
               fit: BoxFit.fitHeight, height: 40),
-          automaticallyImplyLeading: false,
+          centerTitle: false,
+          automaticallyImplyLeading: true,
+          iconTheme: const IconThemeData(color: Color(0xFF76C6C5)),
           backgroundColor: Colors.white,
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.zero,
           ),
           actions: <Widget>[
+            //Notifications
             IconButton(
               onPressed: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const LoginPage()));
+                    MaterialPageRoute(builder: (context) => const MyApp())); // change to Notification Panel
               },
-              icon: const Icon(
-                Icons.person,
-                color: Color(0xFF76C6C5),
-                size: 24,
-              ),
+              icon: const Tooltip(
+                  message: 'Notifications',
+                  child: Icon(
+                    Icons.notifications,
+                    color: Color(0xFF76C6C5),
+                    size: 24,
+                  )),
+            ),
+            //Exit
+            IconButton(
+              onPressed: () {
+                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context){
+                  return const MyApp();
+                }), (r){
+                  return false;
+                });
+              },
+              icon: const Tooltip(
+                  message: 'Logout',
+                  child: Icon(
+                    Icons.logout,
+                    color: Color(0xFF76C6C5),
+                    size: 24,
+                  )),
             )
           ]),
       body: SingleChildScrollView(
