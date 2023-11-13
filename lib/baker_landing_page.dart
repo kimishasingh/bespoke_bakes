@@ -10,11 +10,11 @@ import 'main.dart';
 import 'my_orders.dart';
 
 class BakerLandingPage extends StatefulWidget {
-  const BakerLandingPage({super.key, required this.title,  required this.loggedInUser});
+  const BakerLandingPage(
+      {super.key, required this.title, required this.loggedInUser});
 
   final String title;
   final UserData loggedInUser;
-
 
   @override
   State<BakerLandingPage> createState() => _BakerLandingPageState();
@@ -69,8 +69,11 @@ class _BakerLandingPageState extends State<BakerLandingPage> {
             //Notifications
             IconButton(
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const MyApp())); // change to Notification Panel
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            const MyApp())); // change to Notification Panel
               },
               icon: const Tooltip(
                   message: 'Notifications',
@@ -83,9 +86,10 @@ class _BakerLandingPageState extends State<BakerLandingPage> {
             //Exit
             IconButton(
               onPressed: () {
-                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context){
+                Navigator.pushAndRemoveUntil(context,
+                    MaterialPageRoute(builder: (BuildContext context) {
                   return const MyApp();
-                }), (r){
+                }), (r) {
                   return false;
                 });
               },
@@ -296,6 +300,7 @@ class _BakerLandingPageState extends State<BakerLandingPage> {
                                     MaterialPageRoute(
                                       builder: (context) => QuoteResponsePage(
                                         title: 'bespoke.bakes',
+                                        loggedInUser: widget.loggedInUser,
                                         selectedQuoteRequest:
                                             selectedQuoteRequest,
                                       ),

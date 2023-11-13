@@ -2,20 +2,21 @@ class QuoteResponseData {
   bool active;
   int bundleId;
   int bundleTotal;
-  int? discountAppliedPercentage;
+  int discountAppliedPercentage;
   bool quoteAccepted;
   int quoteRequestId;
   int quoteRequestTotal;
-//don't we need user id of baker?
+  int userId;
 
-  QuoteResponseData({
-    required this.active,
-    required this.bundleId,
-    required this.bundleTotal,
-    required this.quoteAccepted,
-    required this.quoteRequestId,
-    required this.quoteRequestTotal,
-  });
+  QuoteResponseData(
+      {required this.active,
+      required this.bundleId,
+      required this.bundleTotal,
+      required this.discountAppliedPercentage,
+      required this.quoteAccepted,
+      required this.quoteRequestId,
+      required this.quoteRequestTotal,
+      required this.userId});
 
   Map<String, dynamic> toJson() {
     return {
@@ -25,7 +26,8 @@ class QuoteResponseData {
       'discountAppliedPercentage': discountAppliedPercentage,
       'quoteAccepted': quoteAccepted,
       'quoteRequestId': quoteRequestId,
-      'quoteRequestTotal': quoteRequestTotal
+      'quoteRequestTotal': quoteRequestTotal,
+      'userId': userId
     };
   }
 
@@ -34,12 +36,11 @@ class QuoteResponseData {
         active: json['active'] as bool,
         bundleId: json['bundleId'] as int,
         bundleTotal: json['bundleTotal'] as int,
+        discountAppliedPercentage: json['discountAppliedPercentage'] as int,
         quoteAccepted: json['quoteAccepted'] as bool,
         quoteRequestId: json['quoteRequestId'] as int,
-        quoteRequestTotal: json['quoteRequestTotal'] as int);
-
-    obj.discountAppliedPercentage = json['discountAppliedPercentage'] as int?;
-
+        quoteRequestTotal: json['quoteRequestTotal'] as int,
+        userId: json['userId'] as int);
 
     return obj;
   }

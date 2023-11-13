@@ -235,6 +235,7 @@ class LookupService {
 
   Future<QuoteResponseData?> createQuoteResponse(
       QuoteResponseData quoteResponseData) async {
+    print(jsonEncode(quoteResponseData));
     final response = await http.post(
       Uri.parse('https://bespokebakes.azurewebsites.net/admin/quote-response'),
       headers: <String, String>{
@@ -243,6 +244,7 @@ class LookupService {
       body: jsonEncode(quoteResponseData),
     );
 
+    print(response.statusCode);
     if (response.statusCode == 201) {
       // If the server did return a 201 OK response,
       // then parse the JSON.

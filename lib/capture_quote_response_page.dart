@@ -2,11 +2,20 @@ import 'package:bespoke_bakes/domain/quote_request_data.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import 'baker_landing_page.dart';
+import 'domain/quote_response_data.dart';
+import 'domain/user_data.dart';
+import 'lookup_service.dart';
+
 class QuoteResponsePage extends StatefulWidget {
   const QuoteResponsePage(
-      {super.key, required this.title, required this.selectedQuoteRequest});
+      {super.key,
+      required this.title,
+      required this.loggedInUser,
+      required this.selectedQuoteRequest});
 
   final String title;
+  final UserData loggedInUser;
   final QuoteRequestData selectedQuoteRequest;
 
   @override
@@ -16,6 +25,9 @@ class QuoteResponsePage extends StatefulWidget {
 class _QuoteResponsePageState extends State<QuoteResponsePage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final LookupService lookupService = LookupService();
+
+  TextEditingController quoteResponseTotalController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +54,7 @@ class _QuoteResponsePageState extends State<QuoteResponsePage> {
             Padding(
               padding: const EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
               child: Container(
-                height: double.maxFinite,
+                height: 900,
                 decoration: const BoxDecoration(),
                 child: Form(
                   key: _formKey,
@@ -50,7 +62,7 @@ class _QuoteResponsePageState extends State<QuoteResponsePage> {
                     physics: const NeverScrollableScrollPhysics(),
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
-                    children: getFormWidget(),
+                    children: getFormWidget(context),
                   ),
                 ),
               ),
@@ -61,7 +73,7 @@ class _QuoteResponsePageState extends State<QuoteResponsePage> {
     );
   }
 
-  List<Widget> getFormWidget() {
+  List<Widget> getFormWidget(BuildContext context) {
     List<Widget> formWidget = [];
     formWidget.add(_buildTextFieldDisplay(
         "Occasion", widget.selectedQuoteRequest.occasion.toString()));
@@ -117,20 +129,26 @@ class _QuoteResponsePageState extends State<QuoteResponsePage> {
         DateFormat("yyyy-MM-dd HH:mm")
             .format(widget.selectedQuoteRequest.dateTimeRequired)));
     formWidget.add(_buildSizedBox(10));
-    formWidget.add(_buildTextFieldDisplay(
-        "Delivery Option", widget.selectedQuoteRequest.deliveryOption.toString()));
+    formWidget.add(_buildTextFieldDisplay("Delivery Option",
+        widget.selectedQuoteRequest.deliveryOption.toString()));
     formWidget.add(_buildSizedBox(10));
     formWidget.add(_buildTextFieldDisplay(
         "Budget", widget.selectedQuoteRequest.budget.toString()));
-    formWidget.add(_buildSizedBox(10));
 
     if (widget.selectedQuoteRequest.additionalInfo != null) {
-      formWidget.add(_buildTextFieldDisplay(
-          "Additional Info", widget.selectedQuoteRequest.additionalInfo.toString()));
       formWidget.add(_buildSizedBox(10));
+      formWidget.add(_buildTextFieldDisplay("Additional Info",
+          widget.selectedQuoteRequest.additionalInfo.toString()));
     }
 
-    //formWidget.add(_buildSubmitButton());
+    formWidget.add(_buildSizedBox(20));
+    formWidget.add(_buildTextFormField("Quote Amount"));
+    formWidget.add(ElevatedButton(
+      onPressed: () async {
+        onPressedSubmit(context);
+      },
+      child: const Text('Submit Response'),
+    ));
 
     return formWidget;
   }
@@ -180,33 +198,71 @@ class _QuoteResponsePageState extends State<QuoteResponsePage> {
     );
   }
 
-/*
-  Widget _buildSubmitButton() {
-    return ElevatedButton(onPressed: onPressedSubmit(context), child: const Text('Submit'));
+  Widget _buildTextFormField(String label) {
+    return TextFormField(
+      controller: quoteResponseTotalController,
+      keyboardType: TextInputType.number,
+      maxLines: 1,
+      textAlignVertical: TextAlignVertical.top,
+      textAlign: TextAlign.start,
+      decoration: InputDecoration(
+        disabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(4.0),
+          borderSide: const BorderSide(color: Color(0xffc4bfbf), width: 1),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(4.0),
+          borderSide: const BorderSide(color: Color(0xffc4bfbf), width: 1),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(4.0),
+          borderSide: const BorderSide(color: Color(0xffc4bfbf), width: 1),
+        ),
+        labelText: label,
+        floatingLabelAlignment: FloatingLabelAlignment.start,
+        labelStyle: Theme.of(context).textTheme.labelMedium,
+        floatingLabelStyle: Theme.of(context).textTheme.titleMedium,
+        hintText: "Amount in Rands",
+        hintStyle: Theme.of(context).textTheme.titleMedium,
+        filled: true,
+        fillColor: const Color(0xffffffff),
+        isDense: false,
+        contentPadding: const EdgeInsets.all(10),
+      ),
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please capture the quote total';
+        }
+        return null;
+      },
+    );
   }
-*/
-// Future<void> onPressedSubmit(BuildContext buildContext) async {
-//   _formKey.currentState?.save();
-//
-//   if (_formKey.currentState!.validate()) {
-//     QuoteResponseData quoteResponseObg = QuoteResponseData(
-//         active: active,
-//         bundleTotal: bundleTotal,
-//         quoteAccepted: quoteAccepted,
-//         quoteRequestId: selectedQuoteRequestId,
-//         quoteRequestTotal: quoteRequestTotal,
-//         bundleId: 1);
-//
-//     QuoteResponseData? response =
-//         await lookupService.createQuoteResponse(quoteResponseObg);
-//     if (response != null) {
-//       Navigator.push(
-//         buildContext,
-//         MaterialPageRoute(
-//             builder: (context) =>
-//                 const BakerLandingPage(title: 'bespoke.bakes')),
-//       );
-//     }
-//   }
-// }
+
+  Future<void> onPressedSubmit(BuildContext buildContext) async {
+    _formKey.currentState?.save();
+
+    if (_formKey.currentState!.validate()) {
+      QuoteResponseData quoteResponseObg = QuoteResponseData(
+          active: true,
+          bundleTotal: int.parse(quoteResponseTotalController.text),
+          discountAppliedPercentage: 0,
+          quoteAccepted: false,
+          quoteRequestId: widget.selectedQuoteRequest.id as int,
+          quoteRequestTotal: int.parse(quoteResponseTotalController.text),
+          bundleId: widget.selectedQuoteRequest.bundleId,
+          userId: widget.loggedInUser.userId);
+
+      QuoteResponseData? response =
+          await lookupService.createQuoteResponse(quoteResponseObg);
+      if (response != null) {
+        Navigator.push(
+          buildContext,
+          MaterialPageRoute(
+              builder: (context) => BakerLandingPage(
+                  title: 'bespoke.bakes', loggedInUser: widget.loggedInUser)),
+        );
+      }
+    }
+  }
 }
