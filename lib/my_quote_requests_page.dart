@@ -28,7 +28,7 @@ class _MyQuoteRequestsPageState extends State<MyQuoteRequestsPage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   Future<List<Map<String, dynamic>>> getQuoteRequests() async {
-    var baseUrl = "https://bespokebakes.azurewebsites.net/admin/quote-request";
+    var baseUrl = "https://bespokebakes.azurewebsites.net/admin/quote-request/user/${widget.loggedInUser.userId}";
 
     http.Response response = await http.get(Uri.parse(baseUrl));
 
@@ -52,7 +52,9 @@ class _MyQuoteRequestsPageState extends State<MyQuoteRequestsPage> {
           elevation: 1,
           title: Image.asset('assets/images/Picture5.png',
               fit: BoxFit.fitHeight, height: 40),
-          automaticallyImplyLeading: false,
+          centerTitle: false,
+          automaticallyImplyLeading: true,
+          iconTheme: const IconThemeData(color: Color(0xFF76C6C5)),
           backgroundColor: Colors.white,
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.zero,
@@ -152,6 +154,7 @@ class _MyQuoteRequestsPageState extends State<MyQuoteRequestsPage> {
                                 itemBuilder: (context, gridViewIndex) {
                                   Map qrMap = data[gridViewIndex];
                                   final gridViewOccasion = qrMap["occasion"];
+                                  final gridViewNickname = qrMap["nickname"];
                                   final gridViewDateReqdDateTime = DateFormat("yyyy-MM-dd").parse(qrMap["dateTimeRequired"]);
                                   final gridViewDateReqd = DateFormat("yyyy-MM-dd").format(gridViewDateReqdDateTime);
                                   final selectedQuoteRequestId = qrMap["id"];
@@ -217,7 +220,7 @@ class _MyQuoteRequestsPageState extends State<MyQuoteRequestsPage> {
                                                   children:  [
                                                     Padding(
                                                       padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
-                                                      child: Text(gridViewOccasion.isNotEmpty? gridViewOccasion: "Loading",
+                                                      child: Text(gridViewOccasion.isNotEmpty? gridViewNickname: "Loading",
                                                         textAlign: TextAlign.left,
                                                         style: TextStyle(
                                                           fontFamily: 'Urbanist',

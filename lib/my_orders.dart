@@ -54,7 +54,9 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
           elevation: 1,
           title: Image.asset('assets/images/Picture5.png',
               fit: BoxFit.fitHeight, height: 40),
-          automaticallyImplyLeading: false,
+          centerTitle: false,
+          automaticallyImplyLeading: true,
+          iconTheme: const IconThemeData(color: Color(0xFF76C6C5)),
           backgroundColor: Colors.white,
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.zero,
@@ -170,6 +172,7 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
                                 itemBuilder: (context, gridViewIndex) {
                                   Map qrMap = data[gridViewIndex];
                                   final gridViewOccasion = qrMap["quoteRequest"]["occasion"];
+                                  final gridViewNickname = qrMap["quoteRequest"]["nickname"];
                                   final gridViewDateReqdDateTime = DateFormat("yyyy-MM-dd").parse(qrMap["quoteRequest"]["dateTimeRequired"]);
                                   final gridViewDateReqd = DateFormat("yyyy-MM-dd").format(gridViewDateReqdDateTime);
                                   final selectedQuoteRequestId = qrMap["id"];
@@ -234,7 +237,7 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
                                                   children:  [
                                                     Padding(
                                                       padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
-                                                      child: Text(gridViewOccasion.isNotEmpty? gridViewOccasion: "Loading",
+                                                      child: Text(gridViewOccasion.isNotEmpty? gridViewNickname: "Loading",
                                                         textAlign: TextAlign.left,
                                                         style: TextStyle(
                                                           fontFamily: 'Urbanist',
