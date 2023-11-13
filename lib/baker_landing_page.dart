@@ -5,12 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import 'capture_quote_response_page.dart';
+import 'domain/user_data.dart';
 import 'main.dart';
+import 'my_orders.dart';
 
 class BakerLandingPage extends StatefulWidget {
-  const BakerLandingPage({super.key, required this.title});
+  const BakerLandingPage({super.key, required this.title,  required this.loggedInUser});
 
   final String title;
+  final UserData loggedInUser;
+
 
   @override
   State<BakerLandingPage> createState() => _BakerLandingPageState();
@@ -389,6 +393,69 @@ class _BakerLandingPageState extends State<BakerLandingPage> {
             ],
           ),
         ]),
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: const EdgeInsets.all(0),
+          children: [
+            DrawerHeader(
+              decoration: const BoxDecoration(
+                color: Colors.white,
+              ), //BoxDecoration
+              child: UserAccountsDrawerHeader(
+                decoration: const BoxDecoration(color: Colors.white),
+                accountName: Text(
+                  "${widget.loggedInUser.name} ${widget.loggedInUser.surname}",
+                  style:
+                  const TextStyle(fontSize: 18, color: Color(0xFFFC4C69)),
+                ),
+                accountEmail: Text(widget.loggedInUser.emailAddress,
+                    style: const TextStyle(
+                        fontSize: 18, color: Color(0xFFFC4C69))),
+                currentAccountPictureSize: const Size.square(50),
+                currentAccountPicture: CircleAvatar(
+                  backgroundColor: const Color(0xFF76C6C5),
+                  child: Text(
+                    widget.loggedInUser.name.substring(0, 1),
+                    style: const TextStyle(fontSize: 30.0, color: Colors.white),
+                  ), //Text
+                ), //circleAvatar
+              ), //UserAccountDrawerHeader
+            ), //DrawerHeader
+            ListTile(
+              leading: const Icon(Icons.person),
+              title: const Text(' My Profile '),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+
+            ListTile(
+              leading: const Icon(Icons.shopping_cart),
+              title: const Text(' My Orders '),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => MyOrdersPage(
+                            title: "My Orders",
+                            loggedInUser: widget.loggedInUser)));
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.logout),
+              title: const Text('Logout'),
+              onTap: () {
+
+                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context){
+                  return const MyApp();
+                }), (r){
+                  return false;
+                });
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

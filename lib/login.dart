@@ -169,7 +169,7 @@ navigateToNextPage(
         buildContext,
         MaterialPageRoute(
             builder: (context) =>
-                const BakerLandingPage(title: 'bespoke.bakes')),
+                 BakerLandingPage(title: 'bespoke.bakes', loggedInUser: user)),
       );
     } else {
       showAlertDialog(buildContext);
