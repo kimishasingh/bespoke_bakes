@@ -1,12 +1,11 @@
 import 'dart:convert';
 
-import 'package:bespoke_bakes/domain/quote_request_data.dart';
 import 'package:bespoke_bakes/domain/quote_response_data.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
 
 import 'domain/user_data.dart';
+import 'landing_page.dart';
 import 'main.dart';
 import 'my_orders.dart';
 import 'view_quote_response_page.dart';
@@ -19,11 +18,11 @@ class OccasionData {
 
 class MyQuoteResponsesPage extends StatefulWidget {
   MyQuoteResponsesPage(
-      {super.key, required this.title, required this.loggedInUser, required this.selectedQuoteRequest});
+      {super.key, required this.title, required this.loggedInUser, required this.selectedQuoteRequestId});
 
   final String title;
   final UserData loggedInUser;
-  final QuoteRequestData selectedQuoteRequest;
+  final int selectedQuoteRequestId;
 
   @override
   State<MyQuoteResponsesPage> createState() => _MyQuoteResponsesPageState();
@@ -34,7 +33,7 @@ class _MyQuoteResponsesPageState extends State<MyQuoteResponsesPage> {
 
   Future<List<Map<String, dynamic>>> getQuoteResponsesForQuote(int? quoteRequestId) async {
     var baseUrl =
-        "https://bespokebakes.azurewebsites.net/admin/quote-response";
+        "https://bespokebakes.azurewebsites.net/admin/quote-request/user/${widget.loggedInUser.userId}";
 
     http.Response response = await http.get(Uri.parse(baseUrl));
 
@@ -42,7 +41,7 @@ class _MyQuoteResponsesPageState extends State<MyQuoteResponsesPage> {
       List<Map<String, dynamic>> items = [];
       var jsonData = json.decode(response.body) as List;
       for (var element in jsonData) {
-        if(element["quoteRequestId"]==quoteRequestId)
+        if(element["id"]==quoteRequestId)
           {
             items.add(element);
           }
@@ -52,6 +51,7 @@ class _MyQuoteResponsesPageState extends State<MyQuoteResponsesPage> {
       throw response.statusCode;
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -150,10 +150,11 @@ class _MyQuoteResponsesPageState extends State<MyQuoteResponsesPage> {
                 height: 500,
                 decoration: const BoxDecoration(),
                 child: FutureBuilder<List<Map<String, dynamic>>>(
-                    future: getQuoteResponsesForQuote(widget.selectedQuoteRequest.id),
+                    future: getQuoteResponsesForQuote(widget.selectedQuoteRequestId),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         var data = snapshot.data!;
+                        Map qrMap = data[0];
                         return GridView.builder(
                             padding: EdgeInsets.zero,
                             gridDelegate:
@@ -163,37 +164,31 @@ class _MyQuoteResponsesPageState extends State<MyQuoteResponsesPage> {
                             ),
                             shrinkWrap: true,
                             scrollDirection: Axis.vertical,
-                            itemCount: data.length,
+                            itemCount: qrMap["quoteResponses"].length,
                             itemBuilder: (context, gridViewIndex) {
-                              Map qrMap = data[gridViewIndex];
-                              //Todo fix this to ref bakerProfile
-                              final gridViewBakerName = qrMap["user"]["name"] + qrMap["user"]["surname"];
-                              final gridViewAmount = qrMap["quoteRequestTotal"];
-                              final gridViewOccasion = widget.selectedQuoteRequest.occasion;
+                              final gridViewBakeryName = qrMap["quoteResponses"][gridViewIndex]["baker"]["bakerProfile"]["businessName"];
+                              final gridViewAmount = qrMap["quoteResponses"][gridViewIndex]["quoteRequestTotal"];
+                              final gridViewOccasion = qrMap["occasion"];
 
                               QuoteResponseData currentQuoteResponse = QuoteResponseData(
-                                  active: qrMap["active"],
-                                  bundleTotal: qrMap["bundleTotal"],
-                                  discountAppliedPercentage: qrMap["discountAppliedPercentage"],
-                                  quoteAccepted: qrMap["quoteAccepted"],
-                                  quoteRequestId: qrMap["quoteRequestId"] ,
-                                  quoteRequestTotal: qrMap["quoteRequestTotal"],
-                                  bundleId: qrMap["bundleId"],
-                                  userId: qrMap["userId"]);
+                                  id: qrMap["quoteResponses"][gridViewIndex]["id"],
+                                  active: qrMap["quoteResponses"][gridViewIndex]["active"],
+                                  bundleId: qrMap["quoteResponses"][gridViewIndex]["bundle"]["id"],
+                                  bundleTotal: qrMap["quoteResponses"][gridViewIndex]["bundleTotal"],
+                                  discountAppliedPercentage: qrMap["quoteResponses"][gridViewIndex]["discountAppliedPercentage"],
+                                  quoteAccepted: qrMap["quoteResponses"][gridViewIndex]["quoteAccepted"],
+                                  quoteRequestId: widget.selectedQuoteRequestId,
+                                  quoteRequestTotal: qrMap["quoteResponses"][gridViewIndex]["quoteRequestTotal"],
+                                  userId: qrMap["quoteResponses"][gridViewIndex]["baker"]["id"]);
 
                               return GestureDetector(
                                   onTap: () {
-                                    /*ScaffoldMessenger.of(context).showSnackBar(
-                                        const SnackBar(
-                                            content:
-                                            Text('Gesture Detected!')));*/
-
                                     // Should navigate to view of quote responses for the selected quote as well as a summary of the quote
                                        Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  ViewQuoteResponsePage(title: 'Quote Response', loggedInUser: widget.loggedInUser, selectedQuoteResponse: currentQuoteResponse)),
+                                                  ViewQuoteResponsePage(title: 'Quote Response', loggedInUser: widget.loggedInUser, selectedQuoteResponse: currentQuoteResponse, bakeryName: gridViewBakeryName)),
                                         );
                                   },
                                   child: Card(
@@ -250,8 +245,8 @@ class _MyQuoteResponsesPageState extends State<MyQuoteResponsesPage> {
                                                   const EdgeInsets.fromLTRB(
                                                       5, 5, 5, 5),
                                                   child: Text(
-                                                    gridViewBakerName.isNotEmpty
-                                                        ? gridViewBakerName
+                                                    gridViewBakeryName.isNotEmpty
+                                                        ? gridViewBakeryName
                                                         : "Loading",
                                                     textAlign: TextAlign.left,
                                                     style: const TextStyle(
@@ -265,7 +260,7 @@ class _MyQuoteResponsesPageState extends State<MyQuoteResponsesPage> {
                                                   const EdgeInsets.fromLTRB(
                                                       5, 5, 5, 5),
                                                   child: Text(
-                                                    gridViewAmount.isNotEmpty
+                                                    gridViewAmount.toString().isNotEmpty
                                                         ? "R $gridViewAmount"
                                                         : "Loading",
                                                     textAlign: TextAlign.left,
@@ -278,6 +273,25 @@ class _MyQuoteResponsesPageState extends State<MyQuoteResponsesPage> {
                                               ],
                                             ),
                                           ),
+                                         /* Expanded(
+                                              flex: 1,
+                                              child: Align(
+                                                  alignment:
+                                                  const AlignmentDirectional(
+                                                  -0.5, 0.00),
+                                                  child: Padding(
+                                                  padding:
+                                                  const EdgeInsetsDirectional
+                                                      .fromSTEB(5, 5, 5, 5),
+                                                  child:ElevatedButton(
+                                                      onPressed: () async {
+                                                        onPressedConfirm(context);
+                                                      },
+                                                      child: const Text('Submit Request')
+                                                  )
+                                                  )
+                                          ),
+                                          )*/
                                         ],
                                       ),
                                     ),
@@ -322,9 +336,13 @@ class _MyQuoteResponsesPageState extends State<MyQuoteResponsesPage> {
             ), //DrawerHeader
             ListTile(
               leading: const Icon(Icons.person),
-              title: const Text(' My Profile '),
+              title: const Text(' Home '),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>  LandingPage(
+                            title: "Home", loggedInUser: widget.loggedInUser)));
               },
             ),
             ListTile(

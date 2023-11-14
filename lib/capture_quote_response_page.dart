@@ -248,6 +248,7 @@ class _QuoteResponsePageState extends State<QuoteResponsePage> {
 
     if (_formKey.currentState!.validate()) {
       QuoteResponseData quoteResponseObg = QuoteResponseData(
+          id: widget.selectedQuoteRequest.userId,
           active: true,
           bundleTotal: int.parse(quoteResponseTotalController.text),
           discountAppliedPercentage: 0,

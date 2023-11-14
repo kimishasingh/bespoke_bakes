@@ -269,7 +269,7 @@ class LookupService {
     );
 
     print(response.statusCode);
-    if (response.statusCode == 201) {
+    if (response.statusCode == 200) {
       // If the server did return a 201 OK response,
       // then parse the JSON.
       return QuoteResponseData.fromJson(
@@ -320,6 +320,27 @@ class LookupService {
       // If the server returned a 404 response,
       // then throw an exception.
       return null;
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getQuoteResponsesForQuote(int? quoteRequestId) async {
+    var baseUrl =
+        "https://bespokebakes.azurewebsites.net/admin/quote-response";
+
+    http.Response response = await http.get(Uri.parse(baseUrl));
+
+    if (response.statusCode == 200) {
+      List<Map<String, dynamic>> items = [];
+      var jsonData = json.decode(response.body) as List;
+      for (var element in jsonData) {
+        if(element["quoteRequestId"]==quoteRequestId)
+        {
+          items.add(element);
+        }
+      }
+      return items;
+    } else {
+      throw response.statusCode;
     }
   }
 }

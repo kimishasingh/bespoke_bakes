@@ -429,10 +429,16 @@ class _BakerLandingPageState extends State<BakerLandingPage> {
             ), //DrawerHeader
             ListTile(
               leading: const Icon(Icons.person),
-              title: const Text(' My Profile '),
+              title: const Text('Home'),
               onTap: () {
-                Navigator.pop(context);
-              },
+
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => BakerLandingPage(
+                            title: "Home",
+                            loggedInUser: widget.loggedInUser)));
+                },
             ),
 
             ListTile(

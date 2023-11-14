@@ -1,4 +1,5 @@
 class QuoteResponseData {
+  int id;
   bool active;
   int bundleId;
   int bundleTotal;
@@ -9,7 +10,9 @@ class QuoteResponseData {
   int userId;
 
   QuoteResponseData(
-      {required this.active,
+      {
+        required this.id,
+        required this.active,
       required this.bundleId,
       required this.bundleTotal,
       required this.discountAppliedPercentage,
@@ -20,6 +23,7 @@ class QuoteResponseData {
 
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'active': active,
       'bundleId': bundleId,
       'bundleTotal': bundleTotal,
@@ -33,6 +37,7 @@ class QuoteResponseData {
 
   factory QuoteResponseData.fromJson(Map<String, dynamic> json) {
     QuoteResponseData obj = QuoteResponseData(
+        id: json['id'] as int,
         active: json['active'] as bool,
         bundleId: json['bundleId'] as int,
         bundleTotal: json['bundleTotal'] as int,

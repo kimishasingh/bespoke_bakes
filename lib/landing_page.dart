@@ -307,10 +307,14 @@ class _LandingPageState extends State<LandingPage> {
             ), //DrawerHeader
             ListTile(
               leading: const Icon(Icons.person),
-              title: const Text(' My Profile '),
+              title: const Text(' Home '),
               onTap: () {
-                Navigator.pop(context);
-              },
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>  LandingPage(
+                            title: "Home", loggedInUser: widget.loggedInUser)));
+                },
             ),
             ListTile(
               leading: const Icon(Icons.request_quote),

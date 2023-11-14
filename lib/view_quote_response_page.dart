@@ -1,22 +1,23 @@
-import 'package:bespoke_bakes/domain/quote_request_data.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
-import 'baker_landing_page.dart';
 import 'domain/quote_response_data.dart';
 import 'domain/user_data.dart';
+import 'landing_page.dart';
 import 'lookup_service.dart';
 
 class ViewQuoteResponsePage extends StatefulWidget {
-  const ViewQuoteResponsePage(
-      {super.key,
-      required this.title,
-      required this.loggedInUser,
-      required this.selectedQuoteResponse});
+  const ViewQuoteResponsePage({
+    super.key,
+    required this.title,
+    required this.loggedInUser,
+    required this.selectedQuoteResponse,
+    required this.bakeryName,
+  });
 
   final String title;
   final UserData loggedInUser;
   final QuoteResponseData selectedQuoteResponse;
+  final String bakeryName;
 
   @override
   State<ViewQuoteResponsePage> createState() => _ViewQuoteResponsePageState();
@@ -28,7 +29,6 @@ class _ViewQuoteResponsePageState extends State<ViewQuoteResponsePage> {
   final LookupService lookupService = LookupService();
 
   TextEditingController quoteResponseTotalController = TextEditingController();
-
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,8 @@ class _ViewQuoteResponsePageState extends State<ViewQuoteResponsePage> {
           color: Colors.black, //change your color here
         ),
         leading: const BackButton(),
-        title: Text('Quote Request #${widget.selectedQuoteResponse.quoteRequestId}',
+        title: Text(
+            'Quote Request #${widget.selectedQuoteResponse.quoteRequestId}',
             style: const TextStyle(
                 fontFamily: 'Urbanist',
                 color: Colors.black,
@@ -78,19 +79,28 @@ class _ViewQuoteResponsePageState extends State<ViewQuoteResponsePage> {
     List<Widget> formWidget = [];
     //Todo fix this to ref bakerProfile
 
-    formWidget.add(_buildTextFieldDisplay(
-        "Baker", widget.selectedQuoteResponse.userId.toString()));
+    formWidget.add(_buildTextFieldDisplay("Baker", widget.bakeryName));
     formWidget.add(_buildSizedBox(10));
 
-    formWidget.add(_buildTextFieldDisplay(
-        "Quoted Amount", widget.selectedQuoteResponse.quoteRequestTotal.toString()));
+    formWidget.add(_buildTextFieldDisplay("Quoted Amount",
+        widget.selectedQuoteResponse.quoteRequestTotal.toString()));
+    formWidget.add(_buildSizedBox(10));
 
-    formWidget.add(ElevatedButton(
-      onPressed: () async {
-        onPressedAccept(context);
-      },
-      child: const Text('Accept and confirm order'),
-    ));
+    if(widget.selectedQuoteResponse.quoteAccepted)
+      {
+        formWidget.add(_buildTextFieldDisplay("Quote Status", "Accepted"));
+      }
+    else
+      {
+        formWidget.add(ElevatedButton(
+          onPressed: () async {
+            onPressedAccept(context);
+          },
+          child: const Text('Accept and confirm order'),
+        ));
+      }
+
+
 
     return formWidget;
   }
@@ -140,60 +150,22 @@ class _ViewQuoteResponsePageState extends State<ViewQuoteResponsePage> {
     );
   }
 
-  Widget _buildTextFormField(String label) {
-    return TextFormField(
-      controller: quoteResponseTotalController,
-      keyboardType: TextInputType.number,
-      maxLines: 1,
-      textAlignVertical: TextAlignVertical.top,
-      textAlign: TextAlign.start,
-      decoration: InputDecoration(
-        disabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4.0),
-          borderSide: const BorderSide(color: Color(0xffc4bfbf), width: 1),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4.0),
-          borderSide: const BorderSide(color: Color(0xffc4bfbf), width: 1),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4.0),
-          borderSide: const BorderSide(color: Color(0xffc4bfbf), width: 1),
-        ),
-        labelText: label,
-        floatingLabelAlignment: FloatingLabelAlignment.start,
-        labelStyle: Theme.of(context).textTheme.labelMedium,
-        floatingLabelStyle: Theme.of(context).textTheme.titleMedium,
-        hintText: "Amount in Rands",
-        hintStyle: Theme.of(context).textTheme.titleMedium,
-        filled: true,
-        fillColor: const Color(0xffffffff),
-        isDense: false,
-        contentPadding: const EdgeInsets.all(10),
-      ),
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Please capture the quote total';
-        }
-        return null;
-      },
-    );
-  }
 
   Future<void> onPressedAccept(BuildContext buildContext) async {
     _formKey.currentState?.save();
 
     if (_formKey.currentState!.validate()) {
       QuoteResponseData quoteResponseObg = QuoteResponseData(
+          id: widget.selectedQuoteResponse.id,
           active: widget.selectedQuoteResponse.active,
           bundleTotal: widget.selectedQuoteResponse.bundleTotal,
-          discountAppliedPercentage: widget.selectedQuoteResponse.discountAppliedPercentage,
+          discountAppliedPercentage:
+              widget.selectedQuoteResponse.discountAppliedPercentage,
           quoteAccepted: true,
           quoteRequestId: widget.selectedQuoteResponse.quoteRequestId,
           quoteRequestTotal: widget.selectedQuoteResponse.quoteRequestTotal,
           bundleId: widget.selectedQuoteResponse.bundleId,
-          userId: widget.loggedInUser.userId);
+          userId: widget.selectedQuoteResponse.userId);
 
       QuoteResponseData? response =
           await lookupService.updateQuoteResponse(quoteResponseObg);
@@ -201,7 +173,7 @@ class _ViewQuoteResponsePageState extends State<ViewQuoteResponsePage> {
         Navigator.push(
           buildContext,
           MaterialPageRoute(
-              builder: (context) => BakerLandingPage(
+              builder: (context) => LandingPage(
                   title: 'bespoke.bakes', loggedInUser: widget.loggedInUser)),
         );
       }

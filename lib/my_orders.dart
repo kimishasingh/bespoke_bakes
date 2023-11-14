@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bespoke_bakes/landing_page.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
@@ -186,7 +187,7 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
                                           ["dateTimeRequired"]);
                               final gridViewDateReqd = DateFormat("yyyy-MM-dd")
                                   .format(gridViewDateReqdDateTime);
-                              final selectedQuoteRequestId = qrMap["id"];
+                              //final selectedQuoteRequestId = qrMap["id"];
 
                               return GestureDetector(
                                   onTap: () {
@@ -328,9 +329,13 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
             ), //DrawerHeader
             ListTile(
               leading: const Icon(Icons.person),
-              title: const Text(' My Profile '),
+              title: const Text(' Home '),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>  LandingPage(
+                            title: "Home", loggedInUser: widget.loggedInUser)));
               },
             ),
             ListTile(

@@ -1,10 +1,12 @@
 import 'dart:convert';
 
+import 'package:bespoke_bakes/view_all_responses_for_quote_page.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
 import 'domain/user_data.dart';
+import 'landing_page.dart';
 import 'main.dart';
 import 'my_orders.dart';
 
@@ -175,13 +177,13 @@ class _MyQuoteRequestsPageState extends State<MyQuoteRequestsPage> {
                                             content:
                                                 Text('Gesture Detected!')));
 
-                                    /* Should navigate to view of quote responses for the selected quote as well as a summary of the quote
+                                    // Should navigate to view of quote responses for the selected quote as well as a summary of the quote
                                        Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  MyOrdersPage(title: 'My Orders')),
-                                        );*/
+                                                  MyQuoteResponsesPage(title: 'Quote Responses', loggedInUser: widget.loggedInUser, selectedQuoteRequestId: selectedQuoteRequestId)),
+                                        );
                                   },
                                   child: Card(
                                     clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -309,9 +311,13 @@ class _MyQuoteRequestsPageState extends State<MyQuoteRequestsPage> {
             ), //DrawerHeader
             ListTile(
               leading: const Icon(Icons.person),
-              title: const Text(' My Profile '),
+              title: const Text(' Home '),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>  LandingPage(
+                            title: "Home", loggedInUser: widget.loggedInUser)));
               },
             ),
             ListTile(
