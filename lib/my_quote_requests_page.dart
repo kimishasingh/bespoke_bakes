@@ -273,7 +273,9 @@ class _MyQuoteRequestsPageState extends State<MyQuoteRequestsPage> {
                                   ));
                             });
                       } else {
-                        return const CircularProgressIndicator();
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
                       }
                     }),
               ),

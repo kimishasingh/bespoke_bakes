@@ -298,7 +298,9 @@ class _MyQuoteResponsesPageState extends State<MyQuoteResponsesPage> {
                                   ));
                             });
                       } else {
-                        return const CircularProgressIndicator();
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
                       }
                     }),
               ),

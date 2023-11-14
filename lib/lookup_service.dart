@@ -3,6 +3,7 @@ import 'package:bespoke_bakes/domain/location_data.dart';
 import 'package:bespoke_bakes/domain/login_data.dart';
 import 'package:bespoke_bakes/domain/quote_request_data.dart';
 import 'package:bespoke_bakes/domain/user_data.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
@@ -281,7 +282,6 @@ class LookupService {
     }
   }
 
-
   Future<UserData> login(LoginData loginData) async {
     final response = await http.post(
       Uri.parse('https://bespokebakes.azurewebsites.net/login'),
@@ -341,6 +341,27 @@ class LookupService {
       return items;
     } else {
       throw response.statusCode;
+    }
+  }
+
+  Future<ImageData?> submitImage(ImageData imageRequest) async {
+    final response = await http.post(
+      Uri.parse('https://bespokebakes.azurewebsites.net/admin/image'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(imageRequest),
+    );
+
+    if (response.statusCode == 201) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      return ImageData.fromJson(
+          jsonDecode(response.body) as Map<String, dynamic>);
+    } else {
+      // If the server returned a 404 response,
+      // then throw an exception.
+      return null;
     }
   }
 }

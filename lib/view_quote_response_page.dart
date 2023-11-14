@@ -86,21 +86,16 @@ class _ViewQuoteResponsePageState extends State<ViewQuoteResponsePage> {
         widget.selectedQuoteResponse.quoteRequestTotal.toString()));
     formWidget.add(_buildSizedBox(10));
 
-    if(widget.selectedQuoteResponse.quoteAccepted)
-      {
-        formWidget.add(_buildTextFieldDisplay("Quote Status", "Accepted"));
-      }
-    else
-      {
-        formWidget.add(ElevatedButton(
-          onPressed: () async {
-            onPressedAccept(context);
-          },
-          child: const Text('Accept and confirm order'),
-        ));
-      }
-
-
+    if (widget.selectedQuoteResponse.quoteAccepted) {
+      formWidget.add(_buildTextFieldDisplay("Quote Status", "Accepted"));
+    } else {
+      formWidget.add(ElevatedButton(
+        onPressed: () async {
+          onPressedAccept(context);
+        },
+        child: const Text('Accept and confirm order'),
+      ));
+    }
 
     return formWidget;
   }
@@ -149,7 +144,6 @@ class _ViewQuoteResponsePageState extends State<ViewQuoteResponsePage> {
       style: const TextStyle(fontSize: 20, color: Color(0xFF8B97A2)),
     );
   }
-
 
   Future<void> onPressedAccept(BuildContext buildContext) async {
     _formKey.currentState?.save();
