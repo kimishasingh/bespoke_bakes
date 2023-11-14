@@ -291,7 +291,9 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
                                   ));
                             });
                       } else {
-                        return const CircularProgressIndicator();
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
                       }
                     }),
               ),

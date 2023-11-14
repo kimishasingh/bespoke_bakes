@@ -242,7 +242,9 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
             },
           );
         } else {
-          return const CircularProgressIndicator();
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
         }
       },
     );
@@ -323,7 +325,9 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
             },
           );
         } else {
-          return const CircularProgressIndicator();
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
         }
       },
     );
@@ -396,7 +400,9 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
             },
           );
         } else {
-          return const CircularProgressIndicator();
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
         }
       },
     );
@@ -470,7 +476,9 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
             },
           );
         } else {
-          return const CircularProgressIndicator();
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
         }
       },
     );
@@ -658,7 +666,9 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
             },
           );
         } else {
-          return const CircularProgressIndicator();
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
         }
       },
     );
@@ -730,7 +740,9 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
             },
           );
         } else {
-          return const CircularProgressIndicator();
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
         }
       },
     );
@@ -802,7 +814,9 @@ class _QuoteRequestPageState extends State<QuoteRequestPage> {
             },
           );
         } else {
-          return const CircularProgressIndicator();
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
         }
       },
     );

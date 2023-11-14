@@ -1,9 +1,13 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
+import 'package:bespoke_bakes/domain/image_data.dart';
 import 'package:bespoke_bakes/domain/location_data.dart';
 import 'package:bespoke_bakes/domain/quote_request_data.dart';
 import 'package:bespoke_bakes/lookup_service.dart';
+import 'package:bespoke_bakes/my_quote_requests_page.dart';
 import 'package:flutter/material.dart';
 import 'package:image_field/image_field.dart';
 import 'package:image_field/linear_progress_indicator_if.dart';
@@ -35,6 +39,8 @@ class _QuoteRequestPage2State extends State<QuoteRequestPage2> {
   String? selectedDeliveryOption;
   String? selectedLocation;
   String? selectedBudget;
+  List<String> uploadedFiles = [];
+  bool showSpinner = false;
 
   TextEditingController dateTimeController = TextEditingController();
   TextEditingController additionalInfoController = TextEditingController();
@@ -43,88 +49,68 @@ class _QuoteRequestPage2State extends State<QuoteRequestPage2> {
   final _formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
-  dynamic remoteFiles;
-
-  Future<dynamic> uploadToServer(XFile? file,
-      {Progress? uploadProgress}) async {
-    final stream = file!.openRead();
-    int length = await file.length();
-    final client = HttpClient();
-
-    final request = await client.postUrl(Uri.parse('URI'));
-    request.headers.add('Content-Type', 'application/octet-stream');
-    request.headers.add('Accept', '*/*');
-    request.headers.add('Content-Disposition', 'file; filename="${file.name}"');
-    request.headers.add('Authorization', 'Bearer ACCESS_TOKEN');
-    request.contentLength = length;
-
-    int byteCount = 0;
-    double percent = 0;
-    Stream<List<int>> stream2 = stream.transform(
-      StreamTransformer.fromHandlers(
-        handleData: (data, sink) {
-          byteCount += data.length;
-          if (uploadProgress != null) {
-            percent = (byteCount / length) * 100;
-            uploadProgress(percent);
-          }
-          sink.add(data);
-        },
-        handleError: (error, stack, sink) {},
-        handleDone: (sink) {
-          sink.close();
-        },
-      ),
-    );
-
-    await request.addStream(stream2);
-  }
-
   @override
   void initState() {
     dateTimeController.text = ""; //set the initial value of text field
     super.initState();
   }
 
+  shouldShowSpinner() {
+    return showSpinner;
+  }
+
   @override
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey we created above
     return Scaffold(
-        key: scaffoldKey,
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          iconTheme: const IconThemeData(
-            color: Color(0xFFFC4C69), //change your color here
-          ),
-          leading: const BackButton(),
-          title: const Text('Almost done...',
-              style: TextStyle(
-                  fontFamily: 'Urbanist',
-                  fontSize: 16,
-                  color: Color(0xFFFC4C69),
-                  fontWeight: FontWeight.w400)),
-          backgroundColor: Colors.white,
+      key: scaffoldKey,
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        iconTheme: const IconThemeData(
+          color: Color(0xFFFC4C69), //change your color here
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
-                child: Container(
+        leading: const BackButton(),
+        title: const Text('Almost done...',
+            style: TextStyle(
+                fontFamily: 'Urbanist',
+                fontSize: 16,
+                color: Color(0xFFFC4C69),
+                fontWeight: FontWeight.w400)),
+        backgroundColor: Colors.white,
+      ),
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
+                  child: Container(
                     height: 600,
                     decoration: const BoxDecoration(),
                     child: Form(
-                        key: _formKey,
-                        child: ListView(
-                          physics: const NeverScrollableScrollPhysics(),
-                          scrollDirection: Axis.vertical,
-                          shrinkWrap: true,
-                          children: getFormWidget(),
-                        ))),
-              ),
-            ],
+                      key: _formKey,
+                      child: ListView(
+                        physics: const NeverScrollableScrollPhysics(),
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        children: getFormWidget(),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-        ));
+          Visibility(
+            visible: shouldShowSpinner(),
+            child: const Center(
+              child: CircularProgressIndicator(),
+            ),
+          )
+        ],
+      ),
+    );
   }
 
   List<Widget> getFormWidget() {
@@ -141,39 +127,17 @@ class _QuoteRequestPage2State extends State<QuoteRequestPage2> {
             'fieldFormText': 'Upload images',
             'titleText': 'Upload images'
           },
-          files: remoteFiles != null
-              ? remoteFiles!.map((image) {
-                  return ImageAndCaptionModel(
-                      file: image, caption: image.alt.toString());
-                }).toList()
-              : [],
-          remoteImage: true,
-          onUpload: (dynamic pickedFile,
-              ControllerLinearProgressIndicatorIF?
-                  controllerLinearProgressIndicator) async {
-            dynamic fileUploaded = await uploadToServer(
-              pickedFile,
-              uploadProgress: (percent) {
-                var uploadProgressPercentage = percent / 100;
-                controllerLinearProgressIndicator!
-                    .updateProgress(uploadProgressPercentage);
-              },
-            );
-            return fileUploaded;
-          },
           onSave: (List<ImageAndCaptionModel>? imageAndCaptionList) {
-            remoteFiles = imageAndCaptionList;
+            if (imageAndCaptionList!.isNotEmpty) {
+              uploadedFiles = imageAndCaptionList
+                  .map((e) => base64Encode(e.file as Uint8List))
+                  .toList();
+            }
           }),
     );
 
-    formWidget.add(Card(
-        elevation: 0,
-        child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-          Image.asset('assets/images/hpcake.jpg', width: 60, height: 100)
-        ])));
-
     formWidget.add(
-      const SizedBox(height: 10),
+      const SizedBox(height: 20),
     );
 
     //Date picker
@@ -240,12 +204,6 @@ class _QuoteRequestPage2State extends State<QuoteRequestPage2> {
         return null;
       },
     ));
-
-    formWidget.add(
-      const SizedBox(height: 10),
-    );
-    //Location picker
-    //TO DO
 
     formWidget.add(
       const SizedBox(height: 10),
@@ -327,7 +285,9 @@ class _QuoteRequestPage2State extends State<QuoteRequestPage2> {
               },
             );
           } else {
-            return const CircularProgressIndicator();
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
           }
         },
       ),
@@ -412,7 +372,9 @@ class _QuoteRequestPage2State extends State<QuoteRequestPage2> {
               },
             );
           } else {
-            return const CircularProgressIndicator();
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
           }
         },
       ),
@@ -498,7 +460,9 @@ class _QuoteRequestPage2State extends State<QuoteRequestPage2> {
               },
             );
           } else {
-            return const CircularProgressIndicator();
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
           }
         },
       ),
@@ -575,6 +539,9 @@ class _QuoteRequestPage2State extends State<QuoteRequestPage2> {
     _formKey.currentState?.save();
 
     if (_formKey.currentState!.validate()) {
+      setState(() {
+        showSpinner = true;
+      });
       var dateTime = dateTimeController.text;
       var delivery = selectedDeliveryOption.toString();
       var budget = selectedBudget.toString();
@@ -590,27 +557,68 @@ class _QuoteRequestPage2State extends State<QuoteRequestPage2> {
       widget.quoteRequestData.additionalInfo = additionalInfoController.text;
       widget.quoteRequestData.locationId = location;
 
-      QuoteRequestData? response =
-          await lookupService.createQuoteRequest(widget.quoteRequestData);
-      if (response != null) {
-        const snackBar = SnackBar(
-          content: Text('Quote Request Submitted!'),
-          /* action: SnackBarAction(
-            label: 'Undo',
-            onPressed: () {
-              // Some code to undo the change.
-            },
-          ),*/
-        );
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      QuoteRequestData? response;
+      if (widget.quoteRequestData.id == null) {
+        response =
+            await lookupService.createQuoteRequest(widget.quoteRequestData);
+      } else {
+        response = widget.quoteRequestData;
+      }
 
-        Navigator.pushReplacement(
-          buildContext,
-          MaterialPageRoute(
-              builder: (context) => LandingPage(
-                  title: 'bespoke.bakes', loggedInUser: widget.loggedInUser)),
-        );
+      if (response != null) {
+        int quoteRequestId = response.id as int;
+        widget.quoteRequestData.id = quoteRequestId;
+
+        uploadFiles(buildContext);
       }
     }
+  }
+
+  uploadFiles(BuildContext buildContext) async {
+    if (uploadedFiles.isNotEmpty) {
+      List<String> toRemove = [];
+      for (var uploadedFile in uploadedFiles) {
+        ImageData imageData = ImageData(
+            id: 0,
+            image: uploadedFile,
+            imageType: ImageType.quoteRequest.description,
+            matchingId: widget.quoteRequestData.id as int);
+        ImageData? submittedImage = await lookupService.submitImage(imageData);
+        if (submittedImage == null) {
+          setState(() {
+            showSpinner = false;
+          });
+          var snackBar = SnackBar(
+            content: const Text('An error occurred whilst uploading images.'),
+            action: SnackBarAction(
+              label: 'Try again',
+              onPressed: () {
+                uploadFiles(buildContext);
+              },
+            ),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        } else {
+          toRemove.add(uploadedFile);
+        }
+      }
+
+      uploadedFiles.removeWhere((element) => toRemove.contains(element));
+      uploadFiles(buildContext);
+    } else {
+      setState(() {
+        showSpinner = false;
+      });
+      navigateToLandingPage(buildContext);
+    }
+  }
+
+  navigateToLandingPage(BuildContext buildContext) {
+    Navigator.pushReplacement(
+      buildContext,
+      MaterialPageRoute(
+          builder: (context) => MyQuoteRequestsPage(
+              title: 'bespoke.bakes', loggedInUser: widget.loggedInUser)),
+    );
   }
 }
