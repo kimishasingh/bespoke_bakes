@@ -194,7 +194,7 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                         const SnackBar(
                                             content:
-                                                Text('Gesture Detected!')));
+                                                Text('This is a successfully placed order!')));
 
                                     /* Navigator.push(
                                           context,

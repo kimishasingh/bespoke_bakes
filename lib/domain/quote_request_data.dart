@@ -23,6 +23,7 @@ class QuoteRequestData {
   String nickname;
 
   QuoteRequestData({
+    this.id,
     required this.occasion,
     required this.itemType,
     required this.cakeFlavour,

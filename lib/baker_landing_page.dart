@@ -1,3 +1,4 @@
+import 'package:bespoke_bakes/baker_orders.dart';
 import 'package:bespoke_bakes/domain/location_data.dart';
 import 'package:bespoke_bakes/domain/quote_request_data.dart';
 import 'package:bespoke_bakes/lookup_service.dart';
@@ -7,7 +8,6 @@ import 'package:intl/intl.dart';
 import 'capture_quote_response_page.dart';
 import 'domain/user_data.dart';
 import 'main.dart';
-import 'my_orders.dart';
 
 class BakerLandingPage extends StatefulWidget {
   const BakerLandingPage(
@@ -448,8 +448,8 @@ class _BakerLandingPageState extends State<BakerLandingPage> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => MyOrdersPage(
-                            title: "My Orders",
+                        builder: (context) => MyBakeryOrdersPage(
+                            title: "My Bakery Orders",
                             loggedInUser: widget.loggedInUser)));
               },
             ),
