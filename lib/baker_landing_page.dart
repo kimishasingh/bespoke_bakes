@@ -414,7 +414,7 @@ class _BakerLandingPageState extends State<BakerLandingPage> {
                 accountName: Text(
                   "${widget.loggedInUser.name} ${widget.loggedInUser.surname}",
                   style:
-                  const TextStyle(fontSize: 18, color: Color(0xFFFC4C69)),
+                      const TextStyle(fontSize: 18, color: Color(0xFFFC4C69)),
                 ),
                 accountEmail: Text(widget.loggedInUser.emailAddress,
                     style: const TextStyle(
@@ -433,14 +433,12 @@ class _BakerLandingPageState extends State<BakerLandingPage> {
               leading: const Icon(Icons.person),
               title: const Text('Home'),
               onTap: () {
-
                 Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => BakerLandingPage(
-                            title: "Home",
-                            loggedInUser: widget.loggedInUser)));
-                },
+                            title: "Home", loggedInUser: widget.loggedInUser)));
+              },
             ),
 
             ListTile(
@@ -459,10 +457,10 @@ class _BakerLandingPageState extends State<BakerLandingPage> {
               leading: const Icon(Icons.logout),
               title: const Text('Logout'),
               onTap: () {
-
-                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context){
+                Navigator.pushAndRemoveUntil(context,
+                    MaterialPageRoute(builder: (BuildContext context) {
                   return const MyApp();
-                }), (r){
+                }), (r) {
                   return false;
                 });
               },

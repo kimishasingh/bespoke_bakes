@@ -14,7 +14,10 @@ class ImageData {
   factory ImageData.fromJson(Map<String, dynamic> json) {
     return ImageData(
       id: json['id'] as int,
-      imageType: json['imageType'] as String,
+      imageType: ImageType.values
+          .firstWhere((element) =>
+              element.dbDescription == (json['imageType'] as String))
+          .description,
       image: json['image'] as String,
       matchingId: json['matchingId'] as int,
     );
@@ -31,10 +34,14 @@ class ImageData {
 }
 
 enum ImageType {
-  profilePicture(description: "PROFILE_PICTURE"),
-  quoteRequest(description: "QUOTE_REQUEST");
+  profilePicture(description: "PROFILE_PICTURE", dbDescription: "Profile Pic"),
+  quoteRequest(description: "QUOTE_REQUEST", dbDescription: "Quote request");
 
-  const ImageType({required this.description});
+  const ImageType({
+    required this.description,
+    required this.dbDescription,
+  });
 
   final String description;
+  final String dbDescription;
 }

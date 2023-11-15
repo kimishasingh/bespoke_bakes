@@ -1,3 +1,7 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
+import 'package:bespoke_bakes/domain/image_data.dart';
 import 'package:bespoke_bakes/domain/quote_request_data.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -29,6 +33,26 @@ class _QuoteResponsePageState extends State<QuoteResponsePage> {
 
   TextEditingController quoteResponseTotalController = TextEditingController();
 
+  // ImageData? uploadedImage;
+  // Uint8List? uploadedImageBytes;
+  //
+  // Future<ImageData?> _fetchImagesForQuoteRequest() async {
+  //   return await lookupService.getImage(
+  //       ImageType.quoteRequest, widget.selectedQuoteRequest.id.toString());
+  // }
+  //
+  // @override
+  // void initState() {
+  //   _fetchImagesForQuoteRequest().then((value) {
+  //     setState(() {
+  //       print('setting uploadedimage');
+  //       print(jsonEncode(value));
+  //       uploadedImage = value;
+  //       uploadedImageBytes = base64Decode(uploadedImage!.image);
+  //     });
+  //   });
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -143,6 +167,12 @@ class _QuoteResponsePageState extends State<QuoteResponsePage> {
       formWidget.add(_buildTextFieldDisplay("Additional Info",
           widget.selectedQuoteRequest.additionalInfo.toString()));
     }
+    formWidget.add(_buildSizedBox(10));
+
+    // formWidget.add(Visibility(
+    //   visible: uploadedImage != null,
+    //   child: Image.memory(uploadedImageBytes!),
+    // ));
 
     formWidget.add(_buildSizedBox(20));
     formWidget.add(_buildTextFormField("Quote Amount"));

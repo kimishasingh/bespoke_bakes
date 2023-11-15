@@ -308,9 +308,10 @@ class LookupService {
 
     final response = await http.get(
       Uri.parse(
-          'https://bespokebakes.azurewebsites.net/admin/image/type$imageTypeString/id/$matchingId'),
+          'https://bespokebakes.azurewebsites.net/admin/image/type/$imageTypeString/id/$matchingId'),
     );
 
+    print(response.statusCode);
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
       // then parse the JSON.
