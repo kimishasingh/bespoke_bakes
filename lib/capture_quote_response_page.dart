@@ -118,9 +118,8 @@ class _QuoteResponsePageState extends State<QuoteResponsePage> {
     formWidget.add(_buildTextFieldDisplay(
         "Icing Flavour", widget.selectedQuoteRequest.icingFlavour.toString()));
     formWidget.add(_buildSizedBox(10));
-    formWidget.add(_buildTextFieldDisplay(
-        "Icing Colour", widget.selectedQuoteRequest.icingColour.toString()));
-    formWidget.add(_buildSizedBox(10));
+    //formWidget.add(_buildTextFieldDisplay("Icing Colour", widget.selectedQuoteRequest.icingColour.toString()));
+    //formWidget.add(_buildSizedBox(10));
 
     if (widget.selectedQuoteRequest.description != null) {
       formWidget.add(_buildTextFieldDisplay(
@@ -139,7 +138,7 @@ class _QuoteResponsePageState extends State<QuoteResponsePage> {
     formWidget.add(_buildTextFieldDisplay(
         "Budget", widget.selectedQuoteRequest.budget.toString()));
 
-    if (widget.selectedQuoteRequest.additionalInfo != null) {
+    if (widget.selectedQuoteRequest.additionalInfo != "") {
       formWidget.add(_buildSizedBox(10));
       formWidget.add(_buildTextFieldDisplay("Additional Info",
           widget.selectedQuoteRequest.additionalInfo.toString()));
@@ -210,26 +209,42 @@ class _QuoteResponsePageState extends State<QuoteResponsePage> {
       textAlignVertical: TextAlignVertical.top,
       textAlign: TextAlign.start,
       decoration: InputDecoration(
-        disabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4.0),
-          borderSide: const BorderSide(color: Color(0xffc4bfbf), width: 1),
+        enabledBorder: OutlineInputBorder(
+          borderSide: const BorderSide(
+            color: Color(0xffc4bfbf),
+            width: 1,
+          ),
+          borderRadius: BorderRadius.circular(8),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4.0),
-          borderSide: const BorderSide(color: Color(0xffc4bfbf), width: 1),
+          borderSide: const BorderSide(
+            color: Color(0xffc4bfbf),
+            width: 1,
+          ),
+          borderRadius: BorderRadius.circular(8),
         ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4.0),
-          borderSide: const BorderSide(color: Color(0xffc4bfbf), width: 1),
+        errorBorder: OutlineInputBorder(
+          borderSide: const BorderSide(
+            color: Colors.redAccent,
+            width: 1,
+          ),
+          borderRadius: BorderRadius.circular(8),
         ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderSide: const BorderSide(
+            color: Colors.red,
+            width: 1,
+          ),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        filled: true,
+        fillColor: Colors.white,
         labelText: label,
         floatingLabelAlignment: FloatingLabelAlignment.start,
         labelStyle: Theme.of(context).textTheme.labelMedium,
         floatingLabelStyle: Theme.of(context).textTheme.titleMedium,
         hintText: "Amount in Rands",
         hintStyle: Theme.of(context).textTheme.titleMedium,
-        filled: true,
-        fillColor: const Color(0xffffffff),
         isDense: false,
         contentPadding: const EdgeInsets.all(10),
       ),

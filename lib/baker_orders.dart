@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bespoke_bakes/baker_landing_page.dart';
 import 'package:bespoke_bakes/domain/quote_request_data.dart';
 import 'package:bespoke_bakes/landing_page.dart';
 import 'package:flutter/material.dart';
@@ -141,7 +142,7 @@ class _MyBakeryOrdersPageState extends State<MyBakeryOrdersPage> {
                           const Align(
                             alignment: AlignmentDirectional(0, 0),
                             child: Text(
-                              'My Orders',
+                              'My Confirmed Orders',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontFamily: 'Poppins',
@@ -352,22 +353,11 @@ class _MyBakeryOrdersPageState extends State<MyBakeryOrdersPage> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>  LandingPage(
+                        builder: (context) =>  BakerLandingPage(
                             title: "Home", loggedInUser: widget.loggedInUser)));
               },
             ),
-            ListTile(
-              leading: const Icon(Icons.request_quote),
-              title: const Text(' My Quote Requests '),
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => MyQuoteRequestsPage(
-                            title: "My Quote Requests",
-                            loggedInUser: widget.loggedInUser)));
-              },
-            ),
+
             ListTile(
               leading: const Icon(Icons.shopping_cart),
               title: const Text(' My Orders '),
