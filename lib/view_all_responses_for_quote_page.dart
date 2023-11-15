@@ -8,6 +8,7 @@ import 'domain/user_data.dart';
 import 'landing_page.dart';
 import 'main.dart';
 import 'my_orders.dart';
+import 'my_quote_requests_page.dart';
 import 'view_quote_response_page.dart';
 
 class OccasionData {
@@ -345,6 +346,17 @@ class _MyQuoteResponsesPageState extends State<MyQuoteResponsesPage> {
                     MaterialPageRoute(
                         builder: (context) =>  LandingPage(
                             title: "Home", loggedInUser: widget.loggedInUser)));
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.request_quote),
+              title: const Text(' My Quote Requests '),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>  MyQuoteRequestsPage(
+                            title: "My Quote Requests", loggedInUser: widget.loggedInUser)));
               },
             ),
             ListTile(

@@ -172,10 +172,6 @@ class _MyQuoteRequestsPageState extends State<MyQuoteRequestsPage> {
 
                               return GestureDetector(
                                   onTap: () {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                        const SnackBar(
-                                            content:
-                                                Text('Gesture Detected!')));
 
                                     // Should navigate to view of quote responses for the selected quote as well as a summary of the quote
                                        Navigator.push(
